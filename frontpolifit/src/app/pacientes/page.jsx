@@ -1,58 +1,43 @@
 "use client";
-import { FaEdit, FaTrashAlt, FaFolderOpen } from "react-icons/fa";
+import { useState } from "react";
+import { FaFolderOpen } from "react-icons/fa";
+import PatientModal from "@/app/components/PacienteModal";
 
 function Pacientes() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
+
+  const openModal = (patient) => {
+    setSelectedPatient(patient);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPatient(null);
+  };
+
+  const patients = [
+    {
+      name: "Aurora Cuadra Camacho",
+      age: 21,
+      id: "2021063816",
+      career: "Sistemas Computacionales",
+      registrationDate: "01/01/2024",
+      semester: "8° semestre",
+      gender: "Femenino",
+      consultations: [
+        { date: "21/03/2024", weight: 64, imc: 21 },
+        { date: "15/02/2024", weight: 60, imc: 20 },
+        // Añadir más consultas si es necesario
+      ],
+    },
+    // Agrega más pacientes si es necesario
+  ];
+
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-6">PACIENTES</h1>
-
-      {/* Filtros */}
-      <div className="bg-white shadow-md p-4 mb-6 rounded-md">
-        <h2 className="text-lg font-semibold mb-4">Filtrar</h2>
-        <div className="flex flex-wrap justify-start">
-          <div className="flex items-center space-x-4 mb-4">
-            <div>
-              <label className="block font-medium mb-1">Nombre</label>
-              <input
-                type="text"
-                className="w-48 p-2 border rounded-md"
-                placeholder="Buscar por nombre"
-              />
-            </div>
-            <div>
-              <label className="block font-medium mb-1">Correo</label>
-              <input
-                type="text"
-                className="w-48 p-2 border rounded-md"
-                placeholder="Buscar por correo"
-              />
-            </div>
-            <div>
-              <label className="block font-medium mb-1">Carrera</label>
-              <select className="w-48 p-2 border rounded-md">
-                <option value="">Seleccione una carrera</option>
-                <option value="Administracion">Administración</option>
-                <option value="Ingeniería">Ingeniería</option>
-                <option value="Sociales">Sociales</option>
-              </select>
-            </div>
-          </div>
-          <div className="flex flex-col items-start space-y-2 ml-16 mb-4">
-            <div className="flex items-center">
-              <input type="checkbox" id="hombre" className="mr-2" />
-              <label htmlFor="hombre">Hombre</label>
-            </div>
-            <div className="flex items-center">
-              <input type="checkbox" id="mujer" className="mr-2" />
-              <label htmlFor="mujer">Mujer</label>
-            </div>
-            <div className="flex items-center">
-              <input type="checkbox" id="otro" className="mr-2" />
-              <label htmlFor="otro">Otro</label>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Tabla de Pacientes */}
       <div className="bg-white shadow-md p-4 rounded-md">
@@ -67,35 +52,37 @@ function Pacientes() {
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b">
-              <td className="px-4 py-2">
-                Aurora Cuadra Camacho <br /> 2021063816
-              </td>
-              <td className="px-4 py-2">
-                8° semestre <br /> Sistemas Computacionales
-              </td>
-              <td className="px-4 py-2">Femenino</td>
-              <td className="px-4 py-2">16</td>
-              <td className="px-4 py-2 flex flex-col items-center space-y-2">
-                <div className="flex space-x-2">
-                  <button className="text-gray-700">
-                    <FaEdit />
+            {patients.map((patient) => (
+              <tr key={patient.id} className="border-b">
+                <td className="px-4 py-2">
+                  {patient.name} <br /> {patient.id}
+                </td>
+                <td className="px-4 py-2">
+                  {patient.semester} <br /> {patient.career}
+                </td>
+                <td className="px-4 py-2">{patient.gender}</td>
+                <td className="px-4 py-2">{patient.age}</td>
+                <td className="px-4 py-2 flex flex-col items-center">
+                  <button
+                    className="w-full bg-[#11404E] text-white py-2 rounded-md flex items-center justify-center space-x-2"
+                    onClick={() => openModal(patient)}
+                  >
+                    <FaFolderOpen />
+                    <span>Detalles</span>
                   </button>
-                  <button className="text-red-500">
-                    <FaTrashAlt />
-                  </button>
-                </div>
-                <button className="w-full bg-[#11404E] text-white py-2 rounded-md flex items-center justify-center space-x-2">
-                  <FaFolderOpen />
-                  <span>Expediente</span>
-                </button>
-               
-              </td>
-            </tr>
-            {/* Más filas de datos */}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+
+      {/* Modal de Detalles del Paciente */}
+      <PatientModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        patient={selectedPatient}
+      />
     </div>
   );
 }
