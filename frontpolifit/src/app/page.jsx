@@ -1,11 +1,15 @@
-import React from 'react'
-//Esta es la pagina principal
-function HomePage() {
+// /pages/nuevopaciente/index.jsx
+import SubMenu from './components/SubMenu';
+import { Outlet } from 'react-router-dom';
+
+const NuevoPaciente = () => {
   return (
     <div>
-      Hola
+      <SubMenu />
+      {/* Aquí renderizas el contenido de las subpáginas */}
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default NuevoPaciente;

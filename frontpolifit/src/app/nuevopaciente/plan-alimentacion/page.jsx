@@ -2,8 +2,6 @@
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import Image from "next/image";
-import educacion from "@/app/img/Educacion_sello.png";
-import ipn from "@/app/img/IPN_leyenda.png";
 
 function PlanAlimentacion() {
   const componentRef = useRef();
@@ -46,7 +44,7 @@ function PlanAlimentacion() {
         <div>
           {/* Logo a la izquierda */}
           <Image
-            src={educacion}
+            src="/images/Educacion_sello.png"
             alt="Logo izquierda"
             width={230}
             height={200}
@@ -54,7 +52,7 @@ function PlanAlimentacion() {
         </div>
         <div>
           {/* Logo a la derecha */}
-          <Image src={ipn} alt="Logo derecha" width={270} height={100} />
+          <Image src="/images/IPN_leyenda.png" alt="Logo derecha" width={270} height={100} />
         </div>
       </div>
       <h1 className="text-3xl font-bold mb-6 text-center">

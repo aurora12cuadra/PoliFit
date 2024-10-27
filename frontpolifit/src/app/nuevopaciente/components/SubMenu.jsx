@@ -1,3 +1,4 @@
+// /app/nuevopaciente/components/SubMenu.jsx
 "use client";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
@@ -35,4 +36,3 @@ const SubMenu = () => {
 };
 
 export default SubMenu;
-

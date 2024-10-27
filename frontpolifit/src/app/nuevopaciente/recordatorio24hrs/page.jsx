@@ -1,5 +1,4 @@
 "use client";
-import SubMenu from "../components/SubMenu";
 
 function Recordatorio24Hrs() {
   const meals = [
@@ -13,7 +12,6 @@ function Recordatorio24Hrs() {
   return (
     <div className="p-8">
       <h1 className="text-4xl font-bold mb-6">Nuevo Paciente</h1>
-      <SubMenu />
       <h2 className="text-2xl font-semibold mb-4">Recordatorio 24 hrs.</h2>
 
       {/* Meals Section */}

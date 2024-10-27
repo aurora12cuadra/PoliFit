@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
-import polifit from "@/app/img/Logo.jpeg"
 const Header = () => {
   return (
     <header className="bg-[#11404E] p-4 flex justify-between items-center flex-wrap">
       {/* Logo Section */}
       <div className="flex items-center space-x-4">
         <Image
-          src={polifit}
+          src="/images/Logo.jpeg"
           alt="Logo"
           width={50}
           height={50}
