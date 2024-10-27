@@ -8,6 +8,7 @@ const MenuConsultas = () => {
   const pathname = usePathname();
   
   const menuItems = [
+    { name: "Consultas", path: "/consultas" },
     { name: "Estilo de Vida", path: "/consultas/estilovida" },
     { name: "Trastornos", path: "/consultas/trastornos" },
     { name: "Mediciones", path: "/consultas/mediciones" },

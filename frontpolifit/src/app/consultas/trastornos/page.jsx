@@ -41,7 +41,6 @@ function Trastornos() {
 
   return (
     <div className="p-8">
-      <h1 className="text-4xl font-bold mb-6">Nuevo Paciente</h1>
       <h2 className="text-2xl font-semibold mb-4">Trastornos</h2>
 
       {/* Trastornos Gastrointestinales */}
