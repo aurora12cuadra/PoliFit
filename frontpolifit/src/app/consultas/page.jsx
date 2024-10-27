@@ -1,11 +1,5 @@
-import React from 'react'
+import { redirect } from 'next/navigation';
 
-function Consultas() {
-  return (
-    <div>
-      Esta es la pagina de consultas
-    </div>
-  )
+export default function Consultas() {
+  redirect('/consultas'); // Redirige automáticamente a la subpágina de Datos Personales
 }
-
-export default Consultas

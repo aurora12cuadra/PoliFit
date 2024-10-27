@@ -1,15 +1,19 @@
-// /app/nuevopaciente/components/SubMenu.jsx
+// /app/nuevopaciente/components/MenuConsultas.jsx
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { memo, useCallback } from "react";
 
-const SubMenu = () => {
+const MenuConsultas = () => {
   const pathname = usePathname();
   
   const menuItems = [
-    { name: "Datos Personales", path: "/nuevopaciente" },
-    { name: "Antecedentes", path: "/nuevopaciente/antecedentes" },
+    { name: "Estilo de Vida", path: "/consultas/estilovida" },
+    { name: "Trastornos", path: "/consultas/trastornos" },
+    { name: "Mediciones", path: "/consultas/mediciones" },
+    { name: "Kilocalorias", path: "/consultas/kilocalorias" },
+    { name: "Recordatorio 24 hrs.", path: "/consultas/recordatorio24hrs" },
+    { name: "Plan alimentación", path: "/consultas/plan-alimentacion" },
   ];
 
   // Función para asignar clase activa
@@ -36,4 +40,4 @@ const SubMenu = () => {
   );
 };
 
-export default memo(SubMenu);
+export default memo(MenuConsultas);
