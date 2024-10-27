@@ -1,13 +1,15 @@
-// /pages/nuevopaciente/index.jsx
-import SubMenu from './components/SubMenu';
-import { Outlet } from 'react-router-dom';
+
+"use client";
+import SubMenu from './nuevopaciente/components/SubMenu';
+import dynamic from 'next/dynamic';
+
+const DatosPersonales = dynamic(() => import('./nuevopaciente/datos-personales/page'), { ssr: false });
 
 const NuevoPaciente = () => {
   return (
     <div>
       <SubMenu />
-      {/* Aquí renderizas el contenido de las subpáginas */}
-      <Outlet />
+      <DatosPersonales/>
     </div>
   );
 };
