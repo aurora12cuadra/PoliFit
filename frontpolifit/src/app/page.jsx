@@ -3,7 +3,7 @@
 import SubMenu from './nuevopaciente/components/SubMenu';
 import dynamic from 'next/dynamic';
 
-const DatosPersonales = dynamic(() => import('./nuevopaciente/datos-personales/page'), { ssr: false });
+const DatosPersonales = dynamic(() => import('./nuevopaciente/page'), { ssr: false });
 
 const NuevoPaciente = () => {
   return (
