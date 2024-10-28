@@ -18,6 +18,7 @@ function Trastornos() {
   ];
 
   const [selectedTrastornos, setSelectedTrastornos] = useState({});
+  const [selectedFrecuencia, setSelectedFrecuencia] = useState({});
 
   const handleTrastornoChange = (event) => {
     const { name, checked } = event.target;
@@ -25,11 +26,21 @@ function Trastornos() {
       ...selectedTrastornos,
       [name]: checked,
     });
+    if (!checked) {
+      setSelectedFrecuencia((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleFrecuenciaChange = (event, item) => {
+    const { value } = event.target;
+    setSelectedFrecuencia({
+      ...selectedFrecuencia,
+      [item]: value,
+    });
   };
 
   return (
     <div className="p-8">
-      <h1 className="text-4xl font-bold mb-6">Nuevo Paciente</h1>
       <h2 className="text-2xl font-semibold mb-4">Trastornos</h2>
 
       {/* Trastornos Gastrointestinales */}
@@ -54,8 +65,10 @@ function Trastornos() {
               <select
                 className="w-full p-2 border rounded-md mt-2"
                 disabled={!selectedTrastornos[item]}
+                value={selectedFrecuencia[item] || ""}
+                onChange={(e) => handleFrecuenciaChange(e, item)}
               >
-                <option value="" disabled selected hidden>
+                <option value="" disabled hidden>
                   Frecuencia
                 </option>
                 <option value="Nunca">Nunca</option>
@@ -71,7 +84,7 @@ function Trastornos() {
 
       {/* Gineco-Obstétricos */}
       <div className="grid grid-cols-2 gap-6">
-        <div className=" shadow-md p-6 rounded-md" style={{ backgroundColor: '#11404E' }}>
+        <div className="shadow-md p-6 rounded-md" style={{ backgroundColor: '#11404E' }}>
           <h3 className="text-xl text-center font-semibold mb-4 text-white">Gineco-Obstétricos</h3>
           <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
           <div className="grid grid-cols-2 gap-4">
