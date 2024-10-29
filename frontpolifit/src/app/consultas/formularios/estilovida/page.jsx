@@ -1,9 +1,11 @@
 "use client";
+import { usePaciente } from "../../context/PacienteContext";
 
 function EstiloDeVida() {
+  const { pacienteId } = usePaciente();
   return (
     <div className="p-8">
-      <h2 className="text-2xl font-semibold mb-4">Estilo de Vida</h2>
+      <h2 className="text-2xl font-semibold mb-4">Estilo de Vida para Paciente ID: {pacienteId}</h2>
 
       {/* Actividad Laboral */}
       <div className="bg-white shadow-md p-6 rounded-md mb-6">

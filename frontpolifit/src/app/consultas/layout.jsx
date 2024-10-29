@@ -1,13 +1,14 @@
-// /app/consultas/layout.jsx
-import MenuConsultas from './components/MenuConsultas';
+"use client";
+import { PacienteProvider } from "./context/PacienteContext";
 
 export default function ConsultaLayout({ children }) {
   return (
     <div>
-      <MenuConsultas />
       <div className="p-4">
-      <h1 className="text-4xl font-bold mb-6">Expediente</h1>
-        {children} {/* Renderiza el contenido de la subpágina seleccionada */}
+      <h1 className="text-4xl font-bold mb-6">Consultas</h1>
+      <PacienteProvider>
+        {children}
+      </PacienteProvider>
       </div>
     </div>
   );

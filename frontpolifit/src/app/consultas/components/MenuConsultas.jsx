@@ -9,12 +9,12 @@ const MenuConsultas = () => {
   
   const menuItems = [
     { name: "Consultas", path: "/consultas" },
-    { name: "Estilo de Vida", path: "/consultas/estilovida" },
-    { name: "Trastornos", path: "/consultas/trastornos" },
-    { name: "Mediciones", path: "/consultas/mediciones" },
-    { name: "Kilocalorias", path: "/consultas/kilocalorias" },
-    { name: "Recordatorio 24 hrs.", path: "/consultas/recordatorio24hrs" },
-    { name: "Plan alimentación", path: "/consultas/plan-alimentacion" },
+    { name: "Estilo de Vida", path: "/consultas/formularios/estilovida" },
+    { name: "Trastornos", path: "/consultas/formularios/trastornos" },
+    { name: "Mediciones", path: "/consultas/formularios/mediciones" },
+    { name: "Kilocalorias", path: "/consultas/formularios/kilocalorias" },
+    { name: "Recordatorio 24 hrs.", path: "/consultas/formularios/recordatorio24hrs" },
+    { name: "Plan alimentación", path: "/consultas/formularios/plan-alimentacion" },
   ];
 
   // Función para asignar clase activa
