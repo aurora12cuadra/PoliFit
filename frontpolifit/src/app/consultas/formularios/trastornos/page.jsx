@@ -1,7 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { usePaciente } from "../../context/PacienteContext";
+
 
 function Trastornos() {
+  const router = useRouter();
+  const {consultaData, updateConsultaData } = usePaciente(); // Usamos el contexto para guardar los datos
   const trastornosOptions = [
     "Vómito",
     "Diarrea",
@@ -19,13 +24,43 @@ function Trastornos() {
 
   const [selectedTrastornos, setSelectedTrastornos] = useState({});
   const [selectedFrecuencia, setSelectedFrecuencia] = useState({});
+  const [ginecoObstetricos, setGinecoObstetricos] = useState({
+    G: "",
+    P: "",
+    C: "",
+    FUM: "",
+    "FUP/C": "",
+    SDGI: "",
+    PPG: "",
+    Anticonceptivos: "",
+  });
+  const [notas, setNotas] = useState("");
+
+  useEffect(() => {
+    // Cargar datos de trastornos si están en el contexto
+    if (consultaData.trastornos) {
+      setSelectedTrastornos(consultaData.trastornos.selectedTrastornos || {});
+      setSelectedFrecuencia(consultaData.trastornos.selectedFrecuencia || {});
+      setGinecoObstetricos(consultaData.trastornos.ginecoObstetricos || {
+        G: "",
+        P: "",
+        C: "",
+        FUM: "",
+        "FUP/C": "",
+        SDGI: "",
+        PPG: "",
+        Anticonceptivos: "",
+      });
+      setNotas(consultaData.trastornos.notas || "");
+    }
+  }, [consultaData.trastornos]);
 
   const handleTrastornoChange = (event) => {
     const { name, checked } = event.target;
-    setSelectedTrastornos({
-      ...selectedTrastornos,
+    setSelectedTrastornos((prev) => ({
+      ...prev,
       [name]: checked,
-    });
+    }));
     if (!checked) {
       setSelectedFrecuencia((prev) => ({ ...prev, [name]: "" }));
     }
@@ -33,10 +68,26 @@ function Trastornos() {
 
   const handleFrecuenciaChange = (event, item) => {
     const { value } = event.target;
-    setSelectedFrecuencia({
-      ...selectedFrecuencia,
+    setSelectedFrecuencia((prev) => ({
+      ...prev,
       [item]: value,
-    });
+    }));
+  };
+
+  const handleGinecoObstetricosChange = (event) => {
+    const { name, value } = event.target;
+    setGinecoObstetricos((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleGuardar = () => {
+    const trastornosData = {
+      selectedTrastornos,
+      selectedFrecuencia,
+      ginecoObstetricos,
+      notas,
+    };
+    updateConsultaData("trastornos", trastornosData);
+    router.push("/consultas/formularios/mediciones");
   };
 
   return (
@@ -84,23 +135,27 @@ function Trastornos() {
 
       {/* Gineco-Obstétricos */}
       <div className="grid grid-cols-2 gap-6">
-        <div className="shadow-md p-6 rounded-md" style={{ backgroundColor: '#11404E' }}>
-          <h3 className="text-xl text-center font-semibold mb-4 text-white">Gineco-Obstétricos</h3>
+        <div
+          className="shadow-md p-6 rounded-md"
+          style={{ backgroundColor: "#11404E" }}
+        >
+          <h3 className="text-xl text-center font-semibold mb-4 text-white">
+            Gineco-Obstétricos
+          </h3>
           <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
           <div className="grid grid-cols-2 gap-4">
-            {[
-              ["G", ""],
-              ["P", ""],
-              ["C", ""],
-              ["FUM", ""],
-              ["FUP/C", ""],
-              ["SDGI", ""],
-              ["PPG", ""],
-              ["Anticonceptivos", ""],
-            ].map(([label]) => (
+            {Object.keys(ginecoObstetricos).map((label) => (
               <div key={label}>
-                <label className="block font-medium mb-1 text-white">{label}</label>
-                <input type="text" className="w-full p-2 border rounded-md" />
+                <label className="block font-medium mb-1 text-white">
+                  {label}
+                </label>
+                <input
+                  type="text"
+                  name={label}
+                  value={ginecoObstetricos[label]}
+                  onChange={handleGinecoObstetricosChange}
+                  className="w-full p-2 border rounded-md"
+                />
               </div>
             ))}
           </div>
@@ -112,8 +167,26 @@ function Trastornos() {
           <textarea
             className="w-full h-3/4 p-2 border rounded-md"
             placeholder="Ingrese cualquier observación adicional"
+            value={notas}
+            onChange={(e) => setNotas(e.target.value)}
           />
         </div>
+      </div>
+
+      {/* Botones de Navegación */}
+      <div className="flex justify-between mt-8">
+        <button
+          className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
+          onClick={() => router.push("/consultas/formularios/estilovida")}
+        >
+          Anterior
+        </button>
+        <button
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          onClick={handleGuardar}
+        >
+          Siguiente
+        </button>
       </div>
     </div>
   );

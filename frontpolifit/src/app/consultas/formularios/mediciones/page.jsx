@@ -1,6 +1,57 @@
 "use client";
+import { usePaciente } from "../../context/PacienteContext";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 function Mediciones() {
+
+  const { consultaData, updateConsultaData } = usePaciente();
+  const router = useRouter();
+
+  // Local state for each section
+  const [pliegues, setPliegues] = useState({});
+  const [perimetros, setPerimetros] = useState({});
+  const [diametros, setDiametros] = useState({});
+  const [bioimpedancia, setBioimpedancia] = useState({});
+  const [indicadores, setIndicadores] = useState({});
+
+  useEffect(() => {
+    if (consultaData.mediciones) {
+      setPliegues(consultaData.mediciones.pliegues || {});
+      setPerimetros(consultaData.mediciones.perimetros || {});
+      setDiametros(consultaData.mediciones.diametros || {});
+      setBioimpedancia(consultaData.mediciones.bioimpedancia || {});
+      setIndicadores(consultaData.mediciones.indicadores || {});
+    }
+  }, [consultaData.mediciones]);
+
+  const handleInputChange = (section, key, value) => {
+    const updateFunc = {
+      pliegues: setPliegues,
+      perimetros: setPerimetros,
+      diametros: setDiametros,
+      bioimpedancia: setBioimpedancia,
+      indicadores: setIndicadores,
+    }[section];
+
+    updateFunc((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const handleSaveAndNext = () => {
+    const datosMediciones = {
+      pliegues,
+      perimetros,
+      diametros,
+      bioimpedancia,
+      indicadores,
+    };
+    updateConsultaData("mediciones", datosMediciones);
+    router.push("/consultas/formularios/kilocalorias");
+  };  
+
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Mediciones</h2>
@@ -24,7 +75,12 @@ function Mediciones() {
           ].map((label) => (
             <div key={label}>
               <label className="block font-medium mb-1">{label}</label>
-              <input type="text" className="w-full p-2 border rounded-md" />
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={pliegues[label] || ""}
+                onChange={(e) => handleInputChange("pliegues", label, e.target.value)}
+              />
             </div>
           ))}
         </div>
@@ -53,7 +109,12 @@ function Mediciones() {
           ].map((label) => (
             <div key={label}>
               <label className="block font-medium mb-1 text-white">{label}</label>
-              <input type="text" className="w-full p-2 border rounded-md" />
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={perimetros[label] || ""}
+                onChange={(e) => handleInputChange("perimetros", label, e.target.value)}
+              />
             </div>
           ))}
         </div>
@@ -80,7 +141,12 @@ function Mediciones() {
           ].map((label) => (
             <div key={label}>
               <label className="block font-medium mb-1">{label}</label>
-              <input type="text" className="w-full p-2 border rounded-md" />
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={diametros[label] || ""}
+                onChange={(e) => handleInputChange("diametros", label, e.target.value)}
+              />
             </div>
           ))}
         </div>
@@ -104,7 +170,12 @@ function Mediciones() {
           ].map((label) => (
             <div key={label}>
               <label className="block font-medium mb-1 text-white">{label}</label>
-              <input type="text" className="w-full p-2 border rounded-md" />
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={bioimpedancia[label] || ""}
+                onChange={(e) => handleInputChange("bioimpedancia", label, e.target.value)}
+              />
             </div>
           ))}
         </div>
@@ -127,11 +198,33 @@ function Mediciones() {
           ].map((label) => (
             <div key={label}>
               <label className="block font-medium mb-1">{label}</label>
-              <input type="text" className="w-full p-2 border rounded-md" />
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={indicadores[label] || ""}
+                onChange={(e) => handleInputChange("indicadores", label, e.target.value)}
+              />
             </div>
           ))}
         </div>
       </div>
+
+      {/* Navigation Buttons */}
+      <div className="flex justify-between mt-6">
+        <button
+          onClick={() => router.push("/consultas/formularios/trastornos")} // Reemplaza con la ruta correcta
+          className="bg-gray-500 text-white px-4 py-2 rounded-md"
+        >
+          Anterior
+        </button>
+        <button
+          onClick={handleSaveAndNext}
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+        >
+          Siguiente
+        </button>
+      </div>
+
     </div>
   );
 }

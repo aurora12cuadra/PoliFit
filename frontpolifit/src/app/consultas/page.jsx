@@ -27,14 +27,14 @@ import { useRouter } from "next/navigation";
 function Consultas() {
   // Estados principales
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { setPacienteInfo } = usePaciente();
+  const { setPacienteInfo, resetConsultaData  } = usePaciente();
   const [isSelectingPatient, setIsSelectingPatient] = useState(true);
   const [selectedPaciente, setSelectedPaciente] = useState(null);
   const router = useRouter(); // Para manejar la navegación
 
   const handleIniciarConsulta = () => {
     if (!selectedPaciente) return;
-
+    resetConsultaData();
     // Almacena la información completa del paciente en el contexto
     setPacienteInfo({
       pacienteId: selectedPaciente.id,
