@@ -24,7 +24,7 @@ const SubMenu = () => {
   return (
     <div className="flex flex-wrap gap-4 mb-6 text-sm sm:text-base lg:text-lg font-semibold justify-center md:justify-start">
       {menuItems.map((item) => (
-        <Link key={item.name} href={item.path} prefetch={true}>
+        <Link key={item.name} href={item.path}>
           <span
             className={`hover:underline px-2 py-1 rounded ${getLinkClass(item.path)}`}
           >
