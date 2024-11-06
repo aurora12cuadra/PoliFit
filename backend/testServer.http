@@ -1,0 +1,543 @@
+### Registrar un nuevo nutriólogo
+POST http://localhost:3000/nutriologos/register
+Content-Type: application/json
+
+{
+  "nombre": "Ana",
+  "apellidos": "López",
+  "fechaNacimiento": "1990-05-10",
+  "numeroEmpleado": "123456789",
+  "especialidad": "Nutrición Clínica",
+  "escuela": "ESIME IPN",
+  "email": "ana.lopez@example.com",
+  "password": "supersecreta"
+}
+
+### Iniciar sesión
+POST http://localhost:3000/nutriologos/login
+Content-Type: application/json
+
+{
+  "email": "ana.lopez@example.com",
+  "password": "supersecreta"
+}
+
+### Registrar un nuevo paciente
+POST http://localhost:3000/pacientes/register
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellidoMaterno": "González",
+  "apellidoPaterno": "Lopez",
+  "fechaNacimiento": "1985-04-23",
+  "sexo": "Hombre",
+  "telefono": "5555555555",
+  "email": "carlos.lopez@example.com",
+  "escuela": "ESIME",
+  "carrera": "Ingeniería en Sistemas",
+  "domicilio": "Calle Falsa 123",
+  "noBoleta": "2021123456",
+  "turno": "Matutino",
+  "estadoCivil": "Soltero",
+  "ocupacion": "Estudiante",
+  "tipoSangre": "O+",
+  "motivoVisita": "Consulta general",
+  "padecimientoActual": "Dolor de cabeza persistente"
+}
+
+
+### Registrar un nuevo nutriólogo
+POST http://localhost:3000/nutriologos/register
+Content-Type: application/json
+
+{
+    "nombre": "Juan",
+    "apellidos": "Pérez Gómez",
+    "fechaNacimiento": "1985-06-15",
+    "numeroEmpleado": "12345",
+    "especialidad": "Nutrición Clínica",
+    "escuela": "UNAM",
+    "email": "juan.perez@example.com",
+    "password": "password123"
+}
+
+###
+
+### Iniciar sesión (login)
+POST http://localhost:3000/nutriologos/login
+Content-Type: application/json
+
+{
+    "email": "juan.perez@example.com",
+    "password": "password123"
+}
+
+### Obtener todos los nutriólogos
+GET http://localhost:3000/nutriologos
+Authorization: Bearer {token}
+
+###
+
+# Obtener un nutriólogo por ID
+GET http://localhost:3000/nutriologos/1
+Authorization: Bearer {token}
+
+###
+
+# Actualizar un nutriólogo
+PATCH http://localhost:3000/nutriologos/1
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+    "nombre": "Juan Carlos",
+    "especialidad": "Nutrición Deportiva"
+}
+
+###
+
+# Eliminar un nutriólogo
+DELETE http://localhost:3000/nutriologos/1
+Authorization: Bearer {token}
+
+
+### Registrar un nuevo paciente - María López
+POST http://localhost:3000/pacientes/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzI5OTE4NDY2LCJleHAiOjE3Mjk5MjIwNjZ9.UBmAJhkI2nxFgNtPl_e6Kd5IlUgoliKiWQU1lLU29KM
+Content-Type: application/json
+
+{
+  "nombre": "María",
+  "apellidoMaterno": "López",
+  "apellidoPaterno": "Ramírez",
+  "fechaNacimiento": "1988-11-22",
+  "sexo": "Mujer",
+  "telefono": "5556677889",
+  "email": "maria.lopez@example.com",
+  "escuela": "ESIME",
+  "carrera": "Ingeniería Eléctrica",
+  "domicilio": "Avenida Siempre Viva 742",
+  "noBoleta": "2019988777",
+  "turno": "Matutino",
+  "estadoCivil": "Soltera",
+  "ocupacion": "Estudiante",
+  "tipoSangre": "B-",
+  "motivoVisita": "Problemas de salud persistentes",
+  "padecimientoActual": "Dolor abdominal crónico"
+}
+
+###
+
+# Obtener todos los pacientes
+GET http://localhost:3000/pacientes
+
+###
+
+# Obtener un paciente por ID
+GET http://localhost:3000/pacientes/1
+
+###
+
+# Actualizar un paciente
+PATCH http://localhost:3000/pacientes/1
+Content-Type: application/json
+
+{
+    "nombre": "Carlos Eduardo",
+    "ocupacion": "Estudiante de tiempo completo"
+}
+
+###
+
+# Eliminar un paciente
+DELETE http://localhost:3000/pacientes/1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ### Iniciar sesión y obtener token
+# POST http://localhost:3000/nutriologos/login
+# Content-Type: application/json
+
+# {
+#   "email": "ana.lopez@example.com",
+#   "password": "supersecreta"
+# }
+
+# > {% 
+#   const jsonResponse = JSON.parse(responseBody);
+#   vars["token"] = jsonResponse.token;
+# %}
+
+# ### Registrar un nuevo paciente - Juan Pérez
+# POST http://localhost:3000/pacientes/register
+# Authorization: Bearer {token}
+# Content-Type: application/json
+
+# {
+#   "nombre": "Juan",
+#   "apellidoMaterno": "Pérez",
+#   "apellidoPaterno": "García",
+#   "fechaNacimiento": "1992-02-14",
+#   "sexo": "Hombre",
+#   "telefono": "5522334455",
+#   "email": "juan.perez@example.com",
+#   "escuela": "UPIICSA",
+#   "carrera": "Ingeniería Industrial",
+#   "domicilio": "Calle Verdadera 456",
+#   "noBoleta": "2022233445",
+#   "turno": "Vespertino",
+#   "estadoCivil": "Casado",
+#   "ocupacion": "Ingeniero",
+#   "tipoSangre": "A+",
+#   "motivoVisita": "Chequeo general",
+#   "padecimientoActual": "Ninguno"
+# }
+
+
+### Registrar un nuevo paciente
+POST http://localhost:3000/pacientes/register
+Content-Type: application/json
+
+{
+    "nombre": "Carlos",
+    "apellidoMaterno": "López",
+    "apellidoPaterno": "Martínez",
+    "fechaNacimiento": "1995-08-20",
+    "sexo": "Hombre",
+    "telefono": "5555555555",
+    "email": "carlos.lopez@example.com",
+    "escuela": "ESCOM",
+    "carrera": "Ingeniería en Computación",
+    "domicilio": "Calle Falsa 123",
+    "noBoleta": "20200001",
+    "turno": "Matutino",
+    "estadoCivil": "Soltero",
+    "ocupacion": "Estudiante",
+    "tipoSangre": "O+",
+    "motivoVisita": "Consulta general",
+    "padecimientoActual": "Ninguno"
+}
+
+
+### Registrar un nuevo paciente - María López
+POST http://localhost:3000/pacientes/register
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "nombre": "María",
+  "apellidoMaterno": "López",
+  "apellidoPaterno": "Ramírez",
+  "fechaNacimiento": "1988-11-22",
+  "sexo": "Mujer",
+  "telefono": "5556677889",
+  "email": "maria.lopez@example.com",
+  "escuela": "ESIME",
+  "carrera": "Ingeniería Eléctrica",
+  "domicilio": "Avenida Siempre Viva 742",
+  "noBoleta": "2019988777",
+  "turno": "Matutino",
+  "estadoCivil": "Soltera",
+  "ocupacion": "Estudiante",
+  "tipoSangre": "B-",
+  "motivoVisita": "Problemas de salud persistentes",
+  "padecimientoActual": "Dolor abdominal crónico"
+}
+
+
+### Registrar un nuevo nutriólogo
+POST http://localhost:3000/nutriologos/register
+Content-Type: application/json
+
+{
+  "nombre": "Ana",
+  "apellidos": "López",
+  "fechaNacimiento": "1990-05-10",
+  "numeroEmpleado": "123456789",
+  "especialidad": "1",
+  "escuela": "2",
+  "email": "ana.lopez@example.com",
+  "password": "supersecreta"
+}
+
+### Iniciar sesión
+POST http://localhost:3000/nutriologos/login
+Content-Type: application/json
+
+{
+  "email": "ana.lopez@example.com",
+  "password": "supersecreta"
+}
+
+### Registrar un nuevo paciente - María López
+POST http://localhost:3000/pacientes/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTc1MTU3LCJleHAiOjE3MzA1Nzg3NTd9.Ay4k3ZrFurNRK5DazrnHjO1s271Zxogb3864KqSScpw
+Content-Type: application/json
+
+{
+  "nombre": "María",
+  "apellidoMaterno": "López",
+  "apellidoPaterno": "Ramírez",
+  "fechaNacimiento": "1988-11-22",
+  "edad": "22",
+  "sexo": "Mujer",
+  "telefono": "5556677889",
+  "email": "maria.lopez@example.com",
+  "escuela": "ESIME",
+  "carrera": "Ingeniería Eléctrica",
+  "domicilio": "Avenida Siempre Viva 742",
+  "noBoleta": "2019988777",
+  "turno": "Matutino",
+  "estadoCivil": "Soltera",
+  "ocupacion": "Estudiante",
+  "tipoSangre": "B-"
+}
+
+### Registrar un nuevo Paciente (Requiere autenticación)
+POST http://localhost:3000/pacientes/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTc1MTU3LCJleHAiOjE3MzA1Nzg3NTd9.Ay4k3ZrFurNRK5DazrnHjO1s271Zxogb3864KqSScpw
+Content-Type: application/json
+
+{
+    "noBoleta": "PA123456",
+    "nombre": "Ana",
+    "apellidoPaterno": "López",
+    "apellidoMaterno": "García",
+    "fechaNacimiento": "1990-04-25",
+    "edad": 30,
+    "sexo": "Femenino",
+    "estadoCivil": "Soltero",
+    "ocupacion": "Estudiante",
+    "telefono": "555-1234",
+    "email": "ana.lopez@example.com",
+    "escuela": "Escuela Superior",
+    "carrera": "Nutrición",
+    "domicilio": "Calle Falsa 123",
+    "turno": "Matutino",
+    "tipoSangre": "O+",
+    "motivoVisita": "Consulta general",
+    "padecimientoActual": "Ninguno"
+}
+
+### Obtener todos los Pacientes del Nutriologo autenticado
+GET http://localhost:3000/pacientes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+
+### Obtener un Paciente por ID
+GET http://localhost:3000/pacientes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+
+### Actualizar información del Paciente
+PATCH http://localhost:3000/pacientes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+Content-Type: application/json
+
+{
+    "motivoVisita": "Control de peso"
+}
+
+### Eliminar un Paciente
+DELETE http://localhost:3000/pacientes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNDk1ODk5LCJleHAiOjE3MzA0OTk0OTl9.B17ogg3zUWY1xslq37r5DyrZYLtIG2x-hZPhUGpBD4o
+
+
+### Crear antecedentes heredofamiliares para un Paciente (Requiere autenticación)
+POST http://localhost:3000/antecedentes/crear
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+Content-Type: application/json
+
+{
+    "noBoleta": "PA123456",
+    "heredofam": {
+        "alerg": "Ninguna",
+        "cardiologicos": "Padre",
+        "diabetes": "Abuelos",
+        "cancer": "Ninguno",
+        "obesidad": "Madre"
+    },
+    "perPat": {
+        "alergias": "Penicilina",
+        "cadiologicos": "Ninguno",
+        "diabetes": "Ninguno",
+        "cancer": "Ninguno",
+        "cirugias": "Apéndice"
+    }
+}
+
+### Obtener antecedentes heredofamiliares y personales patológicos de un paciente
+GET http://localhost:3000/antecedentes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+
+### Actualizar antecedentes heredofamiliares de un paciente
+PATCH http://localhost:3000/antecedentes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+Content-Type: application/json
+
+{
+    "heredofam": {
+        "diabetes": "Padre y abuelos"
+    }
+}
+
+### Eliminar antecedentes heredofamiliares de un paciente
+DELETE http://localhost:3000/antecedentes/PA123456
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNDk1ODk5LCJleHAiOjE3MzA0OTk0OTl9.B17ogg3zUWY1xslq37r5DyrZYLtIG2x-hZPhUGpBD4o
+
+### Registrar una consulta completa
+POST http://localhost:3000/consulta/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTc1MTU3LCJleHAiOjE3MzA1Nzg3NTd9.Ay4k3ZrFurNRK5DazrnHjO1s271Zxogb3864KqSScpw
+Content-Type: application/json
+
+{
+  "noBoleta": "2019988777",
+  "consultaData": {
+    "fecha_consulta": "2024-10-31",
+    "hora_consulta": "09:30:00"
+  },
+  "actLaboralData": {
+    "horario": "9:00-17:00",
+    "ocupacion": "Ingeniero",
+    "descrip": "Trabajo en oficina",
+    "total_horas": "8",
+    "n_estres": 3
+  },
+  "actFisicaData": {
+    "tipo": "Correr",
+    "frecuencia": 5
+  },
+  "toxicomaniasData": {
+    "alcohol": "Ocasional",
+    "tabaco": "No",
+    "cafe": "Sí",
+    "farmacodep": "No",
+    "medicamentos": "Ibuprofeno",
+    "otro": "Ninguno"
+  },
+  "habitosDietData": {
+    "alimen_ndesead": "Comida rápida",
+    "alimen_fav": "Frutas",
+    "alergia": "Polen",
+    "hora_bkf": "7:00",
+    "hora_comida": "13:00",
+    "hora_cena": "20:00",
+    "hora_desp": "16:00",
+    "cant_agua": "2L",
+    "cant_sal": "Moderada",
+    "cant_azu": "Alta",
+    "alimen_nconsum": "Carnes rojas",
+    "alimen_into": "Lactosa"
+  },
+  "transGastroData": {
+    "vomito": "No",
+    "diarrea": "Ocasional",
+    "estreni": "Sí",
+    "colitis": "No",
+    "gastri": "Sí",
+    "nauseas": "No",
+    "reflujo": "Sí",
+    "disfagia": "No",
+    "flatulen": "Moderado",
+    "disten": "No",
+    "pirosis": "No"
+  },
+  "ginecoObstreData": {
+    "g": "0",
+    "p": "0",
+    "c": "0",
+    "fum": "2024-01-01",
+    "fup": "2024-02-01",
+    "sdgi": "No",
+    "ppg": "Normal",
+    "anticon": "No"
+  },
+  "plieguesData": {
+    "subescapular": "10mm",
+    "triceps": "15mm",
+    "biceps": "12mm",
+    "cresta_iliaca": "18mm",
+    "supraespinal": "14mm",
+    "abdominal": "20mm",
+    "muslo_frontal": "22mm",
+    "pantorrilla_medial": "16mm",
+    "axilar_medial": "12mm",
+    "pectoral": "15mm"
+  },
+  "perimetrosData": {
+    "cefalico": "54cm",
+    "cuello": "35cm",
+    "mitad_bra_rela": "29cm",
+    "mitad_bra_contra": "30cm",
+    "antebrazo": "25cm",
+    "muñeca": "18cm",
+    "mesoesternal": "90cm",
+    "umbilical": "85cm",
+    "cintura": "80cm",
+    "cadera": "95cm",
+    "muslo": "60cm",
+    "muslo_medio": "55cm",
+    "panto": "40cm",
+    "tobillo": "23cm"
+  },
+  "diametrosData": {
+    "biacromial": "40cm",
+    "biileocrestal": "30cm",
+    "long_pie": "28cm",
+    "trans_torax": "25cm",
+    "ante_torax": "23cm",
+    "humero": "12cm",
+    "bies_muñeca": "10cm",
+    "femur": "15cm",
+    "bimaleolar": "8cm",
+    "trans_pie": "10cm",
+    "long_mano": "18cm",
+    "trans_mano": "9cm"
+  },
+  "bioimpedanciaData": {
+    "grasa_total": "20%",
+    "grasa_secsuper": "15%",
+    "grasa_secinfe": "18%",
+    "grasa_visceral": "10%",
+    "masa_libregrasa": "70kg",
+    "masa_muscular": "60kg",
+    "peso_oseo": "10kg",
+    "agua_corporal": "60%",
+    "edad_meta": "25"
+  },
+  "bioquimicosData": {
+    "homoglobina": "15g/dL",
+    "glucosa": "90mg/dL",
+    "colesterol": "180mg/dL",
+    "trigliceridos": "150mg/dL",
+    "urea": "35mg/dL",
+    "acido_urico": "6mg/dL",
+    "albumina": "4.5g/dL"
+  },
+  "kilocaloriasData": {
+    "peso": 100,
+    "altura": 1.75,
+    "formula": "Mifflin St. Jeor"
+  },
+  "recordatorioData": {
+    "hora": "10:00:00",
+    "lugar": "Clínica A",
+    "descripcion": "Control mensual"
+  }
+}
