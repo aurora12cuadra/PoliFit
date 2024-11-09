@@ -5,10 +5,13 @@ const pacienteController = require('../controllers/pacienteController');
 const verifyToken = require('../middlewares/auth');
 
 router.post('/register', verifyToken, pacienteController.registrarPaciente);
+router.get('/nombre/:nombre', verifyToken, pacienteController.obtenerPacientePorNombre);
 router.get('/', verifyToken, pacienteController.obtenerPacientes);
 router.get('/:id', verifyToken, pacienteController.obtenerPacientePorId);
 router.patch('/:id', verifyToken, pacienteController.actualizarPaciente);
 router.delete('/:id', verifyToken, pacienteController.eliminarPaciente);
+// router.get('/buscar/:nombre', verifyToken, pacienteController.buscarPacientesPorNombre);
+// router.post('/buscar', verifyToken, pacienteController.buscarPacientesPorNombre);
 
 module.exports = router;
 

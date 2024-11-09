@@ -9,8 +9,10 @@ function RegisterPaciente() {
     apellidoMaterno: "",
     apellidoPaterno: "",
     fechaNacimiento: "",
-    edad: "",
+    edad: "", // Nuevo campo
     sexo: "",
+    estadoCivil: "", 
+    ocupacion: "", 
     telefono: "",
     email: "",
     escuela: "",
@@ -33,7 +35,6 @@ function RegisterPaciente() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Recuperar el token de localStorage
     const token = localStorage.getItem("token");
 
     if (!token) {
@@ -46,7 +47,7 @@ function RegisterPaciente() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Enviar el token en el encabezado
+          "Authorization": `Bearer ${token}`, 
         },
         body: JSON.stringify(formData),
       });
@@ -74,7 +75,10 @@ function RegisterPaciente() {
             ["Apellido Materno", "text", "apellidoMaterno"],
             ["Apellido Paterno", "text", "apellidoPaterno"],
             ["Fecha de Nacimiento", "date", "fechaNacimiento"],
+            ["Edad", "number", "edad"], // Nuevo campo
             ["Sexo", "select", "sexo", ["Hombre", "Mujer", "Otro"]],
+            ["Estado Civil", "select", "estadoCivil", ["Soltero", "Casado", "Divorciado", "Viudo"]],
+            ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
             ["Email", "email", "email"],
             ["Escuela", "text", "escuela"],

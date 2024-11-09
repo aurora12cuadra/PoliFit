@@ -1,5 +1,6 @@
 // controllers/pacienteController.js
 const Paciente = require('../models/Paciente');
+const { Op } = require('sequelize'); 
 
 // Registrar Paciente
 exports.registrarPaciente = async (req, res) => {
@@ -39,6 +40,67 @@ exports.obtenerPacientePorId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// // Consultar un paciente por nombre y verificar que pertenezca al nutriólogo autenticado
+// exports.obtenerPacientePorNombre = async (req, res) => {
+//     try {
+//         console.log("Nombre recibido:", req.query.nombre);
+//         console.log("Token recibido:", req.headers.authorization);
+//         const nombre = req.query.nombre;
+//         const pacientes = await Paciente.findAll({
+//             where: {
+//                 nombre: {
+//                     [Op.like]: `%${nombre}%`,
+//                 },
+//                 numeroEmpleado: req.nutriologoId,
+//             },
+//         });
+//         res.status(200).json(pacientes);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//         console.log("Fallo en funcion de obtenerPacientePorNombre");
+//     }
+// };
+
+exports.obtenerPacientePorNombre = async (req, res) => {
+    const nombre = req.params.nombre
+    try {
+        const paciente = await Paciente.findAll({
+            where: {
+                nombre: { [Op.like]: `%${nombre}%` },
+                numeroEmpleado: req.nutriologoId
+            }
+        });
+        if (!paciente) {
+            return res.status(404).json({ error: "Paciente no encontrado o no pertenece al nutriólogo." });
+        }
+        res.status(200).json(paciente);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// // Buscar pacientes por nombre (maneja tanto GET como POST)
+// exports.buscarPacientesPorNombre = async (req, res) => {
+//     const nombre = req.params.nombre || req.body.nombre;
+
+//     try {
+//         const pacientes = await Paciente.findAll({
+//             where: {
+//                 nombre: { [Op.like]: `%${nombre}%` },
+//                 numeroEmpleado: req.nutriologoId
+//             }
+//         });
+
+//         if (pacientes.length === 0) {
+//             return res.status(404).json({ error: "Paciente no encontrado o no pertenece al nutriólogo." });
+//         }
+
+//         res.status(200).json(pacientes);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
 
 // Actualizar un paciente por ID
 exports.actualizarPaciente = async (req, res) => {

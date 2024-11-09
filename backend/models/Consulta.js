@@ -20,7 +20,7 @@ const Consulta = sequelize.define('Consulta', {
             key: 'noBoleta'
         }
     },
-    fecha_consulta: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+    fecha_consulta: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
     hora_consulta: { type: DataTypes.TIME, defaultValue: DataTypes.NOW },
 }, {
     tableName: 'consulta'

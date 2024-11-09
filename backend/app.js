@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { sequelize } = require('./models'); // Importa la conexión y modelos desde index.js
 const antecedentesRoutes = require('./routes/antecedentes');
 const consultaRoutes = require('./routes/consultas');
+const cors = require('cors');
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,12 +16,13 @@ app.use('/nutriologos', nutriologosRoutes);
 app.use('/pacientes', pacientesRoutes);
 app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
+app.use(cors());
 
 app.listen(3000, () => {
     console.log('Servidor corriendo en http://localhost:3000');
 });
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
     console.log('Base de datos sincronizada');
 }).catch((error) => {
     console.error('Error al sincronizar la base de datos:', error);

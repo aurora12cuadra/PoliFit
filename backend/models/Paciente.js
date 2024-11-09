@@ -21,6 +21,7 @@ const Paciente = sequelize.define('Paciente', {
     tipoSangre: { type: DataTypes.STRING(50), allowNull: false },
     motivoVisita: { type: DataTypes.TEXT, allowNull: true },
     padecimientoActual: { type: DataTypes.TEXT, allowNull: true },
+    fechaRegistro: { type: DataTypes.DATEONLY, defaultValue: DataTypes.NOW },
     numeroEmpleado: { type: DataTypes.STRING(60), allowNull: false, references: { model: 'Nutriologos', key: 'numeroEmpleado' } }
 });
 

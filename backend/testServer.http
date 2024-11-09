@@ -127,19 +127,13 @@ Content-Type: application/json
   "padecimientoActual": "Dolor abdominal crónico"
 }
 
-###
-
-# Obtener todos los pacientes
+### Obtener todos los pacientes
 GET http://localhost:3000/pacientes
 
-###
-
-# Obtener un paciente por ID
+### Obtener un paciente por ID
 GET http://localhost:3000/pacientes/1
 
-###
-
-# Actualizar un paciente
+### Actualizar un paciente
 PATCH http://localhost:3000/pacientes/1
 Content-Type: application/json
 
@@ -148,9 +142,7 @@ Content-Type: application/json
     "ocupacion": "Estudiante de tiempo completo"
 }
 
-###
-
-# Eliminar un paciente
+### Eliminar un paciente
 DELETE http://localhost:3000/pacientes/1
 
 
@@ -287,13 +279,22 @@ Content-Type: application/json
   "password": "supersecreta"
 }
 
-### Registrar un nuevo paciente - María López
-POST http://localhost:3000/pacientes/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTc1MTU3LCJleHAiOjE3MzA1Nzg3NTd9.Ay4k3ZrFurNRK5DazrnHjO1s271Zxogb3864KqSScpw
+### Iniciar sesión
+POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "nombre": "María",
+  "email": "alan@ram",
+  "password": "1234"
+}
+
+### Registrar un nuevo paciente - María López
+POST http://localhost:3000/pacientes/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDg4MywiZXhwIjoxNzMwOTk4NDgzfQ.y3gXkOz_uf1oDPS-BYC4mUisLq2NHtdgVEIORc8RHF8
+Content-Type: application/json
+
+{
+  "nombre": "Mario",
   "apellidoMaterno": "López",
   "apellidoPaterno": "Ramírez",
   "fechaNacimiento": "1988-11-22",
@@ -339,11 +340,11 @@ Content-Type: application/json
 
 ### Obtener todos los Pacientes del Nutriologo autenticado
 GET http://localhost:3000/pacientes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDEwOSwiZXhwIjoxNzMwOTk3NzA5fQ.wkn5hnYrYikTGjgWk6TnsvNHlrktQSTz1-dWOUzf_Zw
 
 ### Obtener un Paciente por ID
-GET http://localhost:3000/pacientes/PA123456
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTY4MjUzLCJleHAiOjE3MzA1NzE4NTN9.gU72FgHgNxOYWF1cVRE3AEPdCP23_J56_hy7XjYBL0k
+GET http://localhost:3000/pacientes/1234567
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTAxNTU0NSwiZXhwIjoxNzMxMDE5MTQ1fQ.xU5WasbgR5utYtR7Asw9A7xzDQZBDL1loA4W-wsMcjw
 
 ### Actualizar información del Paciente
 PATCH http://localhost:3000/pacientes/PA123456
@@ -401,17 +402,22 @@ Content-Type: application/json
 DELETE http://localhost:3000/antecedentes/PA123456
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNDk1ODk5LCJleHAiOjE3MzA0OTk0OTl9.B17ogg3zUWY1xslq37r5DyrZYLtIG2x-hZPhUGpBD4o
 
+### Registrar una consulta
+POST http://localhost:3000/consulta/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwODkwNSwiZXhwIjoxNzMxMTQ0OTA1fQ.MPD87HFmuhfCDmEvnd8vg8pAEBCgOFvryxhl5uwnUSY
+Content-Type: application/json
+
+{
+  "noBoleta": "2019988777"
+}  
+
 ### Registrar una consulta completa
 POST http://localhost:3000/consulta/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMwNTc1MTU3LCJleHAiOjE3MzA1Nzg3NTd9.Ay4k3ZrFurNRK5DazrnHjO1s271Zxogb3864KqSScpw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwODkwNSwiZXhwIjoxNzMxMTQ0OTA1fQ.MPD87HFmuhfCDmEvnd8vg8pAEBCgOFvryxhl5uwnUSY
 Content-Type: application/json
 
 {
   "noBoleta": "2019988777",
-  "consultaData": {
-    "fecha_consulta": "2024-10-31",
-    "hora_consulta": "09:30:00"
-  },
   "actLaboralData": {
     "horario": "9:00-17:00",
     "ocupacion": "Ingeniero",
@@ -541,3 +547,52 @@ Content-Type: application/json
     "descripcion": "Control mensual"
   }
 }
+
+### Obtener un Paciente por nombre
+GET http://localhost:3000/pacientes/nombre/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwNTA2NiwiZXhwIjoxNzMxMTA4NjY2fQ.DbGRsCnp5kL23g_uKPke01BvufldPO9Rz1wGsbrZHu8
+
+### Obtener un Paciente por nombre
+GET http://localhost:3000/pacientes/nombre?nombre=w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwNTA2NiwiZXhwIjoxNzMxMTA4NjY2fQ.DbGRsCnp5kL23g_uKPke01BvufldPO9Rz1wGsbrZHu8
+Content-Type: application/json
+
+### Crear una nueva cita
+POST http://localhost:3000/citas
+Content-Type: application/json
+
+{
+  "fecha_consulta": "2024-11-10",
+  "hora_consulta": "10:00:00",
+  "numeroEmpleado": "EMP123",
+  "noBoleta": "BOLETA456"
+}
+
+### Obtener todas las citas
+GET http://localhost:3000/citas
+
+### Obtener citas filtradas por fecha
+GET http://localhost:3000/citas?fecha_consulta=2024-11-10
+
+### Obtener citas filtradas por número de empleado
+GET http://localhost:3000/citas?numeroEmpleado=EMP123
+
+### Obtener citas filtradas por número de boleta
+GET http://localhost:3000/citas?noBoleta=BOLETA456
+
+### Obtener una cita por su ID
+GET http://localhost:3000/citas/1
+
+### Actualizar una cita existente
+PUT http://localhost:3000/citas/1
+Content-Type: application/json
+
+{
+    "fecha_consulta": "2024-11-15",
+    "hora_consulta": "12:30:00",
+    "numeroEmpleado": "EMP123",
+    "noBoleta": "BOLETA789"
+}
+
+### Eliminar una cita existente
+DELETE http://localhost:3000/citas/1

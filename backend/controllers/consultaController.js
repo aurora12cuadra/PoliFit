@@ -16,7 +16,7 @@ const Recordatorio = require('../models/Recordatorio');
 
 // Registrar una consulta y sus modelos asociados
 exports.registrarConsultaCompleta = async (req, res) => {
-    const { noBoleta, consultaData, actLaboralData, actFisicaData, toxicomaniasData, habitosDietData, transGastroData, ginecoObstreData, plieguesData, perimetrosData, diametrosData, bioimpedanciaData, bioquimicosData, kilocaloriasData, recordatorioData } = req.body;
+    const { noBoleta, actLaboralData, actFisicaData, toxicomaniasData, habitosDietData, transGastroData, ginecoObstreData, plieguesData, perimetrosData, diametrosData, bioimpedanciaData, bioquimicosData, kilocaloriasData, recordatorioData } = req.body;
 
     try {
         // Recuperar el numeroEmpleado del nutriólogo actual (desde el token)
@@ -26,8 +26,7 @@ exports.registrarConsultaCompleta = async (req, res) => {
         const consulta = await Consulta.create({
             numeroEmpleado,
             noBoleta,
-            fecha_consulta: consultaData.fecha_consulta,
-            hora_consulta: consultaData.hora_consulta,
+            hora_consulta: new Date().toLocaleTimeString('en-GB', { hour12: false }),
         });
 
         const idConsulta = consulta.id_consulta;
