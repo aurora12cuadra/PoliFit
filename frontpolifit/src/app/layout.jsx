@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+//import Header from "./components/Header";
+//import Sidebar from "./components/Sidebar";
 import { NextUIProvider } from "@nextui-org/react";
+import SidebarWrapper from "./components/SidebarWrapper";
+import HeaderWrapper from "./components/HeaderWrapper";
 
 // Carga de fuentes
 const inter = Inter({ subsets: ["latin"] });
@@ -12,9 +14,9 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={inter.className}>
         <NextUIProvider>
-          <Header />
+          <HeaderWrapper />
           <div className="flex flex-col md:flex-row min-h-screen">
-            <Sidebar />
+            <SidebarWrapper />
             <main className="flex-grow p-4">
               {children}
             </main>

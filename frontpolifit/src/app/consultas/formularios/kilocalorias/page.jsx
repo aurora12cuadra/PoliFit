@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import Cronometro from "../../components/Cronometro";
 
 function Kilocalorias() {
 
@@ -67,6 +68,7 @@ function Kilocalorias() {
 
   return (
     <div className="p-8">
+      <Cronometro />
       <h2 className="text-2xl font-semibold mb-4">Kilocalorías</h2>
 
       {/* Kilocalorías Form */}

@@ -2,6 +2,7 @@
 import { usePaciente } from "../../context/PacienteContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import Cronometro from "../../components/Cronometro";
 
 function Mediciones() {
 
@@ -54,6 +55,7 @@ function Mediciones() {
 
   return (
     <div className="p-8">
+      <Cronometro />
       <h2 className="text-2xl font-semibold mb-4">Mediciones</h2>
 
       {/* Pliegues */}

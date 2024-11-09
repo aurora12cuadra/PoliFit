@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import Image from "next/image";
+import Cronometro from "../../components/Cronometro";
 
 function PlanAlimentacion() {
   const componentRef = useRef();
@@ -39,6 +40,7 @@ function PlanAlimentacion() {
 
   return (
     <div ref={componentRef} className="p-8">
+      <Cronometro />
       {/* Contenedor de los logos en la parte superior */}
       <div className="flex justify-between mb-8 ">
         <div>

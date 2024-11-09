@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import Cronometro from "../../components/Cronometro";
 
 function Recordatorio24Hrs() {
   const { control, handleSubmit, reset } = useForm();
@@ -37,6 +38,7 @@ function Recordatorio24Hrs() {
 
   return (
     <div className="p-8">
+      <Cronometro />
       <h2 className="text-2xl font-semibold mb-4">Recordatorio 24 hrs.</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
