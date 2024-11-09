@@ -53,6 +53,12 @@ function DatosPersonales() {
         errores.email = "El formato del email no es válido";
       }
     }
+    if(!datosPersonales.escuela)
+      errores.escuela = "La escuela es obligatoria"
+    if(!datosPersonales.carrera)
+      errores.carrera = "La carrera es obligatoria"
+    if(!datosPersonales.numeroBoletaEmpleado)
+      errores.numeroBoletaEmpleado = "El numero de Boleta / Empleado es obligatorio"
 
     // Validar nombre (no debe contener números)
     // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
@@ -81,19 +87,59 @@ function DatosPersonales() {
     return Object.keys(errores).length === 0;
   };
 
+  // Función para calcular la edad
+  const calcularEdad = (fechaNacimiento) => {
+    const hoy = new Date();
+    const fechaNacimientoDate = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+    const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate())) {
+      edad--;
+    }
+    return edad;
+  };
+
+  // Función para obtener la fecha actual en formato YYYY-MM-DD
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+    const año = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoy.getDate()).padStart(2, "0");
+    return `${año}-${mes}-${dia}`;
+  };
+
+  // useEffect para establecer la fecha de registro automáticamente
   useEffect(() => {
     if (pacienteData.datosPersonales) {
-      setDatosPersonales(pacienteData.datosPersonales); // Cargar datos desde el contexto si están definidos
+      setDatosPersonales((prevData) => ({
+        ...pacienteData.datosPersonales,
+        fechaRegistro: obtenerFechaActual(),
+      }));
+    } else {
+      setDatosPersonales((prevData) => ({
+        ...prevData,
+        fechaRegistro: obtenerFechaActual(),
+      }));
     }
   }, [pacienteData.datosPersonales]);
 
   // Manejador de cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDatosPersonales((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    // Actualizar la edad automáticamente si cambia la fecha de nacimiento
+    if (name === "fechaNacimiento") {
+      const edadCalculada = calcularEdad(value);
+      setDatosPersonales((prevData) => ({
+        ...prevData,
+        fechaNacimiento: value,
+        edad: edadCalculada.toString(),
+      }));
+    } else {
+      setDatosPersonales((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleNext = () => {
@@ -117,21 +163,21 @@ function DatosPersonales() {
       <div className="bg-white shadow-md p-4 md:p-6 rounded-md mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {[
-            ["Nombre", "text", "nombre"],
-            ["Apellido Materno", "text", "apellidoMaterno"],
-            ["Apellido Paterno", "text", "apellidoPaterno"],
-            ["Fecha de nacimiento", "date", "fechaNacimiento"],
-            ["Edad", "number", "edad"],
-            ["Sexo", "select", "sexo", ["Hombre", "Mujer", "Otro"]],
-            ["Fecha de Registro", "date", "fechaRegistro"],
-            ["Estado Civil", "select", "estadoCivil", ["Casado", "Soltero"]],
+            ["*Nombre", "text", "nombre"],
+            ["*Apellido Materno", "text", "apellidoMaterno"],
+            ["*Apellido Paterno", "text", "apellidoPaterno"],
+            ["*Fecha de nacimiento", "date", "fechaNacimiento"],
+            ["*Edad", "number", "edad"],
+            ["*Sexo", "select", "sexo", ["Hombre", "Mujer", "Otro"]],
+            ["*Fecha de Registro", "date", "fechaRegistro"],
+            ["*Estado Civil", "select", "estadoCivil", ["Casado", "Soltero"]],
             ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
-            ["Email", "email", "email"],
-            ["Escuela", "text", "escuela"],
-            ["Carrera", "text", "carrera"],
+            ["*Email", "email", "email"],
+            ["*Escuela", "text", "escuela"],
+            ["*Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
-            ["No. de Boleta / Empleado", "text", "numeroBoletaEmpleado"],
+            ["*No. de Boleta / Empleado", "text", "numeroBoletaEmpleado"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
           ].map(([label, type, name, options], index) => (
@@ -157,6 +203,7 @@ function DatosPersonales() {
                   value={datosPersonales[name] || ""}
                   onChange={handleChange}
                   className="w-full p-2 border rounded-md"
+                  disabled={name === "edad" || name === "fechaRegistro"}
                 />
               )}
               {/* Mostrar mensaje de error si existe */}

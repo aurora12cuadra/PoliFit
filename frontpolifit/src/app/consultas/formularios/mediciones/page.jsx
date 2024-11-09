@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
 function Mediciones() {
-
   const { consultaData, updateConsultaData } = usePaciente();
   const router = useRouter();
 
@@ -50,7 +49,7 @@ function Mediciones() {
     };
     updateConsultaData("mediciones", datosMediciones);
     router.push("/consultas/formularios/kilocalorias");
-  };  
+  };
 
   return (
     <div className="p-8">
@@ -79,7 +78,9 @@ function Mediciones() {
                 type="text"
                 className="w-full p-2 border rounded-md"
                 value={pliegues[label] || ""}
-                onChange={(e) => handleInputChange("pliegues", label, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("pliegues", label, e.target.value)
+                }
               />
             </div>
           ))}
@@ -87,8 +88,13 @@ function Mediciones() {
       </div>
 
       {/* Perímetros */}
-      <div className="bg-white shadow-md p-6 rounded-md mb-6" style={{ backgroundColor: '#11404E' }}>
-        <h3 className="text-xl text-center font-semibold mb-4 text-white">Perímetros</h3>
+      <div
+        className="bg-white shadow-md p-6 rounded-md mb-6"
+        style={{ backgroundColor: "#11404E" }}
+      >
+        <h3 className="text-xl text-center font-semibold mb-4 text-white">
+          Perímetros
+        </h3>
         <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
@@ -108,12 +114,16 @@ function Mediciones() {
             "Tobillo",
           ].map((label) => (
             <div key={label}>
-              <label className="block font-medium mb-1 text-white">{label}</label>
+              <label className="block font-medium mb-1 text-white">
+                {label}
+              </label>
               <input
                 type="text"
                 className="w-full p-2 border rounded-md"
                 value={perimetros[label] || ""}
-                onChange={(e) => handleInputChange("perimetros", label, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("perimetros", label, e.target.value)
+                }
               />
             </div>
           ))}
@@ -145,7 +155,9 @@ function Mediciones() {
                 type="text"
                 className="w-full p-2 border rounded-md"
                 value={diametros[label] || ""}
-                onChange={(e) => handleInputChange("diametros", label, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("diametros", label, e.target.value)
+                }
               />
             </div>
           ))}
@@ -153,8 +165,13 @@ function Mediciones() {
       </div>
 
       {/* Bioimpedancia */}
-      <div className="bg-white shadow-md p-6 rounded-md mb-6" style={{ backgroundColor: '#11404E' }}>
-        <h3 className="text-xl text-center font-semibold mb-4 text-white">Bioimpedancia</h3>
+      <div
+        className="bg-white shadow-md p-6 rounded-md mb-6"
+        style={{ backgroundColor: "#11404E" }}
+      >
+        <h3 className="text-xl text-center font-semibold mb-4 text-white">
+          Bioimpedancia
+        </h3>
         <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
@@ -169,12 +186,16 @@ function Mediciones() {
             "Agua Corporal",
           ].map((label) => (
             <div key={label}>
-              <label className="block font-medium mb-1 text-white">{label}</label>
+              <label className="block font-medium mb-1 text-white">
+                {label}
+              </label>
               <input
                 type="text"
                 className="w-full p-2 border rounded-md"
                 value={bioimpedancia[label] || ""}
-                onChange={(e) => handleInputChange("bioimpedancia", label, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("bioimpedancia", label, e.target.value)
+                }
               />
             </div>
           ))}
@@ -183,7 +204,9 @@ function Mediciones() {
 
       {/* Indicadores Bioquímicos */}
       <div className="bg-white shadow-md p-6 rounded-md">
-        <h3 className="text-xl text-center font-semibold mb-4">Indicadores Bioquímicos</h3>
+        <h3 className="text-xl text-center font-semibold mb-4">
+          Indicadores Bioquímicos
+        </h3>
         <h4 className="text-lg font-semibold mb-2">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
@@ -202,7 +225,9 @@ function Mediciones() {
                 type="text"
                 className="w-full p-2 border rounded-md"
                 value={indicadores[label] || ""}
-                onChange={(e) => handleInputChange("indicadores", label, e.target.value)}
+                onChange={(e) =>
+                  handleInputChange("indicadores", label, e.target.value)
+                }
               />
             </div>
           ))}
@@ -212,8 +237,10 @@ function Mediciones() {
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-6">
         <button
-          onClick={() => router.push("/consultas/formularios/trastornos")} // Reemplaza con la ruta correcta
           className="bg-gray-500 text-white px-4 py-2 rounded-md"
+          onClick={() => {
+            handleSaveAndNext();
+            router.push("/consultas/formularios/trastornos")}}
         >
           Anterior
         </button>
@@ -224,7 +251,6 @@ function Mediciones() {
           Siguiente
         </button>
       </div>
-
     </div>
   );
 }

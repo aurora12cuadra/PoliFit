@@ -177,7 +177,9 @@ function Trastornos() {
       <div className="flex justify-between mt-8">
         <button
           className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
-          onClick={() => router.push("/consultas/formularios/estilovida")}
+          onClick={() => {
+            handleGuardar();
+            router.push("/consultas/formularios/estilovida")}}
         >
           Anterior
         </button>
