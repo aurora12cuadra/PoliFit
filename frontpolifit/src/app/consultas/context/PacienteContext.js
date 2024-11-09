@@ -10,6 +10,8 @@ export function PacienteProvider({ children }) {
   const [pacienteData, setPacienteData] = useState({
     pacienteId: null,
     nombre: "",
+    apellidoPaterno: "",
+    apellidoMaterno: "",
     email: "",
     telefono: "",
     // Puedes añadir más datos aquí si es necesario
@@ -54,16 +56,64 @@ const resetConsultaData = () => {
   });
 };
 
-  // Función para guardar la consulta completa
-  const guardarConsulta = () => {
-    const consultaCompleta = {
-      pacienteId: pacienteData.pacienteId,
-      ...consultaData,
+  // // Función para guardar la consulta completa
+  // const guardarConsulta = async () => {
+  //   const consultaCompleta = {
+  //     noBoleta: pacienteData.pacienteId,
+  //     // actLaboralData: consultaData.estiloDeVida.actividadLaboral,
+  //     // actFisicaData: consultaData.estiloDeVida.actividadFisica,
+  //     // toxicomaniasData: consultaData.estiloDeVida.toxicomanias,
+  //     // habitosDietData: consultaData.estiloDeVida.habitosDieteticos,
+  //     // recordatorioData: consultaData.recordatorio24Hrs,
+  //   };
+  
+  //   try {
+  //     const response = await fetch("/api/consultas/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`
+  //       },
+  //       body: JSON.stringify(consultaCompleta)
+  //     });
+  
+  //     if (response.ok) {
+  //       console.log("Consulta registrada exitosamente");
+  //     } else {
+  //       const errorData = await response.text(); // Usa `text()` para leer la respuesta completa en caso de error
+  //       console.error("Error al registrar consulta:", errorData);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al registrar consulta:", error);
+  //   }
+  // };
+  
+  const guardarConsulta = async () => {
+    const consulta = {
+      // noBoleta: "2019988777", // Usa el ID de prueba o el real desde el contexto
+      noBoleta: pacienteData.pacienteId,
     };
-
-    console.log("Datos de la consulta a guardar:", consultaCompleta);
-    // Aquí iría la lógica para enviar consultaCompleta al backend
-  };
+  
+    try {
+      const response = await fetch("/api/consulta/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(consulta)
+      });
+  
+      if (response.ok) {
+        console.log("Consulta registrada exitosamente");
+      } else {
+        const errorData = await response.json();
+        console.error("Error al registrar consulta:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Error al registrar consulta:", error);
+    }
+  };  
 
   return (
     <PacienteContext.Provider

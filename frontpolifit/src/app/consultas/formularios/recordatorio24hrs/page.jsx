@@ -8,7 +8,7 @@ import Cronometro from "../../components/Cronometro";
 function Recordatorio24Hrs() {
   const { control, handleSubmit, reset } = useForm();
   const router = useRouter();
-  const { consultaData, updateConsultaData } = usePaciente();
+  const { consultaData, updateConsultaData, guardarConsulta } = usePaciente();
 
   const meals = [
     { name: "DESAYUNO" },
@@ -29,12 +29,11 @@ function Recordatorio24Hrs() {
     //alert("Datos de Recordatorio 24 hrs guardados correctamente.");
   };
 
-  const handleFinalSave = () => {
-    //updateConsultaData("recordatorio24Hrs", getValues());
-    console.log("Consulta completa guardada:", consultaData);
+  const handleFinalSave = async () => {
+    await guardarConsulta(); // Llama a la función para guardar la consulta en el backend
     alert("Consulta finalizada con éxito.");
     router.push("/consultas"); // Redirige a la página principal de consultas
-  };
+  }; 
 
   return (
     <div className="p-8">
