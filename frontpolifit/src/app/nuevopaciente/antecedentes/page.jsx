@@ -8,7 +8,7 @@ function Antecedentes() {
   const { guardarRegistroPaciente, pacienteData, updatePacienteData } =
     usePacienteRegistro();
   // Verificar el contexto
-  console.log("Contexto pacienteData en Antecedentes:", pacienteData);
+  //console.log("Contexto pacienteData en Antecedentes:", pacienteData);
 
   const [selectedFamilyHistory, setSelectedFamilyHistory] = useState(
     pacienteData.antecedentes?.selectedFamilyHistory || {}
@@ -179,7 +179,6 @@ function Antecedentes() {
           className="bg-[#11404E] text-white py-2 px-4 rounded-md"
           onClick={() => {
             handleRegistrarPaciente();
-            // Redirige a la página de lista de pacientes
           }}
         >
           Registrar Paciente
