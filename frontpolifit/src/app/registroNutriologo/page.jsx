@@ -1,6 +1,6 @@
 // registroNurtriologo
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function RegisterNutriologo() {
@@ -15,6 +15,8 @@ function RegisterNutriologo() {
     password: "",
     repeatPassword: "",
   });
+
+  const router = useRouter();
 
   const handleChange = (e) => {
     setFormData({
@@ -46,6 +48,8 @@ function RegisterNutriologo() {
       if (response.ok) {
         console.log("Nutriólogo registrado", data);
         alert("Registro exitoso");
+        // Redirección a la página después del registro
+      router.push("/login");
       } else {
         console.error("Error al registrar", data);
         alert("Error al registrar: " + data.error);

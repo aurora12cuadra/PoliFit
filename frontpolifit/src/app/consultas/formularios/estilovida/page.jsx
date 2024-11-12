@@ -2,7 +2,7 @@
 import { useState, useEffect  } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
-import Cronometro from "../../components/Cronometro";
+//import Cronometro from "../../components/Cronometro";
 
 function EstiloDeVida() {
   const { pacienteId, consultaData, updateConsultaData } = usePaciente();
@@ -98,7 +98,6 @@ function EstiloDeVida() {
 
   return (
     <div className="p-8">
-      <Cronometro />
       <h2 className="text-2xl font-semibold mb-4">
         Estilo de Vida para Paciente ID: {pacienteId}
       </h2>

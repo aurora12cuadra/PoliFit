@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
-import Cronometro from "../../components/Cronometro";
+//import Cronometro from "../../components/Cronometro";
 
 
 function Trastornos() {
@@ -93,7 +93,6 @@ function Trastornos() {
 
   return (
     <div className="p-8">
-      <Cronometro />
       <h2 className="text-2xl font-semibold mb-4">Trastornos</h2>
 
       {/* Trastornos Gastrointestinales */}

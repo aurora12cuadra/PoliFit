@@ -1,36 +1,84 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 function RegistroForm() {
   const [formData, setFormData] = useState({
-    nombre: '',
-    apellidos: '',
-    fechaNacimiento: '',
-    numeroEmpleado: '',
-    especialidad: '',
-    escuela: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
+    nombre: "",
+    apellidos: "",
+    fechaNacimiento: "",
+    numeroEmpleado: "",
+    especialidad: "",
+    escuela: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({});
+  const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const router = useRouter();
+
+  // Manejador de cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validación de contraseña
-    if (formData.password !== formData.repeatPassword) {
-      alert("Las contraseñas no coinciden");
-      return;
+  // Validar formulario
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  
+    if (!formData.nombre) newErrors.nombre = "El nombre es obligatorio.";
+    if (!formData.apellidos) newErrors.apellidos = "Los apellidos son obligatorios.";
+    if (!formData.fechaNacimiento) newErrors.fechaNacimiento = "La fecha de nacimiento es obligatoria.";
+    if (!formData.numeroEmpleado) newErrors.numeroEmpleado = "El número de empleado es obligatorio.";
+    if (!formData.especialidad) newErrors.especialidad = "La especialidad es obligatoria.";
+    if (!formData.escuela) newErrors.escuela = "La escuela es obligatoria.";
+  
+    if (!formData.email) {
+      newErrors.email = "El correo electrónico es obligatorio.";
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = "Formato inválido. Ejemplo: usuario@dominio.com";
+    }
+  
+    if (!formData.password) {
+      newErrors.password = "La contraseña es obligatoria.";
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password = "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.";
+    }
+  
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Las contraseñas no coinciden.";
     }
 
-    // Aquí es donde integramos el backend
+      // Validar los checkboxes
+    if (!isPrivacyChecked) {
+      newErrors.privacy = "Debes aceptar el Aviso de Privacidad.";
+    }
+
+    if (!isTermsChecked) {
+      newErrors.terms = "Debes aceptar los Términos y Condiciones.";
+    }
+  
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+
+  // Manejador de envío del formulario
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrors({});
+
+    if (!validateForm()) return;
+
     try {
-      const response = await fetch("../../pages/api/nutriologos/register.js", {
+      const response = await fetch("/api/nutriologos/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -40,56 +88,66 @@ function RegistroForm() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Nutriólogo registrado", data);
         alert("Registro exitoso");
+        router.push("/inicio");
       } else {
-        console.error("Error al registrar", data);
-        alert("Error al registrar: " + data.error);
+        setErrors({ email: data.error || "Error al registrar" });
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Error al conectar con el servidor");
+      console.error("Error al conectar con el servidor:", error);
+      setErrors({ email: "Error al conectar con el servidor" });
     }
   };
 
   return (
     <div className="min-h-screen bg-[#e0f7fa] flex justify-center items-center p-4">
       <div className="relative w-full max-w-4xl">
-        {/* Círculos Decorativos mejorados para ser más atractivos visualmente */}
         <div className="absolute -left-40 top-1/4 transform -translate-y-1/2 bg-[#00796b] rounded-full w-96 h-96 z-0 animate-pulse-moderate"></div>
         <div className="absolute -right-40 top-3/4 transform -translate-y-1/2 bg-[#004d40] rounded-full w-96 h-96 z-0 animate-pulse-moderate"></div>
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#0b2f37] rounded-full w-128 h-128 z-0 animate-pulse-moderate"></div>
         <div className="relative z-10 bg-white shadow-lg rounded-lg overflow-hidden flex">
           <div className="w-1/2 p-8">
             <h2 className="text-2xl font-bold mb-4 text-center text-[#0b2f37]">Registro</h2>
-            {['nombre', 'apellidos', 'fechaNacimiento', 'numeroEmpleado', 'especialidad'].map(field => (
+            {["nombre", "apellidos", "fechaNacimiento", "numeroEmpleado", "especialidad"].map((field) => (
               <div key={field} className="mb-4">
-                <label className="font-bold text-gray-700 capitalize">{field.replace(/([A-Z])/g, ' $1').trim()}:</label>
-                <input type={field === 'fechaNacimiento' ? 'date' : 'text'} name={field} onChange={handleChange} value={formData[field]} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                <label className="font-bold text-gray-700 capitalize">{field.replace(/([A-Z])/g, " $1").trim()}:</label>
+                <input
+                  type={field === "fechaNacimiento" ? "date" : "text"}
+                  name={field}
+                  placeholder={`Ingresa tu ${field}`}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className={`mt-1 block w-full px-3 py-2 bg-white border ${errors[field] ? "border-red-500" : "border-gray-300"} rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                />
+                {errors[field] && <span className="text-red-500 text-sm">{errors[field]}</span>}
               </div>
             ))}
           </div>
           <div className="w-1/2 p-8 bg-[#0b2f37] text-white rounded-r-lg">
-            {['escuela', 'email', 'password', 'confirmPassword'].map(field => (
+            {["escuela", "email", "password", "confirmPassword"].map((field) => (
               <div key={field} className="mb-4">
-                <label className="font-bold capitalize">{field === 'password' ? 'Contraseña' : field === 'confirmPassword' ? 'Repetir Contraseña' : field.replace(/([A-Z])/g, ' $1').trim()}:</label>
-                <input type={field.includes('password') ? 'password' : 'text'} name={field} onChange={handleChange} value={formData[field]} className="mt-1 block w-full px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                <label className="font-bold">{field === "password" ? "Contraseña" : field === "confirmPassword" ? "Repetir Contraseña" : field}:</label>
+                <input
+                  type={field === "password" || field === "confirmPassword" ? "password" : "text"}
+                  name={field}
+                  placeholder={`Ingresa tu ${field}`}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                />
+                {errors[field] && <span className="text-red-500 text-sm">{errors[field]}</span>}
               </div>
             ))}
             <div className="flex items-center mb-4">
-              <input type="checkbox" id="privacy" className="mr-2" />
-              <label htmlFor="privacy">Acepto Aviso de Privacidad <a href="#" className="text-green-600 underline">Ver aquí</a></label>
+              <input type="checkbox" id="privacy" checked={isPrivacyChecked} onChange={() => setIsPrivacyChecked(!isPrivacyChecked)} className="mr-2" />
+              <label htmlFor="privacy">Acepto Aviso de Privacidad</label>
             </div>
+            {errors.privacy && <span className="text-red-500 text-sm">{errors.privacy}</span>}
             <div className="flex items-center mb-4">
-              <input type="checkbox" id="terms" className="mr-2" />
-              <label htmlFor="terms">Acepto Términos y Condiciones <a href="#" className="text-green-600 underline">Ver aquí</a></label>
+              <input type="checkbox" id="terms" checked={isTermsChecked} onChange={() => setIsTermsChecked(!isTermsChecked)} className="mr-2" />
+              <label htmlFor="terms">Acepto Términos y Condiciones</label>
             </div>
-            <div className="flex space-x-4">
-              <button type="submit" 
-              onClick={handleSubmit}
-              className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button>
-              <button type="button" className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Cancelar</button>
-            </div>
+            {errors.terms && <span className="text-red-500 text-sm">{errors.terms}</span>}
+            <button onClick={handleSubmit} className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button>
           </div>
         </div>
       </div>
@@ -98,6 +156,8 @@ function RegistroForm() {
 }
 
 export default RegistroForm;
+
+
 
 
 
