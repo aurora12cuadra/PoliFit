@@ -1,3 +1,4 @@
+// consultas/formularios/estilovida
 "use client";
 import { useState, useEffect  } from "react";
 import { useRouter } from "next/navigation";
@@ -10,77 +11,80 @@ function EstiloDeVida() {
   // Estados para capturar datos de los inputs
   const [actividadLaboral, setActividadLaboral] = useState({
     ocupacion: "",
-    descripcion: "",
+    descrip: "", // Cambiado de 'descripcion' a 'descrip'
     horario: "",
-    horasTrabajadas: "",
-    nivelEstres: "",
+    total_horas: "", // Cambiado de 'horasTrabajadas' a 'total_horas'
+    n_estres: 0, // Cambiado de 'nivelEstres' a 'n_estres' y convertido a número
   });
 
   const [actividadFisica, setActividadFisica] = useState({
     tipo: "",
-    frecuencia: "",
+    frecuencia: 0, // Convertido a número
   });
 
   const [toxicomanias, setToxicomanias] = useState({
-    alcohol: false,
-    tabaco: false,
-    cafe: false,
-    farmaco: false,
-    medicamentos: false,
-    otro: false,
+    alcohol: "false", // Cambiado a cadena para coincidir con el modelo del backend
+    tabaco: "false",
+    cafe: "false",
+    farmacodep: "false", // Cambiado de 'farmaco' a 'farmacodep'
+    medicamentos: "false",
+    otro: "false",
   });
 
   const [habitosDieteticos, setHabitosDieteticos] = useState({
-    alimentosNoDeseados: "",
-    alimentosFavoritos: "",
-    alergiaComida: "",
-    desayunoLugarHora: "",
-    cantidadAgua: "",
-    comidaLugarHora: "",
-    cantidadAzucar: "",
-    cenaLugarHora: "",
-    cantidadSal: "",
-    horaDespierta: "",
+    alimen_ndesead: "", // Cambiado de 'alimentosNoDeseados' a 'alimen_ndesead'
+    alimen_fav: "", // Cambiado de 'alimentosFavoritos' a 'alimen_fav'
+    alergia: "", // Cambiado de 'alergiaComida' a 'alergia'
+    hora_bkf: "", // Cambiado de 'desayunoLugarHora' a 'hora_bkf'
+    cant_agua: "", // Cambiado de 'cantidadAgua' a 'cant_agua'
+    hora_comida: "", // Cambiado de 'comidaLugarHora' a 'hora_comida'
+    cant_azu: "", // Cambiado de 'cantidadAzucar' a 'cant_azu'
+    hora_cena: "", // Cambiado de 'cenaLugarHora' a 'hora_cena'
+    cant_sal: "", // Cambiado de 'cantidadSal' a 'cant_sal'
+    hora_desp: "", // Cambiado de 'horaDespierta' a 'hora_desp'
   });
 
   useEffect(() => {
     if (consultaData.estiloDeVida) {
       setActividadLaboral({
         ocupacion: consultaData.estiloDeVida.actividadLaboral?.ocupacion || "",
-        descripcion: consultaData.estiloDeVida.actividadLaboral?.descripcion || "",
+        descrip: consultaData.estiloDeVida.actividadLaboral?.descripcion || "", // Cambiado a 'descrip'
         horario: consultaData.estiloDeVida.actividadLaboral?.horario || "",
-        horasTrabajadas: consultaData.estiloDeVida.actividadLaboral?.horasTrabajadas || "",
-        nivelEstres: consultaData.estiloDeVida.actividadLaboral?.nivelEstres || "",
+        total_horas: consultaData.estiloDeVida.actividadLaboral?.horasTrabajadas || "", // Cambiado a 'total_horas'
+        n_estres: Number(consultaData.estiloDeVida.actividadLaboral?.nivelEstres) || 0, // Cambiado a 'n_estres' y convertido a número
       });
   
       setActividadFisica({
         tipo: consultaData.estiloDeVida.actividadFisica?.tipo || "",
-        frecuencia: consultaData.estiloDeVida.actividadFisica?.frecuencia || "",
+        frecuencia: Number(consultaData.estiloDeVida.actividadFisica?.frecuencia) || 0, // Convertido a número
       });
   
       setToxicomanias({
-        alcohol: consultaData.estiloDeVida.toxicomanias?.alcohol || false,
-        tabaco: consultaData.estiloDeVida.toxicomanias?.tabaco || false,
-        cafe: consultaData.estiloDeVida.toxicomanias?.cafe || false,
-        farmaco: consultaData.estiloDeVida.toxicomanias?.farmaco || false,
-        medicamentos: consultaData.estiloDeVida.toxicomanias?.medicamentos || false,
-        otro: consultaData.estiloDeVida.toxicomanias?.otro || false,
+        alcohol: consultaData.estiloDeVida.toxicomanias?.alcohol ? "true" : "false",
+        tabaco: consultaData.estiloDeVida.toxicomanias?.tabaco ? "true" : "false",
+        cafe: consultaData.estiloDeVida.toxicomanias?.cafe ? "true" : "false",
+        farmacodep: consultaData.estiloDeVida.toxicomanias?.farmaco ? "true" : "false", // Cambiado a 'farmacodep'
+        medicamentos: consultaData.estiloDeVida.toxicomanias?.medicamentos ? "true" : "false",
+        otro: consultaData.estiloDeVida.toxicomanias?.otro ? "true" : "false",
       });
   
       setHabitosDieteticos({
-        alimentosNoDeseados: consultaData.estiloDeVida.habitosDieteticos?.alimentosNoDeseados || "",
-        alimentosFavoritos: consultaData.estiloDeVida.habitosDieteticos?.alimentosFavoritos || "",
-        alergiaComida: consultaData.estiloDeVida.habitosDieteticos?.alergiaComida || "",
-        desayunoLugarHora: consultaData.estiloDeVida.habitosDieteticos?.desayunoLugarHora || "",
-        cantidadAgua: consultaData.estiloDeVida.habitosDieteticos?.cantidadAgua || "",
-        comidaLugarHora: consultaData.estiloDeVida.habitosDieteticos?.comidaLugarHora || "",
-        cantidadAzucar: consultaData.estiloDeVida.habitosDieteticos?.cantidadAzucar || "",
-        cenaLugarHora: consultaData.estiloDeVida.habitosDieteticos?.cenaLugarHora || "",
-        cantidadSal: consultaData.estiloDeVida.habitosDieteticos?.cantidadSal || "",
-        horaDespierta: consultaData.estiloDeVida.habitosDieteticos?.horaDespierta || "",
+        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimentosNoDeseados || "", // Cambiado a 'alimen_ndesead'
+        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimentosFavoritos || "", // Cambiado a 'alimen_fav'
+        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergiaComida || "", // Cambiado a 'alergia'
+        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.desayunoLugarHora || "", // Cambiado a 'hora_bkf'
+        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cantidadAgua || "", // Cambiado a 'cant_agua'
+        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.comidaLugarHora || "", // Cambiado a 'hora_comida'
+        cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cantidadAzucar || "", // Cambiado a 'cant_azu'
+        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.cenaLugarHora || "", // Cambiado a 'hora_cena'
+        cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cantidadSal || "", // Cambiado a 'cant_sal'
+        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.horaDespierta || "", // Cambiado a 'hora_desp'
+        alimen_nconsum: "",
+        alimen_into: "",  
       });
     }
   }, [consultaData.estiloDeVida]);
+  
   
 
   // Manejar el guardado de datos en el contexto
@@ -100,7 +104,7 @@ function EstiloDeVida() {
       <h2 className="text-2xl font-semibold mb-4">
         Estilo de Vida para Paciente ID: {pacienteId}
       </h2>
-
+  
       {/* Actividad Laboral */}
       <div className="bg-white shadow-md p-6 rounded-md mb-6">
         <h3 className="text-xl font-semibold mb-4">Actividad Laboral</h3>
@@ -126,11 +130,11 @@ function EstiloDeVida() {
             <input
               type="text"
               className="w-full p-2 border rounded-md"
-              value={actividadLaboral.descripcion || ""}
+              value={actividadLaboral.descrip || ""}
               onChange={(e) =>
                 setActividadLaboral({
                   ...actividadLaboral,
-                  descripcion: e.target.value,
+                  descrip: e.target.value, // Cambiado a 'descrip'
                 })
               }
             />
@@ -154,11 +158,11 @@ function EstiloDeVida() {
             <input
               type="number"
               className="w-full p-2 border rounded-md"
-              value={actividadLaboral.horasTrabajadas || ""}
+              value={actividadLaboral.total_horas || ""} // Cambiado a 'total_horas'
               onChange={(e) =>
                 setActividadLaboral({
                   ...actividadLaboral,
-                  horasTrabajadas: e.target.value,
+                  total_horas: e.target.value,
                 })
               }
             />
@@ -167,32 +171,27 @@ function EstiloDeVida() {
             <label className="block font-medium mb-1">Nivel de Estrés</label>
             <select
               className="w-full p-2 border rounded-md"
-              value={actividadLaboral.nivelEstres}
+              value={actividadLaboral.n_estres}
               onChange={(e) =>
                 setActividadLaboral({
                   ...actividadLaboral,
-                  nivelEstres: e.target.value,
+                  n_estres: parseInt(e.target.value), // Cambiado a 'n_estres' y convertido a número
                 })
               }
             >
-              <option value="Muy bajo">Muy bajo</option>
-              <option value="Bajo">Bajo</option>
-              <option value="Moderado">Moderado</option>
-              <option value="Alto">Alto</option>
-              <option value="Muy Alto">Muy Alto</option>
+              <option value="1">Muy bajo</option>
+              <option value="2">Bajo</option>
+              <option value="3">Moderado</option>
+              <option value="4">Alto</option>
+              <option value="5">Muy Alto</option>
             </select>
           </div>
         </div>
       </div>
-
-      {/* Agregar más secciones de inputs similares con estados para cada campo */}
-
+  
       {/* Actividad Física y Toxicomanías / Medicamentos */}
       <div className="flex space-x-6 mb-6">
-        <div
-          className="shadow-md p-6 rounded-md flex-1"
-          style={{ backgroundColor: "#11404E" }}
-        >
+        <div className="shadow-md p-6 rounded-md flex-1" style={{ backgroundColor: "#11404E" }}>
           <h3 className="text-xl font-semibold mb-4 text-white">
             Actividad Física
           </h3>
@@ -219,285 +218,83 @@ function EstiloDeVida() {
               onChange={(e) =>
                 setActividadFisica({
                   ...actividadFisica,
-                  frecuencia: e.target.value,
+                  frecuencia: parseInt(e.target.value), // Cambiado a 'n_estres' y convertido a número
                 })
               }
             >
-              <option value="Nunca">Nunca</option>
-              <option value="Rara vez">Rara vez</option>
-              <option value="Ocasionalmente">Ocasionalmente</option>
-              <option value="Regularmente">Regularmente</option>
-              <option value="Frecuentemente">Frecuentemente</option>
+              <option value="1">Sedentario</option>
+              <option value="2">Ligero</option>
+              <option value="3">Moderado</option>
+              <option value="4">Intenso</option>
+              <option value="5">Muy Intenso</option>
             </select>
-          </div>
+          </div>         
         </div>
-
-        <div
-          className=" shadow-md p-6 rounded-md flex-1"
-          style={{ backgroundColor: "#11404E" }}
-        >
+  
+        <div className="shadow-md p-6 rounded-md flex-1" style={{ backgroundColor: "#11404E" }}>
           <h3 className="text-xl font-semibold mb-4 text-white">
             Toxicomanías / Medicamentos
           </h3>
           <div className="flex flex-col space-y-2">
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="alcohol"
-                className="mr-2"
-                checked={toxicomanias.alcohol}
-                onChange={(e) =>
-                  setToxicomanias({
-                    ...toxicomanias,
-                    alcohol: e.target.checked,
-                  })
-                }
-              />
-              <label htmlFor="alcohol" className="text-white">
-                Alcohol
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="tabaco"
-                className="mr-2"
-                checked={toxicomanias.tabaco}
-                onChange={(e) =>
-                  setToxicomanias({ ...toxicomanias, tabaco: e.target.checked })
-                }
-              />
-              <label htmlFor="tabaco" className="text-white">
-                Tabaco
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="cafe"
-                className="mr-2"
-                checked={toxicomanias.cafe}
-                onChange={(e) =>
-                  setToxicomanias({ ...toxicomanias, cafe: e.target.checked })
-                }
-              />
-              <label htmlFor="cafe" className="text-white">
-                Café
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="farmaco"
-                className="mr-2"
-                checked={toxicomanias.farmaco}
-                onChange={(e) =>
-                  setToxicomanias({
-                    ...toxicomanias,
-                    farmaco: e.target.checked,
-                  })
-                }
-              />
-              <label htmlFor="farmaco" className="text-white">
-                Farmacodependientes
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="medicamentos"
-                className="mr-2"
-                checked={toxicomanias.medicamentos}
-                onChange={(e) =>
-                  setToxicomanias({
-                    ...toxicomanias,
-                    medicamentos: e.target.checked,
-                  })
-                }
-              />
-              <label htmlFor="medicamentos" className="text-white">
-                Medicamentos
-              </label>
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="otro"
-                className="mr-2"
-                checked={toxicomanias.otro}
-                onChange={(e) =>
-                  setToxicomanias({ ...toxicomanias, otro: e.target.checked })
-                }
-              />
-              <label htmlFor="otro" className="text-white">
-                Otro
-              </label>
-            </div>
+            {["alcohol", "tabaco", "cafe", "farmacodep", "medicamentos", "otro"].map((field) => (
+              <div className="flex items-center" key={field}>
+                <input
+                  type="checkbox"
+                  id={field}
+                  className="mr-2"
+                  checked={toxicomanias[field] === "true"}
+                  onChange={(e) =>
+                    setToxicomanias({
+                      ...toxicomanias,
+                      [field]: e.target.checked ? "true" : "false", // Convertido a cadena
+                    })
+                  }
+                />
+                <label htmlFor={field} className="text-white capitalize">
+                  {field.charAt(0).toUpperCase() + field.slice(1)}
+                </label>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
+  
       {/* Hábitos Dietéticos */}
       <div className="bg-white shadow-md p-6 rounded-md">
         <h3 className="text-xl font-semibold mb-4">Hábitos Dietéticos</h3>
         <div className="grid grid-cols-2 gap-6">
-          <div>
-            <label className="block font-medium mb-1">
-              Alimentos no deseados
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.alimentosNoDeseados || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  alimentosNoDeseados: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              Alimentos Favoritos
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.alimentosFavoritos || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  alimentosFavoritos: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              Alergía a alguna comida
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.alergiaComida || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  alergiaComida: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              ¿Dónde y a qué hora desayuna?
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.desayunoLugarHora || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  desayunoLugarHora: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Cantidad de agua</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.cantidadAgua || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  cantidadAgua: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              ¿Dónde y a qué hora come?
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.comidaLugarHora || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  comidaLugarHora: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Cantidad de azúcar</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.cantidadAzucar || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  cantidadAzucar: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              ¿Dónde y a qué hora cena?
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.cenaLugarHora || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  cenaLugarHora: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">Cantidad de sal</label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.cantidadSal || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  cantidadSal: e.target.value,
-                })
-              }
-            />
-          </div>
-          <div>
-            <label className="block font-medium mb-1">
-              ¿A qué hora despierta?
-            </label>
-            <input
-              type="text"
-              className="w-full p-2 border rounded-md"
-              value={habitosDieteticos.horaDespierta || ""}
-              onChange={(e) =>
-                setHabitosDieteticos({
-                  ...habitosDieteticos,
-                  horaDespierta: e.target.value,
-                })
-              }
-            />
-          </div>
+          {[
+            { label: "Alimentos no deseados", field: "alimen_ndesead" },
+            { label: "Alimentos Favoritos", field: "alimen_fav" },
+            { label: "Alergía a alguna comida", field: "alergia" },
+            { label: "¿Dónde y a qué hora desayuna?", field: "hora_bkf" },
+            { label: "Cantidad de agua", field: "cant_agua" },
+            { label: "¿Dónde y a qué hora come?", field: "hora_comida" },
+            { label: "Cantidad de azúcar", field: "cant_azu" },
+            { label: "¿Dónde y a qué hora cena?", field: "hora_cena" },
+            { label: "Cantidad de sal", field: "cant_sal" },
+            { label: "¿A qué hora despierta?", field: "hora_desp" },
+            { label: "Alimentos no consumidos", field: "alimen_nconsum" },
+            { label: "Alimentos que generan intolerancia", field: "alimen_into" },
+          ].map(({ label, field }) => (
+            <div key={field}>
+              <label className="block font-medium mb-1">{label}</label>
+              <input
+                type="text"
+                className="w-full p-2 border rounded-md"
+                value={habitosDieteticos[field] || ""}
+                onChange={(e) =>
+                  setHabitosDieteticos({
+                    ...habitosDieteticos,
+                    [field]: e.target.value,
+                  })
+                }
+              />
+            </div>
+          ))}
         </div>
       </div>
-
+  
       {/* Botones de Navegación */}
       <div className="flex justify-between mt-8">
         <button
@@ -515,6 +312,6 @@ function EstiloDeVida() {
       </div>
     </div>
   );
-}
+}  
 
 export default EstiloDeVida;

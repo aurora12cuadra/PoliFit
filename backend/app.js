@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const { sequelize } = require('./models'); // Importa la conexión y modelos desde index.js
 const antecedentesRoutes = require('./routes/antecedentes');
 const consultaRoutes = require('./routes/consultas');
+const citasRoutes = require('./routes/citas');
 const cors = require('cors');
 
 app.use(bodyParser.json()); 
@@ -16,6 +17,7 @@ app.use('/nutriologos', nutriologosRoutes);
 app.use('/pacientes', pacientesRoutes);
 app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
+app.use('/citas', citasRoutes);
 app.use(cors());
 
 app.listen(3000, () => {
