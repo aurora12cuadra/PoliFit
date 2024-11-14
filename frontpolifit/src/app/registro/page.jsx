@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 function RegistroForm() {
   const [formData, setFormData] = useState({
@@ -15,9 +16,24 @@ function RegistroForm() {
     confirmPassword: "",
   });
 
+  const fieldLabels = {
+    nombre: "Nombre",
+    apellidos: "Apellidos",
+    fechaNacimiento: "Fecha de Nacimiento",
+    numeroEmpleado: "Número de Empleado",
+    especialidad: "Especialidad",
+    escuela: "Escuela",
+    email: "Email",
+    password: "Contraseña",
+    confirmPassword: "Repetir Contraseña",
+  };
+  
+
   const [errors, setErrors] = useState({});
   const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
 
   // Manejador de cambios en los inputs
@@ -56,7 +72,7 @@ function RegistroForm() {
       newErrors.confirmPassword = "Las contraseñas no coinciden.";
     }
 
-      // Validar los checkboxes
+    // Validar los checkboxes
     if (!isPrivacyChecked) {
       newErrors.privacy = "Debes aceptar el Aviso de Privacidad.";
     }
@@ -69,7 +85,6 @@ function RegistroForm() {
     return Object.keys(newErrors).length === 0;
   };
   
-
   // Manejador de envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -109,7 +124,7 @@ function RegistroForm() {
             <h2 className="text-2xl font-bold mb-4 text-center text-[#0b2f37]">Registro</h2>
             {["nombre", "apellidos", "fechaNacimiento", "numeroEmpleado", "especialidad"].map((field) => (
               <div key={field} className="mb-4">
-                <label className="font-bold text-gray-700 capitalize">{field.replace(/([A-Z])/g, " $1").trim()}:</label>
+                <label className="font-bold text-gray-700">{fieldLabels[field]}:</label>
                 <input
                   type={field === "fechaNacimiento" ? "date" : "text"}
                   name={field}
@@ -123,11 +138,11 @@ function RegistroForm() {
             ))}
           </div>
           <div className="w-1/2 p-8 bg-[#0b2f37] text-white rounded-r-lg">
-            {["escuela", "email", "password", "confirmPassword"].map((field) => (
+            {["escuela", "email"].map((field) => (
               <div key={field} className="mb-4">
-                <label className="font-bold">{field === "password" ? "Contraseña" : field === "confirmPassword" ? "Repetir Contraseña" : field}:</label>
+                <label className="font-bold">{fieldLabels[field]}:</label>
                 <input
-                  type={field === "password" || field === "confirmPassword" ? "password" : "text"}
+                  type="text"
                   name={field}
                   placeholder={`Ingresa tu ${field}`}
                   value={formData[field]}
@@ -137,17 +152,43 @@ function RegistroForm() {
                 {errors[field] && <span className="text-red-500 text-sm">{errors[field]}</span>}
               </div>
             ))}
+            {["password", "confirmPassword"].map((field, index) => (
+              <div key={field} className="mb-4 relative">
+                <label className="font-bold">{fieldLabels[field]}:</label>
+                <input
+                  type={field === "password" && showPassword || field === "confirmPassword" && showConfirmPassword ? "text" : "password"}
+                  name={field}
+                  placeholder={`Ingresa tu ${field}`}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="mt-1 block w-full px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => field === "password" ? setShowPassword(!showPassword) : setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-9 text-gray-500"
+                >
+                  {field === "password"
+                    ? (showPassword ? <EyeIcon className="w-5 h-5" /> : <EyeSlashIcon className="w-5 h-5" />)
+                    : (showConfirmPassword ? <EyeIcon className="w-5 h-5" /> : <EyeSlashIcon className="w-5 h-5" />)}
+                </button>
+                {errors[field] && <span className="text-red-500 text-sm">{errors[field]}</span>}
+              </div>
+            ))}
             <div className="flex items-center mb-4">
               <input type="checkbox" id="privacy" checked={isPrivacyChecked} onChange={() => setIsPrivacyChecked(!isPrivacyChecked)} className="mr-2" />
-              <label htmlFor="privacy">Acepto Aviso de Privacidad</label>
+              <label htmlFor="privacy">Acepto Aviso de Privacidad <a href="#" className="text-green-600 underline">Ver aquí</a></label>
             </div>
             {errors.privacy && <span className="text-red-500 text-sm">{errors.privacy}</span>}
             <div className="flex items-center mb-4">
               <input type="checkbox" id="terms" checked={isTermsChecked} onChange={() => setIsTermsChecked(!isTermsChecked)} className="mr-2" />
-              <label htmlFor="terms">Acepto Términos y Condiciones</label>
+              <label htmlFor="terms">Acepto Términos y Condiciones <a href="#" className="text-green-600 underline">Ver aquí</a></label>
             </div>
             {errors.terms && <span className="text-red-500 text-sm">{errors.terms}</span>}
             <button onClick={handleSubmit} className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button>
+            <div className="text-center mt-4">
+              <a href="/inicio" className="text-white-500 underline">¿Ya tienes cuenta? Inicia sesión</a>
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +197,10 @@ function RegistroForm() {
 }
 
 export default RegistroForm;
+
+
+
+
 
 
 

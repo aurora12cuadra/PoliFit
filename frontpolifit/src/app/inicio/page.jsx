@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -8,13 +9,12 @@ function LoginForm() {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-
-    // Limpiar el error correspondiente cuando el usuario empieza a escribir
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
@@ -22,16 +22,14 @@ function LoginForm() {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Validación del campo de correo electrónico
     if (!formData.email) {
-      newErrors.email = "El correo electrónico es obligatorio.";
+      newErrors.general = "Usuario o contraseña inválidos.";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Formato inválido. Ejemplo: usuario@dominio.com";
+      newErrors.general = "Usuario o contraseña inválidos.";
     }
 
-    // Validación del campo de contraseña
     if (!formData.password) {
-      newErrors.password = "La contraseña es obligatoria.";
+      newErrors.general = "Usuario o contraseña inválidos.";
     }
 
     setErrors(newErrors);
@@ -42,10 +40,7 @@ function LoginForm() {
     e.preventDefault();
     setErrors({});
 
-    // Validar el formulario antes de enviar
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       const response = await fetch("/api/nutriologos/login", {
@@ -61,11 +56,12 @@ function LoginForm() {
         localStorage.setItem("token", data.token);
         router.push("/nuevopaciente");
       } else {
-        setErrors({ password: "Contraseña incorrecta" });
+        // Mensaje de error genérico si el inicio de sesión falla
+        setErrors({ general: "Usuario o contraseña inválidos." });
       }
     } catch (error) {
       console.error("Error al conectar con el servidor:", error);
-      setErrors({ email: "Error al conectar con el servidor" });
+      setErrors({ general: "Error al conectar con el servidor." });
     }
   };
 
@@ -75,7 +71,6 @@ function LoginForm() {
         {/* Círculos decorativos respetados */}
         <div className="absolute -left-28 top-1/4 transform -translate-y-1/2 bg-[#00796b] rounded-full w-72 h-72 z-0 animate-pulse-moderate"></div>
         <div className="absolute -right-28 top-3/4 transform -translate-y-1/2 bg-[#004d40] rounded-full w-72 h-72 z-0 animate-pulse-moderate"></div>
-
         <div className="relative z-10 bg-white shadow-lg rounded-lg overflow-hidden flex flex-col p-8">
           <h2 className="text-2xl font-bold mb-4 text-center text-[#0b2f37]">Inicio de Sesión</h2>
           <form onSubmit={handleSubmit}>
@@ -88,29 +83,34 @@ function LoginForm() {
                 placeholder="usuario@dominio.com"
                 value={formData.email}
                 onChange={handleChange}
-                className={`mt-1 block w-full px-3 py-2 bg-white border ${
-                  errors.email ? "border-red-500" : "border-gray-300"
-                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500`}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500"
               />
-              {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
             </div>
 
-            {/* Campo de contraseña */}
-            <div className="mb-4">
+            {/* Campo de contraseña con botón de visibilidad */}
+            <div className="mb-4 relative">
               <label className="font-bold text-gray-700">Contraseña:</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="********"
                 value={formData.password}
                 onChange={handleChange}
-                className={`mt-1 block w-full px-3 py-2 bg-white border ${
-                  errors.password ? "border-red-500" : "border-gray-300"
-                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500`}
+                className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500"
               />
-              {errors.password && <span className="text-red-500 text-sm">{errors.password}</span>}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-9 text-gray-500"
+              >
+                {showPassword ? <EyeIcon className="w-5 h-5" /> : <EyeSlashIcon className="w-5 h-5" />}
+              </button>
             </div>
 
+            {/* Mensaje de error general debajo del campo de contraseña */}
+            {errors.general && <p className="text-red-500 text-sm mb-4">{errors.general}</p>}
+
+            {/* Botones de acción */}
             <div className="flex space-x-4 mb-4">
               <button
                 type="submit"
@@ -146,4 +146,7 @@ function LoginForm() {
 }
 
 export default LoginForm;
+
+
+
 
