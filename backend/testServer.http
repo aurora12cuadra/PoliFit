@@ -18,8 +18,8 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "ana.lopez@example.com",
-  "password": "supersecreta"
+  "email": "tamaracervantes568@gmail.com",
+  "password": "T@Cer432002"
 }
 
 ### Registrar un nuevo paciente
@@ -145,7 +145,102 @@ Content-Type: application/json
 ### Eliminar un paciente
 DELETE http://localhost:3000/pacientes/1
 
+###Registrar un paciente completo
+POST http://localhost:3000/paciente/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODIiLCJlbWFpbCI6InRhbWFyYWNlcnZhbnRlczU2OEBnbWFpbC5jb20iLCJpYXQiOjE3MzE1NTk5NjEsImV4cCI6MTczMTU5NTk2MX0.cSGoTuKwcArnWO895IU7nOAmEdtVeN6JrBdJYYln-_o
+Content-Type: application/json
 
+{
+  "noBoleta": "2019988777",
+  "pacienteData": {
+    "nombre": "Juan",
+    "apellidoPaterno": "Pérez",
+    "apellidoMaterno": "Gómez",
+    "fechaNacimiento": "1993-05-12",
+    "edad": 31,
+    "sexo": "Masculino",
+    "estadoCivil": "Soltero",
+    "ocupacion": "Estudiante",
+    "telefono": "5555555555",
+    "email": "juan.perez@example.com",
+    "escuela": "Universidad de Ejemplo",
+    "carrera": "Ingeniería",
+    "domicilio": "Calle Falsa 123",
+    "turno": "Matutino",
+    "tipoSangre": "O+",
+    "motivoVisita": "Consulta general",
+    "padecimientoActual": "Dolor de cabeza frecuente"
+  },
+  "heredofamData": {
+    "alerg": "Polen",
+    "cardiologicos": "Sí",
+    "diabetes": "No",
+    "cancer": "No",
+    "obesidad": "Sí",
+    "renales": "No",
+    "hipertension": "Sí",
+    "anemia": "No",
+    "desordenes_aux": "No",
+    "hepatobiliares": "No",
+    "dislipidimias": "No",
+    "otros": "Ninguno"
+  },
+  "perPatData": {
+    "alergias": "Penicilina",
+    "cadiologicos": "No",
+    "diabetes": "No",
+    "cancer": "No",
+    "cirugias": "Apendicectomía",
+    "obesidad": "No",
+    "renales": "No",
+    "hipertension": "No",
+    "anemia": "No",
+    "tiroides": "No",
+    "desordenes_aux": "No",
+    "hepatobiliares": "No",
+    "dislipidimias": "No",
+    "hepatitis": "No",
+    "otros": "Ninguno"
+  }
+}
+
+
+### Obtener un paciente completo por ID
+GET http://localhost:3000/paciente/2019988777
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODIiLCJlbWFpbCI6InRhbWFyYWNlcnZhbnRlczU2OEBnbWFpbC5jb20iLCJpYXQiOjE3MzE1NTk5NjEsImV4cCI6MTczMTU5NTk2MX0.cSGoTuKwcArnWO895IU7nOAmEdtVeN6JrBdJYYln-_o
+Content-Type: application/json
+
+### Obtener todos los pacientes con antecedentes
+GET http://localhost:3000/pacientes
+Authorization: Bearer <tu_token_aqui>
+Content-Type: application/json
+
+### Actualizar un paciente completo por ID
+PUT http://localhost:3000/paciente/2019988777
+Authorization: Bearer <tu_token_aqui>
+Content-Type: application/json
+
+{
+  "pacienteData": {
+    "telefono": "5551234567",
+    "email": "juan.perez@update.com",
+    "ocupacion": "Ingeniero"
+  },
+  "heredofamData": {
+    "diabetes": "Sí",
+    "hipertension": "No",
+    "otros": "Asma"
+  },
+  "perPatData": {
+    "alergias": "Lácteos",
+    "cirugias": "Apendicectomía",
+    "hepatitis": "No"
+  }
+}
+/* Eliminar un paciente completo por ID
+DELETE http://localhost:3000/paciente/2019988777
+Authorization: Bearer <tu_token_aqui>
+Content-Type: application/json*/
 
 
 
