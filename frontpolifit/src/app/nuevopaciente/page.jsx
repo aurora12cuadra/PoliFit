@@ -53,8 +53,8 @@ function DatosPersonales() {
         errores.email = "El formato del email no es válido";
       }
     }
-    if(!datosPersonales.escuela)
-      errores.escuela = "La escuela es obligatoria"
+    // if(!datosPersonales.escuela)
+    //   errores.escuela = "La escuela es obligatoria"
     if(!datosPersonales.carrera)
       errores.carrera = "La carrera es obligatoria"
     if(!datosPersonales.numeroBoletaEmpleado)
@@ -174,7 +174,7 @@ function DatosPersonales() {
             ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
-            ["*Escuela", "text", "escuela"],
+            ["Escuela", "text", "escuela"],
             ["*Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
             ["*No. de Boleta / Empleado", "text", "numeroBoletaEmpleado"],

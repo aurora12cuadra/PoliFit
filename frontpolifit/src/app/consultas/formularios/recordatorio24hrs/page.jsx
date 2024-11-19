@@ -32,7 +32,7 @@ function Recordatorio24Hrs() {
   const handleAnterior = () => {
     const currentData = getValues(); // Obtener los datos actuales del formulario
     updateConsultaData("recordatorio24Hrs", currentData);
-    console.log("Datos guardados al hacer clic en Anterior:", currentData);
+    //console.log("Datos guardados al hacer clic en Anterior:", currentData);
     router.push("/consultas/formularios/kilocalorias");
   };
 

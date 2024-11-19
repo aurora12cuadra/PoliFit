@@ -16,11 +16,13 @@ app.use('/nutriologos', nutriologosRoutes);
 app.use('/pacientes', pacientesRoutes);
 app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
+
 app.use(cors());
 
 app.listen(3000, () => {
     console.log('Servidor corriendo en http://localhost:3000');
 });
+
 
 sequelize.sync({ alter: true }).then(() => {
     console.log('Base de datos sincronizada');
