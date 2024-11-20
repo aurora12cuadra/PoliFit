@@ -5,13 +5,13 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 function PerfilNutriologo() {
   // Datos ficticios del nutriólogo
   const [nutriologo, setNutriologo] = useState({
-    nombre: "Ana",
-    apellidos: "Pérez García",
+    nombre: "Claudia",
+    apellidos: "Meza Uribe",
     fechaNacimiento: "1985-08-15",
-    numeroEmpleado: "12345",
-    especialidad: "Nutrición Clínica",
-    escuela: "Universidad Nacional Autónoma de México",
-    email: "ana.perez@nutricion.com",
+    numeroEmpleado: "20216301657",
+    especialidad: "Nutrición",
+    escuela: "ESCOM",
+    email: "claudia.mezauribe@yahoo.com.mx",
   });
 
   // Estado para controlar si estamos en modo edición

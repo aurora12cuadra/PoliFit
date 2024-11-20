@@ -8,9 +8,10 @@ exports.registrarPacienteCompleto = async (req, res) => {
     const { noBoleta, pacienteData, heredofamData, perPatData } = req.body;
 
     try {
+        console.log("Payload recibido en el backend:", req.body);
         // Recuperar el numeroEmpleado del nutriólogo actual (desde el token)
         const numeroEmpleado = req.nutriologoId;
-
+        console.log("Número de empleado:", numeroEmpleado);
         // Crear el paciente
         const paciente = await Paciente.create({
             ...pacienteData,
@@ -20,16 +21,19 @@ exports.registrarPacienteCompleto = async (req, res) => {
 
         // Registrar los antecedentes asociados solo si sus datos están presentes
         if (heredofamData) {
+            console.log("Datos heredofamiliares:", heredofamData);
             await AntecHeredofam.create({ ...heredofamData, noBoleta });
         }
 
         if (perPatData) {
+            console.log("Datos personales patológicos:", perPatData);
             await AntecPerPat.create({ ...perPatData, noBoleta });
         }
 
         res.status(201).json({ message: 'Paciente y antecedentes registrados exitosamente' });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error("Error al registrar el paciente:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
     }
 };
 

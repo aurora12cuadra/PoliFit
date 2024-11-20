@@ -1,27 +1,47 @@
-// src/context/PacienteRegistroContext.js
 "use client";
 import { createContext, useContext, useState } from "react";
 
-// Crear el contexto de registro de paciente
 const PacienteRegistroContext = createContext();
 
 export function PacienteRegistroProvider({ children }) {
-  // Estado para almacenar los datos del paciente
   const [pacienteData, setPacienteData] = useState({
     datosPersonales: {},
     antecedentes: {},
   });
 
-  // Función para actualizar una sección específica de los datos del paciente
   const updatePacienteData = (section, data) => {
     setPacienteData((prevData) => {
       const updatedData = {
         ...prevData,
-        [section]: { ...prevData[section], ...data }, // Mantenemos la estructura similar a la de `updateConsultaData` para consistencia
+        [section]: { ...prevData[section], ...data },
       };
-      console.log("Datos de paciente actualizados:", updatedData); // Imprime los datos actualizados
+      console.log("Datos de paciente actualizados:", updatedData);
       return updatedData;
     });
+  };
+
+  const validarDatosPaciente = () => {
+    const { datosPersonales } = pacienteData;
+
+    if (!datosPersonales || !datosPersonales.noBoleta) {
+      return { valido: false, mensaje: "El número de boleta es obligatorio." };
+    }
+
+    return { valido: true };
+  };
+
+  // Función para transformar SOLO antecedentes heredofamiliares
+  const transformarAntecedentesHeredofamiliares = (antecedentes) => {
+    if (!antecedentes || Object.keys(antecedentes).length === 0) {
+      return null;
+    }
+
+    return Object.entries(antecedentes).reduce((acc, [key, value]) => {
+      if (value && typeof value === "object" && value.parentesco) {
+        acc[key] = value.parentesco; // Usar solo el parentesco si está definido
+      }
+      return acc;
+    }, {});
   };
 
   // Función para limpiar los datos del paciente después de registrar
@@ -32,11 +52,47 @@ export function PacienteRegistroProvider({ children }) {
     });
   };
 
-  // Función para guardar el registro completo del paciente
-  const guardarRegistroPaciente = () => {
+  const guardarRegistroPaciente = async () => {
     console.log("Datos del paciente a registrar:", pacienteData);
-    // Aquí iría la lógica para enviar pacienteData al backend para guardarlo en la base de datos
-    clearPacienteData(); // Limpia los datos después de guardar si es necesario
+
+    const payload = {
+      noBoleta: pacienteData.datosPersonales.noBoleta,
+      pacienteData: pacienteData.datosPersonales,
+      heredofamData: transformarAntecedentesHeredofamiliares(pacienteData.antecedentes.selectedFamilyHistory),
+      perPatData: pacienteData.antecedentes.selectedPersonalHistory, // Se envía sin transformar
+    };
+
+    console.log("Payload enviado al backend:", payload);
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("No estás autenticado. Por favor, inicia sesión.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/pacientes/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Paciente registrado:", data);
+        alert("Registro de paciente exitoso");
+        clearPacienteData();
+      } else {
+        alert("Error al registrar: " + data.error);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al conectar con el servidor");
+    }
   };
 
   return (
@@ -44,8 +100,7 @@ export function PacienteRegistroProvider({ children }) {
       value={{
         pacienteData,
         updatePacienteData,
-        clearPacienteData,
-        guardarRegistroPaciente, // Añadir la función al contexto
+        guardarRegistroPaciente,
       }}
     >
       {children}
@@ -53,7 +108,6 @@ export function PacienteRegistroProvider({ children }) {
   );
 }
 
-// Hook para usar el contexto
 export function usePacienteRegistro() {
   return useContext(PacienteRegistroContext);
 }

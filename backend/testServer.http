@@ -18,7 +18,7 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "tamaracervantes568@gmail.com",
+  "email": "claudia.mezauribe@yahoo.com.mx",
   "password": "T@Cer432002"
 }
 
@@ -104,7 +104,7 @@ Authorization: Bearer {token}
 
 ### Registrar un nuevo paciente - María López
 POST http://localhost:3000/pacientes/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzI5OTE4NDY2LCJleHAiOjE3Mjk5MjIwNjZ9.UBmAJhkI2nxFgNtPl_e6Kd5IlUgoliKiWQU1lLU29KM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
 Content-Type: application/json
 
 {
@@ -147,11 +147,11 @@ DELETE http://localhost:3000/pacientes/1
 
 ###Registrar un paciente completo
 POST http://localhost:3000/paciente/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODIiLCJlbWFpbCI6InRhbWFyYWNlcnZhbnRlczU2OEBnbWFpbC5jb20iLCJpYXQiOjE3MzE1NTk5NjEsImV4cCI6MTczMTU5NTk2MX0.cSGoTuKwcArnWO895IU7nOAmEdtVeN6JrBdJYYln-_o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
 Content-Type: application/json
 
 {
-  "noBoleta": "2019988777",
+  "noBoleta": "2019988884448",
   "pacienteData": {
     "nombre": "Juan",
     "apellidoPaterno": "Pérez",
@@ -206,41 +206,42 @@ Content-Type: application/json
 
 
 ### Obtener un paciente completo por ID
-GET http://localhost:3000/paciente/2019988777
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODIiLCJlbWFpbCI6InRhbWFyYWNlcnZhbnRlczU2OEBnbWFpbC5jb20iLCJpYXQiOjE3MzE1NTk5NjEsImV4cCI6MTczMTU5NTk2MX0.cSGoTuKwcArnWO895IU7nOAmEdtVeN6JrBdJYYln-_o
+GET http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
 Content-Type: application/json
 
 ### Obtener todos los pacientes con antecedentes
-GET http://localhost:3000/pacientes
-Authorization: Bearer <tu_token_aqui>
+GET http://localhost:3000/paciente
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
 Content-Type: application/json
 
 ### Actualizar un paciente completo por ID
-PUT http://localhost:3000/paciente/2019988777
-Authorization: Bearer <tu_token_aqui>
+PUT http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
 Content-Type: application/json
 
 {
-  "pacienteData": {
-    "telefono": "5551234567",
-    "email": "juan.perez@update.com",
-    "ocupacion": "Ingeniero"
-  },
-  "heredofamData": {
-    "diabetes": "Sí",
-    "hipertension": "No",
-    "otros": "Asma"
-  },
-  "perPatData": {
-    "alergias": "Lácteos",
-    "cirugias": "Apendicectomía",
-    "hepatitis": "No"
-  }
+    "pacienteData": {
+        "telefono": "5551234567",
+        "email": "juan.perez@update.com",
+        "ocupacion": "Ingeniero"
+    },
+    "heredofamData": {
+        "diabetes": "Sí",
+        "hipertension": "No",
+        "otros": "Asma"
+    },
+    "perPatData": {
+        "alergias": "Lácteos",
+        "cirugias": "Apendicectomía",
+        "hepatitis": "No"
+    }
 }
-/* Eliminar un paciente completo por ID
-DELETE http://localhost:3000/paciente/2019988777
-Authorization: Bearer <tu_token_aqui>
-Content-Type: application/json*/
+
+###Eliminar un paciente completo por ID
+DELETE http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
 
 
 

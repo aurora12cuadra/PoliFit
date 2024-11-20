@@ -23,7 +23,7 @@ function DatosPersonales() {
     escuela: "",
     carrera: "",
     domicilio: "",
-    numeroBoletaEmpleado: "",
+    noBoleta: "", // Cambiado para coincidir con el modelo
     turno: "",
     tipoSangre: "",
     motivoVisita: "",
@@ -87,15 +87,6 @@ function DatosPersonales() {
     }
   }, [pacienteData.datosPersonales]);
 
-  // Manejador de cambios en los inputs
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDatosPersonales((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   const handleNext = () => {
     if (validarFormulario()) {
       updatePacienteData("datosPersonales", datosPersonales); // Guardar datos en el contexto
@@ -105,6 +96,15 @@ function DatosPersonales() {
         "Hay errores en el formulario. Por favor, corrígelos antes de continuar."
       );
     }
+  };
+
+  // Manejador de cambios en los inputs
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDatosPersonales((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   return (
@@ -131,7 +131,7 @@ function DatosPersonales() {
             ["Escuela", "text", "escuela"],
             ["Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
-            ["No. de Boleta / Empleado", "text", "numeroBoletaEmpleado"],
+            ["No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
           ].map(([label, type, name, options], index) => (

@@ -8,6 +8,7 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.nutriologoId = decoded.id;  // Extrae el numeroEmpleado del token y lo guarda en req
+        console.log("Número de empleado extraído del token:", req.nutriologoId);
         next();
     } catch (error) {
         res.status(401).json({ error: 'Token inválido o expirado.' });

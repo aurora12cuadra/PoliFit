@@ -54,6 +54,7 @@ function LoginForm() {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        console.log("Login exitoso", data);
         router.push("/nuevopaciente");
       } else {
         // Mensaje de error genérico si el inicio de sesión falla
