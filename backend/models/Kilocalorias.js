@@ -12,12 +12,13 @@ const Kilocalorias = sequelize.define('Kilocalorias', {
     tmb: { type: DataTypes.FLOAT }, // Calculado con la fórmula seleccionada
     af: { type: DataTypes.FLOAT }, // Factor de actividad física
     eta: { type: DataTypes.FLOAT }, // Energía Total Asignada (TMB * AF)
+    kcal: { type: DataTypes.FLOAT },
     hc: { type: DataTypes.FLOAT }, // Hidratos de Carbono
-    hcPercentage: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 30 }, // Porcentaje de Hidratos de Carbono
+    hcPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Hidratos de Carbono
     prot: { type: DataTypes.FLOAT }, // Proteínas
-    protPercentage: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 40 }, // Porcentaje de Proteínas
+    protPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Proteínas
     lp: { type: DataTypes.FLOAT }, // Lípidos
-    lpPercentage: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 30 }, // Porcentaje de Lípidos
+    lpPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Lípidos
     id_consulta: {
         type: DataTypes.INTEGER,
         allowNull: false,

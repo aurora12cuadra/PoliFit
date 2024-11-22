@@ -668,42 +668,57 @@ GET http://localhost:3000/pacientes/nombre?nombre=w
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwNTA2NiwiZXhwIjoxNzMxMTA4NjY2fQ.DbGRsCnp5kL23g_uKPke01BvufldPO9Rz1wGsbrZHu8
 Content-Type: application/json
 
-### Crear una nueva cita
-POST http://localhost:3000/citas
+### Registrar una nueva Cita
+POST http://localhost:3000/citas/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjA2NjM4NywiZXhwIjoxNzMyMTAyMzg3fQ.zWTnvVxxPl4dwGMfastFvdCDdqfu23kNfyUbsNnR7X4
 Content-Type: application/json
 
 {
-  "fecha_consulta": "2024-11-10",
-  "hora_consulta": "10:00:00",
-  "numeroEmpleado": "EMP123",
-  "noBoleta": "BOLETA456"
+  "fecha_consulta": "2024-11-15",
+  "hora_consulta": "10:30:00",
+  "noBoleta": "2019988777"
 }
 
-### Obtener todas las citas
+### Obtener todas las Citas del Nutriólogo autenticado
 GET http://localhost:3000/citas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjA2NjM4NywiZXhwIjoxNzMyMTAyMzg3fQ.zWTnvVxxPl4dwGMfastFvdCDdqfu23kNfyUbsNnR7X4
 
-### Obtener citas filtradas por fecha
-GET http://localhost:3000/citas?fecha_consulta=2024-11-10
-
-### Obtener citas filtradas por número de empleado
-GET http://localhost:3000/citas?numeroEmpleado=EMP123
-
-### Obtener citas filtradas por número de boleta
-GET http://localhost:3000/citas?noBoleta=BOLETA456
-
-### Obtener una cita por su ID
+### Obtener una Cita por ID
 GET http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
 
-### Actualizar una cita existente
-PUT http://localhost:3000/citas/1
+### Actualizar una Cita
+PATCH http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
 Content-Type: application/json
 
 {
-    "fecha_consulta": "2024-11-15",
-    "hora_consulta": "12:30:00",
-    "numeroEmpleado": "EMP123",
-    "noBoleta": "BOLETA789"
+  "hora_consulta": "11:00:00"
 }
 
-### Eliminar una cita existente
+### Eliminar una Cita
 DELETE http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDg4MywiZXhwIjoxNzMwOTk4NDgzfQ.y3gXkOz_uf1oDPS-BYC4mUisLq2NHtdgVEIORc8RHF8
+
+### Obtener Citas por Fecha
+GET http://localhost:3000/citas/fecha/2024-11-15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
+
+### Obtener Citas de un Paciente por su número de Boleta
+GET http://localhost:3000/citas/paciente/2019988777
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
+
+### Obtener Citas en un Rango de Fechas
+GET http://localhost:3000/citas/rango?fechaInicio=2024-11-10&fechaFin=2024-11-20
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDg4MywiZXhwIjoxNzMwOTk4NDgzfQ.y3gXkOz_uf1oDPS-BYC4mUisLq2NHtdgVEIORc8RHF8
+
+
+
+
+### Obtener todas las consultas de un Paciente
+GET http://localhost:3000/consulta/paciente/2019988777
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyNjkxNSwiZXhwIjoxNzMxNjYyOTE1fQ.wUwsEnhZKgv-OwelRcLH8iab8AhyVEJx6qGJtQs7dvA
+
+### Obtener todas las consultas de un Paciente
+GET http://localhost:3000/consulta/paciente/2019988777/consulta/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyNjkxNSwiZXhwIjoxNzMxNjYyOTE1fQ.wUwsEnhZKgv-OwelRcLH8iab8AhyVEJx6qGJtQs7dvA

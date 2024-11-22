@@ -14,6 +14,8 @@ export function PacienteProvider({ children }) {
     apellidoMaterno: "",
     email: "",
     telefono: "",
+    edad: "",
+    sexo: "",
     // Puedes añadir más datos aquí si es necesario
   });
 
@@ -42,7 +44,6 @@ export function PacienteProvider({ children }) {
     setConsultaData((prevData) => {
         const updatedData = { ...prevData, [field]: value };
         console.log("Datos de la consulta actualizados:", updatedData); // Revisa los datos aquí
-        console.log("Revisar dato:", updatedData.estiloDeVida.actividadFisica.frecuencia); // Revisa los datos aquí
         return updatedData;
     });
 };

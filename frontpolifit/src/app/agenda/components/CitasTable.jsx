@@ -6,6 +6,7 @@ function CitasTable({ citas, handleOpenModal, handleDelete }) {
     <Table aria-label="Tabla de citas" classNames={{ wrapper: "min-h-[400px]", th: "bg-gray-50 text-gray-600 py-3", td: "py-4" }}>
       <TableHeader>
         <TableColumn>NOMBRE</TableColumn>
+        <TableColumn>NUMERO DE BOLETA</TableColumn>
         <TableColumn>EMAIL</TableColumn>
         <TableColumn>TELÉFONO</TableColumn>
         <TableColumn>FECHA</TableColumn>
@@ -14,14 +15,15 @@ function CitasTable({ citas, handleOpenModal, handleDelete }) {
       </TableHeader>
       <TableBody>
         {citas.map((cita) => (
-          <TableRow key={cita.id}>
+          <TableRow key={cita.idCita}>
             <TableCell>{cita.nombre}</TableCell>
+            <TableCell>{cita.noBoleta}</TableCell>
             <TableCell>
               <a href={`mailto:${cita.email}`} className="text-blue-600 hover:underline">{cita.email}</a>
             </TableCell>
             <TableCell>{cita.telefono}</TableCell>
-            <TableCell>{new Date(cita.fecha).toLocaleDateString()}</TableCell>
-            <TableCell>{cita.hora}</TableCell>
+            <TableCell>{new Date(cita.fecha_consulta).toLocaleDateString()}</TableCell>
+            <TableCell>{cita.hora_consulta}</TableCell>
             <TableCell>
               <div className="flex justify-center gap-2">
                 <Button
