@@ -29,13 +29,3 @@ function PerfilNutri() {
 }
 
 export default PerfilNutri;
-
-
-
-
-
-
-
-
-
-
