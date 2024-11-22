@@ -5,11 +5,12 @@ import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
 function Kilocalorias() {
-
-  const { consultaData, updateConsultaData } = usePaciente(); // Contexto para guardar datos de consulta
+  const { consultaData, updateConsultaData, sexo, edad } = usePaciente();
   const router = useRouter();
 
-  // Estado local para cada campo de kilocalorías
+  console.log("Revisar dato en kilo: ", consultaData.estiloDeVida.actividadFisica.frecuencia);
+
+  
   const [kilocalorias, setKilocalorias] = useState({
     peso: "",
     altura: "",
@@ -17,60 +18,81 @@ function Kilocalorias() {
     objetivo: "Mantener peso",
     formula: "Harris-Benedict",
     tmb: "",
-    af: "",
+    af: consultaData.estiloDeVida.actividadFisica.frecuencia, // Actividad Física por defecto
     eta: "",
     kcal: "",
-    distribucion: {
-      hc: "",
-      prot: "",
-      lp: "",
-    },
+    hc: 0,
+    prot: 0,
+    lp: 0,
+    hcPercentage: 30,
+    protPercentage: 40,
+    lpPercentage: 30,
   });
 
-  // Cargar datos del contexto si existen
+  // useEffect(() => {
+  //   if (consultaData.kilocalorias) {
+  //     setKilocalorias(consultaData.kilocalorias);
+  //   }
+  // }, [consultaData.kilocalorias]);
+
   useEffect(() => {
-    if (consultaData.kilocalorias) {
-      setKilocalorias(consultaData.kilocalorias);
-    }
-  }, [consultaData.kilocalorias]);
-  //Cargar el imc cuando peso y altura se llenen
-  useEffect(() => {
-    const { peso, altura } = kilocalorias;
+    const { peso, altura, formula, objetivo, af } = kilocalorias;
     if (peso && altura) {
-      const imc = (peso / ((altura / 100) * (altura / 100))).toFixed(2); // Altura en cm a metros
-      setKilocalorias((prev) => ({ ...prev, imc }));
+      const imc = (peso / ((altura / 100) * (altura / 100))).toFixed(2);
+      let tmb = 0;
+
+      if (formula === "Harris-Benedict") {
+        tmb = 88.362 + 13.397 * peso + 4.799 * altura - 5.677 * 25;
+      } else if (formula === "Mifflin-St") {
+        tmb = 10 * peso + 6.25 * altura - 5 * 25 + 5;
+      } else if (formula === "Valencia") {
+        tmb = 370 + 21.6 * (peso * (1 - 0.15));
+      }
+
+      if (objetivo === "Aumentar peso") {
+        tmb += 500;
+      } else if (objetivo === "Disminuir peso") {
+        tmb -= 500;
+      }
+
+      const eta = (tmb * af).toFixed(2);
+
+      setKilocalorias((prev) => ({ ...prev, imc, tmb: tmb.toFixed(2), eta }));
     }
-  }, [kilocalorias.peso, kilocalorias.altura]);
-  // Manejar cambios en los inputs
+  }, [kilocalorias.peso, kilocalorias.altura, kilocalorias.formula, kilocalorias.objetivo, kilocalorias.af]);
+
+  useEffect(() => {
+    const { eta, hcPercentage, protPercentage, lpPercentage } = kilocalorias;
+    if (eta) {
+      const hc = ((eta * hcPercentage) / 100).toFixed(2);
+      const prot = ((eta * protPercentage) / 100).toFixed(2);
+      const lp = ((eta * lpPercentage) / 100).toFixed(2);
+
+      setKilocalorias((prev) => ({
+        ...prev,
+        hc,
+        prot,
+        lp,
+      }));
+    }
+  }, [kilocalorias.eta, kilocalorias.hcPercentage, kilocalorias.protPercentage, kilocalorias.lpPercentage]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (["hc", "prot", "lp"].includes(name)) {
-      setKilocalorias((prev) => ({
-        ...prev,
-        distribucion: {
-          ...prev.distribucion,
-          [name]: value,
-        },
-      }));
-    } else {
-      setKilocalorias((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+    setKilocalorias((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  // Guardar y avanzar
   const handleSaveAndNext = () => {
-    updateConsultaData("kilocalorias", kilocalorias); // Guardar datos en el contexto
-    
+    updateConsultaData("kilocalorias", kilocalorias);
   };
 
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Kilocalorías</h2>
 
-      {/* Kilocalorías Form */}
       <div className="bg-white shadow-md p-6 rounded-md">
         <div className="grid grid-cols-2 gap-6">
           {/* Inputs de Peso y Altura */}
@@ -116,8 +138,8 @@ function Kilocalorias() {
               onChange={handleChange}
               className="w-full p-2 border rounded-md">
               <option value="Mantener peso">Mantener peso</option>
-              <option value="Bajar de peso">Bajar de peso</option>
-              <option value="Subir de peso">Subir de peso</option>
+              <option value="Aumentar peso">Aumentar peso</option>
+              <option value="Disminuir peso">Disminuir peso</option>
             </select>
           </div>
 
@@ -129,8 +151,8 @@ function Kilocalorias() {
               onChange={handleChange}
               className="w-full p-2 border rounded-md">
               <option value="Harris-Benedict">Harris-Benedict</option>
-              <option value="Mifflin-St Jeor">Mifflin-St Jeor</option>
-              <option value="Katch-McArdle">Katch-McArdle</option>
+              <option value="Mifflin-St">Mifflin-St</option>
+              <option value="Valencia">Valencia</option>
             </select>
           </div>
 
@@ -149,12 +171,12 @@ function Kilocalorias() {
           <div>
             <label className="block font-medium mb-1">AF (Actividad Física)</label>
             <input
-              type="text"
+              type="number"
               name="af"
-              value={kilocalorias.af || ""}
+              value={kilocalorias.af || 0}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
-              placeholder="0000.00"
+              placeholder="0.00"
             />
           </div>
 
@@ -170,59 +192,61 @@ function Kilocalorias() {
             />
           </div>
 
+          {/* Porcentajes y resultados individuales */}
           <div>
-            <label className="block font-medium mb-1">Kcal</label>
+            <label className="block font-medium mb-1">Porcentaje HC</label>
             <input
-              type="text"
-              name="kcal"
-              value={kilocalorias.kcal || ""}
+              type="number"
+              name="hcPercentage"
+              value={kilocalorias.hcPercentage || ""}
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
-              placeholder="0000.00 kcal"
+              placeholder="HC %"
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Porcentaje Proteínas</label>
+            <input
+              type="number"
+              name="protPercentage"
+              value={kilocalorias.protPercentage || ""}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              placeholder="Proteínas %"
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Porcentaje Lípidos</label>
+            <input
+              type="number"
+              name="lpPercentage"
+              value={kilocalorias.lpPercentage || ""}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              placeholder="Lípidos %"
             />
           </div>
 
+          {/* Resultados en gramos */}
           <div>
-            <label className="block font-medium mb-1">Distribución de kcal</label>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <label className="block font-medium mb-1">HC:</label>
-                <input
-                  type="text"
-                  name="hc"
-                  value={kilocalorias.distribucion?.hc || ""}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                  placeholder="00.00 %"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-1">PROT:</label>
-                <input
-                  type="text"
-                  name="prot"
-                  value={kilocalorias.distribucion?.prot || ""}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                  placeholder="00.00 %"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-1">LP:</label>
-                <input
-                  type="text"
-                  name="lp"
-                  value={kilocalorias.distribucion?.lp || ""}
-                  onChange={handleChange}
-                  className="w-full p-2 border rounded-md"
-                  placeholder="00.00 %"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+            <label className="block font-medium mb-1">HC (g)</label>
+            <input
+              type="text"
+              name="hc"
+              value={kilocalorias.hc || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="HC (g)" /> 
+          </div> 
+          <div> 
+            <label className="block font-medium mb-1">Proteínas (g)</label> 
+            <input type="text" name="prot" value={kilocalorias.prot || ""} readOnly className="w-full p-2 border rounded-md" placeholder="Proteínas (g)" /> 
+          </div> 
+          <div> 
+            <label className="block font-medium mb-1">Lípidos (g)</label> 
+            <input type="text" name="lp" value={kilocalorias.lp || ""} readOnly className="w-full p-2 border rounded-md" placeholder="Lípidos (g)" /> 
+          </div> 
+        </div> 
       </div>
-      {/* Botones de Navegación */}
       <div className="flex justify-between mt-8">
         <button
           className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
@@ -244,7 +268,7 @@ function Kilocalorias() {
         </button>
       </div>
     </div>
-  );
+  ); 
 }
 
 export default Kilocalorias;

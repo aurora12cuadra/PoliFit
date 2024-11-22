@@ -13,6 +13,7 @@ const GinecoObstre = sequelize.define('GinecoObstre', {
     sdgi: { type: DataTypes.STRING(50) },
     ppg: { type: DataTypes.STRING(50) },
     anticon: { type: DataTypes.STRING(50) },
+    notas: { type: DataTypes.STRING(200) },
     id_consulta: {
         type: DataTypes.INTEGER,
         references: { model: Consulta, key: 'id_consulta' }
