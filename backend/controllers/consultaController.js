@@ -89,3 +89,116 @@ exports.registrarConsultaCompleta = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Obtener una consulta específica por id_consulta y noBoleta del paciente
+exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
+    const { id_consulta, noBoleta } = req.params;
+
+    try {
+        const consulta = await Consulta.findOne({
+            where: { id_consulta, noBoleta, numeroEmpleado: req.nutriologoId },
+            include: [
+                { model: ActLaboral },
+                { model: ActFisica },
+                { model: Toxicomanias },
+                { model: HabitosDiet },
+                { model: TransGastro },
+                { model: GinecoObstre },
+                { model: Pliegues },
+                { model: Perimetros },
+                { model: Diametros },
+                { model: Bioimpedancia },
+                { model: Bioquimicos },
+                { model: Kilocalorias },
+                { model: Recordatorio }
+            ]
+        });
+
+        if (!consulta) {
+            return res.status(404).json({ error: "Consulta no encontrada o no pertenece al nutriólogo." });
+        }
+
+        res.status(200).json(consulta);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+// Obtener todas las consultas de un paciente específico por noBoleta
+exports.obtenerConsultasPorNoBoleta = async (req, res) => {
+    const noBoleta = req.params.noBoleta;
+
+    try {
+        const consultas = await Consulta.findAll({
+            where: { noBoleta, numeroEmpleado: req.nutriologoId },
+            include: [
+                { model: ActLaboral },
+                { model: ActFisica },
+                { model: Toxicomanias },
+                { model: HabitosDiet },
+                { model: TransGastro },
+                { model: GinecoObstre },
+                { model: Pliegues },
+                { model: Perimetros },
+                { model: Diametros },
+                { model: Bioimpedancia },
+                { model: Bioquimicos },
+                { model: Kilocalorias },
+                { model: Recordatorio }
+            ]
+        });
+
+        if (!consultas || consultas.length === 0) {
+            return res.status(404).json({ error: "No se encontraron consultas para este paciente o no pertenece al nutriólogo." });
+        }
+
+        res.status(200).json(consultas);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+// Obtener una consulta específica por id_consulta y noBoleta del paciente
+exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
+    const { id_consulta, noBoleta } = req.params;
+
+    try {
+        const consulta = await Consulta.findOne({
+            where: { id_consulta, noBoleta, numeroEmpleado: req.nutriologoId },
+            include: [
+                { model: ActLaboral },
+                { model: ActFisica },
+                { model: Toxicomanias },
+                { model: HabitosDiet },
+                { model: TransGastro },
+                { model: GinecoObstre },
+                { model: Pliegues },
+                { model: Perimetros },
+                { model: Diametros },
+                { model: Bioimpedancia },
+                { model: Bioquimicos },
+                { model: Kilocalorias },
+                { model: Recordatorio }
+            ]
+        });
+
+        if (!consulta) {
+            return res.status(404).json({ error: "Consulta no encontrada o no pertenece al nutriólogo." });
+        }
+        const paciente = await Paciente.findOne({ 
+            where: { 
+                noBoleta: req.params.id, 
+                numeroEmpleado: req.nutriologoId 
+            } 
+        });
+        if (!paciente) {
+            return res.status(404).json({ error: "Paciente no encontrado o no pertenece al nutriólogo." });
+        }
+        res.status(201).json({consulta, paciente});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

@@ -45,6 +45,8 @@ function Consultas() {
       apellidoMaterno: selectedPaciente.apellidoMaterno,
       email: selectedPaciente.email,
       telefono: selectedPaciente.telefono,
+      edad: selectedPaciente.edad,
+      sexo: selectedPaciente.sexo,
       // Añade más datos si los necesitas
     });
 
