@@ -57,8 +57,8 @@ function DatosPersonales() {
     //   errores.escuela = "La escuela es obligatoria"
     if(!datosPersonales.carrera)
       errores.carrera = "La carrera es obligatoria"
-    if(!datosPersonales.numeroBoletaEmpleado)
-      errores.numeroBoletaEmpleado = "El numero de Boleta / Empleado es obligatorio"
+    if(!datosPersonales.noBoleta)
+      errores.noBoleta = "El numero de Boleta / Empleado es obligatorio"
 
     // Validar nombre (no debe contener números)
     // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;

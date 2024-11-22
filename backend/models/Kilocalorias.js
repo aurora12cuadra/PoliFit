@@ -4,21 +4,21 @@ const sequelize = require('../config/database');
 
 const Kilocalorias = sequelize.define('Kilocalorias', {
     id_kilo: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    peso: { type: DataTypes.FLOAT, allowNull: false },
-    altura: { type: DataTypes.FLOAT, allowNull: false },
+    peso: { type: DataTypes.FLOAT, allowNull: true },
+    altura: { type: DataTypes.FLOAT, allowNull: true },
     imc: { type: DataTypes.FLOAT }, // Calculado automáticamente
     objetivo: { type: DataTypes.STRING(20) }, // "aumentar peso", "mantener peso", o "disminuir peso"
-    formula: { type: DataTypes.STRING(50), allowNull: false }, // Nombre de la fórmula elegida
+    formula: { type: DataTypes.STRING(50), allowNull: true }, // Nombre de la fórmula elegida
     tmb: { type: DataTypes.FLOAT }, // Calculado con la fórmula seleccionada
     af: { type: DataTypes.FLOAT }, // Factor de actividad física
     eta: { type: DataTypes.FLOAT }, // Energía Total Asignada (TMB * AF)
     kcal: { type: DataTypes.FLOAT },
     hc: { type: DataTypes.FLOAT }, // Hidratos de Carbono
-    hcPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Hidratos de Carbono
+    hcPercentage: { type: DataTypes.INTEGER, allowNull: true }, // Porcentaje de Hidratos de Carbono
     prot: { type: DataTypes.FLOAT }, // Proteínas
-    protPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Proteínas
+    protPercentage: { type: DataTypes.INTEGER, allowNull: true }, // Porcentaje de Proteínas
     lp: { type: DataTypes.FLOAT }, // Lípidos
-    lpPercentage: { type: DataTypes.INTEGER, allowNull: false }, // Porcentaje de Lípidos
+    lpPercentage: { type: DataTypes.INTEGER, allowNull: true }, // Porcentaje de Lípidos
     id_consulta: {
         type: DataTypes.INTEGER,
         allowNull: false,
