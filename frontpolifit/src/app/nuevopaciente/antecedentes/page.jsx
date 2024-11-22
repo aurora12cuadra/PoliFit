@@ -53,10 +53,21 @@ function Antecedentes() {
   };
 
   const handleRegistrarPaciente = async () => {
-    await guardarRegistroPaciente(); // Llama a la función para guardar la consulta en el backend
-    alert("Registro de Paciente finalizada con éxito.");
-    router.push("/consultas");
+    const exito = await guardarRegistroPaciente();
+  
+    if (exito) {
+      //alert("Registro exitoso.");
+      router.push("/consultas");
+    } else {
+      console.warn("El registro del paciente falló. No se redirigirá.");
+    }
   };
+
+  // const handleRegistrarPaciente = async () => {
+  //   await guardarRegistroPaciente(); // Llama a la función para guardar la consulta en el backend
+  //   alert("Registro de Paciente finalizada con éxito.");
+  //   router.push("/consultas");
+  // };
   
 
   const familyHistoryFields = [

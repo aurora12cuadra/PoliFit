@@ -1,6 +1,7 @@
 // routes/nutriologos.js
 const express = require('express');
 const router = express.Router();
+const verifyToken = require('../middlewares/auth');
 const nutriologoController = require('../controllers/nutriologoController');
 
 // Registrar nutriólogo
@@ -8,6 +9,9 @@ router.post('/register', nutriologoController.registrarNutriologo);
 
 // Iniciar sesión
 router.post('/login', nutriologoController.loginNutriologo);
+
+// Obtener el perfil del nutriólogo autenticado
+router.get('/perfil', verifyToken, nutriologoController.obtenerPerfilNutriologo);
 
 // Obtener todos los nutriólogos (GET)
 router.get('/', nutriologoController.obtenerNutriologos);
@@ -20,6 +24,8 @@ router.patch('/:id', nutriologoController.actualizarNutriologo);
 
 // Eliminar un nutriólogo por ID (DELETE)
 router.delete('/:id', nutriologoController.eliminarNutriologo);
+
+
 
 module.exports = router;
 

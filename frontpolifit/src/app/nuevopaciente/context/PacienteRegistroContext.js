@@ -51,26 +51,25 @@ export function PacienteRegistroProvider({ children }) {
       antecedentes: {},
     });
   };
-
   const guardarRegistroPaciente = async () => {
     console.log("Datos del paciente a registrar:", pacienteData);
-
+  
     const payload = {
       noBoleta: pacienteData.datosPersonales.noBoleta,
       pacienteData: pacienteData.datosPersonales,
       heredofamData: transformarAntecedentesHeredofamiliares(pacienteData.antecedentes.selectedFamilyHistory),
-      perPatData: pacienteData.antecedentes.selectedPersonalHistory, // Se envía sin transformar
+      perPatData: pacienteData.antecedentes.selectedPersonalHistory,
     };
-
+  
     console.log("Payload enviado al backend:", payload);
-
+  
     const token = localStorage.getItem("token");
-
+  
     if (!token) {
       alert("No estás autenticado. Por favor, inicia sesión.");
       return;
     }
-
+  
     try {
       const response = await fetch("/api/pacientes/register", {
         method: "POST",
@@ -80,20 +79,70 @@ export function PacienteRegistroProvider({ children }) {
         },
         body: JSON.stringify(payload),
       });
-
+  
       const data = await response.json();
+  
+      console.log("Estado de la respuesta:", response.status);
+      console.log("Cuerpo de la respuesta:", data);
+  
       if (response.ok) {
         console.log("Paciente registrado:", data);
         alert("Registro de paciente exitoso");
         clearPacienteData();
+        return true; // Indica que el registro fue exitoso
       } else {
-        alert("Error al registrar: " + data.error);
+        alert("Error al registrar el paciente: " + (data.error || "Error desconocido"));
+        return false; // Indica un error en el registro
       }
     } catch (error) {
       console.error("Error:", error);
       alert("Error al conectar con el servidor");
+      return false; // Indica que hubo un problema de conexión
     }
   };
+  
+  // const guardarRegistroPaciente = async () => {
+  //   console.log("Datos del paciente a registrar:", pacienteData);
+
+  //   const payload = {
+  //     noBoleta: pacienteData.datosPersonales.noBoleta,
+  //     pacienteData: pacienteData.datosPersonales,
+  //     heredofamData: transformarAntecedentesHeredofamiliares(pacienteData.antecedentes.selectedFamilyHistory),
+  //     perPatData: pacienteData.antecedentes.selectedPersonalHistory, // Se envía sin transformar
+  //   };
+
+  //   console.log("Payload enviado al backend:", payload);
+
+  //   const token = localStorage.getItem("token");
+
+  //   if (!token) {
+  //     alert("No estás autenticado. Por favor, inicia sesión.");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch("/api/pacientes/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       console.log("Paciente registrado:", data);
+  //       alert("Registro de paciente exitoso");
+  //       clearPacienteData();
+  //     } else {
+  //       alert("Error al registrar: " + data.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     alert("Error al conectar con el servidor");
+  //   }
+  // };
 
   return (
     <PacienteRegistroContext.Provider

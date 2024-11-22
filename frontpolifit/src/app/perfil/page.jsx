@@ -1,47 +1,66 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 function PerfilNutriologo() {
-  // Datos ficticios del nutriólogo
-  const [nutriologo, setNutriologo] = useState({
-    nombre: "Claudia",
-    apellidos: "Meza Uribe",
-    fechaNacimiento: "1985-08-15",
-    numeroEmpleado: "20216301657",
-    especialidad: "Nutrición",
-    escuela: "ESCOM",
-    email: "claudia.mezauribe@yahoo.com.mx",
-  });
+    const [nutriologo, setNutriologo] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState(null);
+  
+    // Obtén los datos del perfil al cargar el componente
+    useEffect(() => {
+      const fetchPerfil = async () => {
 
-  // Estado para controlar si estamos en modo edición
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState(nutriologo);
-
-  // Manejador para habilitar el modo de edición
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  // Manejador para guardar los cambios
-  const handleSaveClick = () => {
-    setIsEditing(false);
-    console.log("Datos actualizados:", formData);
-
-    // Aquí podrías agregar la lógica para actualizar los datos en el backend
-    // Ejemplo:
-    // fetch("/api/update-profile", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(formData),
-    // }).then((res) => res.json()).then(data => console.log(data));
-  };
-
-  // Manejador de cambios en los inputs
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
+        const token = localStorage.getItem("token");
+  
+        if (!token) {
+          alert("No estás autenticado. Por favor, inicia sesión.");
+          return;
+        }
+      
+        try {
+          const response = await fetch('/api/nutriologos/perfil', {
+            headers: {
+              Authorization: `Bearer ${token}`, // Incluye el token
+            },
+          });
+  
+          if (response.ok) {
+            const data = await response.json();
+            setNutriologo(data);
+            setFormData(data);
+          } else {
+            const errorData = await response.json();
+            console.error("Error al obtener el perfil:", errorData.error);
+          }
+        } catch (error) {
+          console.error("Error al conectar con el servidor:", error);
+        }
+      };
+  
+      fetchPerfil();
+    }, []);
+  
+    // Manejador para habilitar el modo de edición
+    const handleEditClick = () => {
+      setIsEditing(true);
+    };
+  
+    // Manejador para guardar los cambios
+    const handleSaveClick = () => {
+      setIsEditing(false);
+      console.log("Datos actualizados:", formData);
+      // Implementar lógica para guardar cambios en el backend si es necesario
+    };
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+  
+    if (!nutriologo) {
+      return <p>Cargando perfil...</p>;
+    }
 
   return (
     <div className="min-h-screen flex justify-center items-center p-6">

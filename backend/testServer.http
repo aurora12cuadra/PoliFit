@@ -6,10 +6,10 @@ Content-Type: application/json
   "nombre": "Ana",
   "apellidos": "López",
   "fechaNacimiento": "1990-05-10",
-  "numeroEmpleado": "123456789",
+  "numeroEmpleado": "2021630",
   "especialidad": "Nutrición Clínica",
   "escuela": "ESIME IPN",
-  "email": "ana.lopez@example.com",
+  "email": "tam.45@example.com",
   "password": "supersecreta"
 }
 
@@ -18,9 +18,14 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "claudia.mezauribe@yahoo.com.mx",
-  "password": "T@Cer432002"
+  "email": "tam.45@example.com",
+  "password": "supersecreta"
 }
+
+### Obtener perfil
+GET http://localhost:3000/nutriologos/perfil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MTI1MywiZXhwIjoxNzMyMjg3MjUzfQ.k6BoToqz5_fAlepNY7dipBgc3WNrEU0FY_LRJYHThkM
+Content-Type: application/json
 
 ### Registrar un nuevo paciente
 POST http://localhost:3000/pacientes/register
@@ -500,7 +505,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4O
 
 ### Registrar una consulta
 POST http://localhost:3000/consulta/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwODkwNSwiZXhwIjoxNzMxMTQ0OTA1fQ.MPD87HFmuhfCDmEvnd8vg8pAEBCgOFvryxhl5uwnUSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MDIxNywiZXhwIjoxNzMyMjg2MjE3fQ.-_Tu8LinfYTWmusE01jo6gVtqORjLncUsyDvgTBJTrQ
 Content-Type: application/json
 
 {
