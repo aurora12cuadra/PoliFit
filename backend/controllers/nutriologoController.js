@@ -94,6 +94,23 @@ exports.eliminarNutriologo = async (req, res) => {
     }
 };
 
+//Obtener perfil nutriologo
+exports.obtenerPerfilNutriologo = async (req, res) => {
+    try {
+        const numeroEmpleado = req.nutriologoId; // Este viene del middleware `verifyToken`
+        const nutriologo = await Nutriologo.findByPk(numeroEmpleado);
+
+        if (!nutriologo) {
+            return res.status(404).json({ error: 'Nutriólogo no encontrado.' });
+        }
+
+        res.status(200).json(nutriologo); // Enviar datos del nutriólogo
+    } catch (error) {
+        console.error('Error al obtener el perfil del nutriólogo:', error);
+        res.status(500).json({ error: 'Error interno del servidor.' });
+    }
+};
+
 /* const Nutriologo = require('../models/Nutriologo');
 
 // Registrar un nuevo nutriólogo

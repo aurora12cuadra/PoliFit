@@ -6,10 +6,10 @@ Content-Type: application/json
   "nombre": "Ana",
   "apellidos": "López",
   "fechaNacimiento": "1990-05-10",
-  "numeroEmpleado": "123456789",
+  "numeroEmpleado": "2021630",
   "especialidad": "Nutrición Clínica",
   "escuela": "ESIME IPN",
-  "email": "ana.lopez@example.com",
+  "email": "tam.45@example.com",
   "password": "supersecreta"
 }
 
@@ -18,9 +18,14 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "ana.lopez@example.com",
+  "email": "tam.45@example.com",
   "password": "supersecreta"
 }
+
+### Obtener perfil
+GET http://localhost:3000/nutriologos/perfil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MTI1MywiZXhwIjoxNzMyMjg3MjUzfQ.k6BoToqz5_fAlepNY7dipBgc3WNrEU0FY_LRJYHThkM
+Content-Type: application/json
 
 ### Registrar un nuevo paciente
 POST http://localhost:3000/pacientes/register
@@ -109,7 +114,7 @@ Authorization: Bearer {token}
 
 ### Registrar un nuevo paciente - María López
 POST http://localhost:3000/pacientes/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzI5OTE4NDY2LCJleHAiOjE3Mjk5MjIwNjZ9.UBmAJhkI2nxFgNtPl_e6Kd5IlUgoliKiWQU1lLU29KM
 Content-Type: application/json
 
 {
@@ -151,7 +156,103 @@ Content-Type: application/json
 ### Eliminar un paciente
 DELETE http://localhost:3000/pacientes/1
 
+###Registrar un paciente completo
+POST http://localhost:3000/paciente/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
 
+{
+  "noBoleta": "2019988884448",
+  "pacienteData": {
+    "nombre": "Juan",
+    "apellidoPaterno": "Pérez",
+    "apellidoMaterno": "Gómez",
+    "fechaNacimiento": "1993-05-12",
+    "edad": 31,
+    "sexo": "Masculino",
+    "estadoCivil": "Soltero",
+    "ocupacion": "Estudiante",
+    "telefono": "5555555555",
+    "email": "juan.perez@example.com",
+    "escuela": "Universidad de Ejemplo",
+    "carrera": "Ingeniería",
+    "domicilio": "Calle Falsa 123",
+    "turno": "Matutino",
+    "tipoSangre": "O+",
+    "motivoVisita": "Consulta general",
+    "padecimientoActual": "Dolor de cabeza frecuente"
+  },
+  "heredofamData": {
+    "alerg": "Polen",
+    "cardiologicos": "Sí",
+    "diabetes": "No",
+    "cancer": "No",
+    "obesidad": "Sí",
+    "renales": "No",
+    "hipertension": "Sí",
+    "anemia": "No",
+    "desordenes_aux": "No",
+    "hepatobiliares": "No",
+    "dislipidimias": "No",
+    "otros": "Ninguno"
+  },
+  "perPatData": {
+    "alergias": "Penicilina",
+    "cadiologicos": "No",
+    "diabetes": "No",
+    "cancer": "No",
+    "cirugias": "Apendicectomía",
+    "obesidad": "No",
+    "renales": "No",
+    "hipertension": "No",
+    "anemia": "No",
+    "tiroides": "No",
+    "desordenes_aux": "No",
+    "hepatobiliares": "No",
+    "dislipidimias": "No",
+    "hepatitis": "No",
+    "otros": "Ninguno"
+  }
+}
+
+
+### Obtener un paciente completo por ID
+GET http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
+
+### Obtener todos los pacientes con antecedentes
+GET http://localhost:3000/paciente
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
+
+### Actualizar un paciente completo por ID
+PUT http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
+
+{
+    "pacienteData": {
+        "telefono": "5551234567",
+        "email": "juan.perez@update.com",
+        "ocupacion": "Ingeniero"
+    },
+    "heredofamData": {
+        "diabetes": "Sí",
+        "hipertension": "No",
+        "otros": "Asma"
+    },
+    "perPatData": {
+        "alergias": "Lácteos",
+        "cirugias": "Apendicectomía",
+        "hepatitis": "No"
+    }
+}
+
+###Eliminar un paciente completo por ID
+DELETE http://localhost:3000/paciente/2019988884448
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Content-Type: application/json
 
 
 
@@ -410,7 +511,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4O
 
 ### Registrar una consulta
 POST http://localhost:3000/consulta/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwODkwNSwiZXhwIjoxNzMxMTQ0OTA1fQ.MPD87HFmuhfCDmEvnd8vg8pAEBCgOFvryxhl5uwnUSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MDIxNywiZXhwIjoxNzMyMjg2MjE3fQ.-_Tu8LinfYTWmusE01jo6gVtqORjLncUsyDvgTBJTrQ
 Content-Type: application/json
 
 {

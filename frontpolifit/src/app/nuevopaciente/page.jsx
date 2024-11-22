@@ -23,7 +23,7 @@ function DatosPersonales() {
     escuela: "",
     carrera: "",
     domicilio: "",
-    numeroBoletaEmpleado: "",
+    noBoleta: "", // Cambiado para coincidir con el modelo
     turno: "",
     tipoSangre: "",
     motivoVisita: "",
@@ -153,6 +153,7 @@ function DatosPersonales() {
     }
   };
 
+
   return (
     <div className="p-4 md:p-8">
       <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
@@ -170,14 +171,15 @@ function DatosPersonales() {
             ["*Edad", "number", "edad"],
             ["*Sexo", "select", "sexo", ["Hombre", "Mujer", "Otro"]],
             ["*Fecha de Registro", "date", "fechaRegistro"],
-            ["*Estado Civil", "select", "estadoCivil", ["Casado", "Soltero"]],
+            ["Estado Civil", "select", "estadoCivil", ["Casado", "Soltero"]],
             ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
             ["Escuela", "text", "escuela"],
             ["*Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
-            ["*No. de Boleta / Empleado", "text", "numeroBoletaEmpleado"],
+            
+            ["*No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
           ].map(([label, type, name, options], index) => (

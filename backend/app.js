@@ -8,15 +8,16 @@ const { sequelize } = require('./models'); // Importa la conexión y modelos des
 const antecedentesRoutes = require('./routes/antecedentes');
 const consultaRoutes = require('./routes/consultas');
 const cors = require('cors');
+const pacienteAntecedentesRoutes = require('./routes/pacienteAntecedentesRoutes');
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/nutriologos', nutriologosRoutes);
-app.use('/pacientes', pacientesRoutes);
+//app.use('/pacientes', pacientesRoutes);
 app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
-
+app.use('/paciente', pacienteAntecedentesRoutes);
 app.use(cors());
 
 app.listen(3000, () => {
@@ -29,6 +30,8 @@ sequelize.sync({ alter: true }).then(() => {
 }).catch((error) => {
     console.error('Error al sincronizar la base de datos:', error);
 });
+
+
 
 // const express = require('express');
 // const app = express();

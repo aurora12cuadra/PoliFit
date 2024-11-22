@@ -1,6 +1,7 @@
 "use client";
 import { usePaciente } from "../context/PacienteContext";
 import MenuConsultas from "../components/MenuConsultas";
+import Cronometro from "../components/Cronometro";
 
 export default function FormulariosLayout({ children }) {
     const { pacienteId, nombre, email, telefono } = usePaciente();
@@ -8,6 +9,7 @@ export default function FormulariosLayout({ children }) {
     return (
       <div>
         <MenuConsultas />
+        <Cronometro />
         {/* Información del paciente */}
         <div className="bg-white shadow-md p-4 rounded-md mb-6">
           <h2 className="text-xl font-semibold mb-2">Información del Paciente</h2>

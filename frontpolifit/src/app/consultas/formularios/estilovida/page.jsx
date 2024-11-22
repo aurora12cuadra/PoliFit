@@ -2,6 +2,7 @@
 import { useState, useEffect  } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+//import Cronometro from "../../components/Cronometro";
 
 function EstiloDeVida() {
   const { pacienteId, consultaData, updateConsultaData } = usePaciente();

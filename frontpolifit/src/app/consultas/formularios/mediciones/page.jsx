@@ -2,6 +2,7 @@
 import { usePaciente } from "../../context/PacienteContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+//import Cronometro from "../../components/Cronometro";
 
 function Mediciones() {
   const { consultaData, updateConsultaData } = usePaciente();

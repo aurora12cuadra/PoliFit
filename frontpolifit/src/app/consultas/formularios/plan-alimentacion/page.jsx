@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import Image from "next/image";
+//import Cronometro from "../../components/Cronometro";
 
 function PlanAlimentacion() {
   const componentRef = useRef();

@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+//import Cronometro from "../../components/Cronometro";
 
 function Recordatorio24Hrs() {
   const { control, handleSubmit, reset, getValues  } = useForm();

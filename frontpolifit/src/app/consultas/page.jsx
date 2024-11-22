@@ -1,5 +1,8 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
+import { CronometroProvider } from "./context/CronometroContext";
+import { useCronometro } from "./context/CronometroContext"; 
+import Cronometro from "./components/Cronometro";
 import {
   Table,
   TableHeader,
@@ -26,6 +29,7 @@ import { useRouter } from "next/navigation";
 
 function Consultas() {
   // Estados principales
+  const { startTimer } = useCronometro();
   const [isOpen, setIsOpen] = useState(false);
   const { setPacienteInfo, resetConsultaData  } = usePaciente();
   const [isSelectingPatient, setIsSelectingPatient] = useState(true);
@@ -50,6 +54,7 @@ function Consultas() {
       // Añade más datos si los necesitas
     });
 
+    startTimer();
     // Redirige a la página de formularios
     router.push("/consultas/formularios/estilovida");
   };
@@ -208,6 +213,9 @@ function Consultas() {
   }, [searchText]);
 
   return (
+    <CronometroProvider>
+       {/* Mostrar el cronómetro */}
+      <Cronometro />
     <div className="p-8">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
@@ -221,7 +229,6 @@ function Consultas() {
           Nueva Consulta
         </Button>
       </div>
-
       {/* Sección de filtros */}
       <div className="bg-white shadow-md p-6 rounded-md mb-6">
         <div className="flex flex-col md:flex-row gap-4">
@@ -390,6 +397,7 @@ function Consultas() {
         </ModalContent>
       </Modal>
     </div>
+    </CronometroProvider>
   );
 }
 
