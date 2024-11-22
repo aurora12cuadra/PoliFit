@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### Registrar un nuevo paciente
 POST http://localhost:3000/pacientes/register
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMxNTQzOTc0LCJleHAiOjE3MzE1Nzk5NzR9.GbI_m2gBY8LbDW4zuo-kkRIzbNp6ewniGCYD-8f8Zv0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
 Content-Type: application/json
 
 {
@@ -65,7 +65,7 @@ Content-Type: application/json
 
 ### Traer todas las consultas 
 GET http://localhost:3000/consulta/getAll
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMTc4OTczNSwiZXhwIjoxNzMxODI1NzM1fQ.JTs5MO4DUNTRbutB6oC3oFgt2HjzBSvKUrm5cEfhHyM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
 
 
 
@@ -109,7 +109,7 @@ Authorization: Bearer {token}
 
 ### Registrar un nuevo paciente - María López
 POST http://localhost:3000/pacientes/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzI5OTE4NDY2LCJleHAiOjE3Mjk5MjIwNjZ9.UBmAJhkI2nxFgNtPl_e6Kd5IlUgoliKiWQU1lLU29KM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
 Content-Type: application/json
 
 {
@@ -117,13 +117,14 @@ Content-Type: application/json
   "apellidoMaterno": "López",
   "apellidoPaterno": "Ramírez",
   "fechaNacimiento": "1988-11-22",
+  "edad": "22",
   "sexo": "Mujer",
   "telefono": "5556677889",
   "email": "maria.lopez@example.com",
   "escuela": "ESIME",
   "carrera": "Ingeniería Eléctrica",
   "domicilio": "Avenida Siempre Viva 742",
-  "noBoleta": "2019988777",
+  "noBoleta": "12345678",
   "turno": "Matutino",
   "estadoCivil": "Soltera",
   "ocupacion": "Estudiante",
