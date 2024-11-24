@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### Obtener perfil
 GET http://localhost:3000/nutriologos/perfil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MTI1MywiZXhwIjoxNzMyMjg3MjUzfQ.k6BoToqz5_fAlepNY7dipBgc3WNrEU0FY_LRJYHThkM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
 Content-Type: application/json
 
 ### Registrar un nuevo paciente
@@ -70,7 +70,7 @@ Content-Type: application/json
 
 ### Traer todas las consultas 
 GET http://localhost:3000/consulta/getAll
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
 
 
 
