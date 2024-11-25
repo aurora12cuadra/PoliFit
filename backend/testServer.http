@@ -68,7 +68,7 @@ Content-Type: application/json
     "password": "password123"
 }
 
-### Traer todas las consultas 
+### Traer todas las consultas del nutriologo con sesión iniciada
 GET http://localhost:3000/consulta/getAll
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
 
