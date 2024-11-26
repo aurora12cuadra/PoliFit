@@ -1,30 +1,28 @@
+// consulta/fromularios/trastornos
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
-
 function Trastornos() {
   const router = useRouter();
-  const {consultaData, updateConsultaData } = usePaciente(); // Usamos el contexto para guardar los datos
+  const { consultaData, updateConsultaData } = usePaciente();
   const trastornosOptions = [
-    "Vómito",
-    "Diarrea",
-    "Estreñimiento",
-    "Colitis",
-    "Gastritis",
-    "Náuseas",
-    "Reflujo",
-    "Disfagia",
-    "Flatulencias",
-    "Distensión",
-    "Pirosis",
-    "Otro",
+    "vomito",
+    "diarrea",
+    "estreni",
+    "colitis",
+    "gastri",
+    "nauseas",
+    "reflujo",
+    "disfagia",
+    "flatulen",
+    "disten",
+    "pirosis",
   ];
 
-  const [selectedTrastornos, setSelectedTrastornos] = useState({});
-  const [selectedFrecuencia, setSelectedFrecuencia] = useState({});
+  const [trastornos, setTrastornos] = useState({});
   const [ginecoObstetricos, setGinecoObstetricos] = useState({
     G: "",
     P: "",
@@ -34,15 +32,15 @@ function Trastornos() {
     SDGI: "",
     PPG: "",
     Anticonceptivos: "",
+    notas: "",
   });
-  const [notas, setNotas] = useState("");
 
   useEffect(() => {
-    // Cargar datos de trastornos si están en el contexto
     if (consultaData.trastornos) {
-      setSelectedTrastornos(consultaData.trastornos.selectedTrastornos || {});
-      setSelectedFrecuencia(consultaData.trastornos.selectedFrecuencia || {});
-      setGinecoObstetricos(consultaData.trastornos.ginecoObstetricos || {
+      setTrastornos(consultaData.trastornos.trastornos || {});
+    }
+    if (consultaData.ginecoObstetricos) {
+      setGinecoObstetricos(consultaData.ginecoObstetricos || {
         G: "",
         P: "",
         C: "",
@@ -51,44 +49,85 @@ function Trastornos() {
         SDGI: "",
         PPG: "",
         Anticonceptivos: "",
+        notas: "",
       });
-      setNotas(consultaData.trastornos.notas || "");
     }
-  }, [consultaData.trastornos]);
+  }, [consultaData]);
 
-  const handleTrastornoChange = (event) => {
-    const { name, checked } = event.target;
-    setSelectedTrastornos((prev) => ({
+  const handleTrastornoChange = (event, name) => {
+    const { checked } = event.target;
+    setTrastornos((prev) => ({
       ...prev,
-      [name]: checked,
+      [name]: {
+        ...prev[name],
+        value: checked,
+        frecuencia: checked ? prev[name]?.frecuencia || "" : "",
+      },
     }));
-    if (!checked) {
-      setSelectedFrecuencia((prev) => ({ ...prev, [name]: "" }));
-    }
   };
 
-  const handleFrecuenciaChange = (event, item) => {
+  const handleFrecuenciaChange = (event, name) => {
     const { value } = event.target;
-    setSelectedFrecuencia((prev) => ({
+    setTrastornos((prev) => ({
       ...prev,
-      [item]: value,
+      [name]: {
+        ...prev[name],
+        frecuencia: value,
+      },
     }));
   };
 
   const handleGinecoObstetricosChange = (event) => {
     const { name, value } = event.target;
-    setGinecoObstetricos((prev) => ({ ...prev, [name]: value }));
+    setGinecoObstetricos((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleGuardar = () => {
-    const trastornosData = {
-      selectedTrastornos,
-      selectedFrecuencia,
+    // Convertir cada trastorno en un string de frecuencia o vacío según corresponda
+    const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
+      acc[key] = trastornos[key].value ? trastornos[key].frecuencia : "";
+      return acc;
+    }, {});
+  
+    // Combinar `formattedTrastornos` con `ginecoObstetricos` en un solo objeto
+    const datosTrastornos = {
+      formattedTrastornos,
       ginecoObstetricos,
-      notas,
     };
-    updateConsultaData("trastornos", trastornosData);
+  
+    console.log("datos recolectados de trastornos 1: ", formattedTrastornos);
+    console.log("datos recolectados de trastornos 2: ", ginecoObstetricos);
+    console.log("datos recolectados de trastornos 3: ", datosTrastornos);
+    console.log("datos recolectados de trastornos 4: ", datosTrastornos.formattedTrastornos);
+    // Enviar el objeto completo como un solo `updateConsultaData`
+    updateConsultaData("trastornos", datosTrastornos);
     router.push("/consultas/formularios/mediciones");
+  };  
+
+  const labels = {
+    vomito: "Vómito",
+    diarrea: "Diarrea",
+    estreni: "Estreñimiento",
+    colitis: "Colitis",
+    gastri: "Gastritis",
+    nauseas: "Náuseas",
+    reflujo: "Reflujo",
+    disfagia: "Disfagia",
+    flatulen: "Flatulencia",
+    disten: "Distensión",
+    pirosis: "Pirosis",
+    G: "Gestaciones",
+    P: "Partos",
+    C: "Cesáreas",
+    FUM: "Fecha Última Menstruación",
+    "FUP/C": "Fecha Último Parto/Cesárea",
+    SDGI: "Síndrome de Dolor Genitourinario",
+    PPG: "Planificación Familiar",
+    Anticonceptivos: "Uso de Anticonceptivos",
+    notas: "Notas",
   };
 
   return (
@@ -97,9 +136,7 @@ function Trastornos() {
 
       {/* Trastornos Gastrointestinales */}
       <div className="bg-white shadow-md p-6 rounded-md mb-6">
-        <h3 className="text-xl font-semibold mb-4">
-          Trastornos Gastrointestinales
-        </h3>
+        <h3 className="text-xl font-semibold mb-4">Trastornos Gastrointestinales</h3>
         <div className="grid grid-cols-3 gap-4">
           {trastornosOptions.map((item) => (
             <div key={item}>
@@ -109,24 +146,20 @@ function Trastornos() {
                   id={item}
                   name={item}
                   className="mr-2"
-                  checked={!!selectedTrastornos[item]}
-                  onChange={handleTrastornoChange}
+                  checked={!!trastornos[item]?.value}
+                  onChange={(e) => handleTrastornoChange(e, item)}
                 />
-                <label htmlFor={item}>{item}</label>
+                <label htmlFor={item}>{labels[item] || item}</label>
               </div>
               <select
                 className="w-full p-2 border rounded-md mt-2"
-                disabled={!selectedTrastornos[item]}
-                value={selectedFrecuencia[item] || ""}
+                disabled={!trastornos[item]?.value}
+                value={trastornos[item]?.frecuencia || ""}
                 onChange={(e) => handleFrecuenciaChange(e, item)}
               >
-                <option value="" disabled hidden>
-                  Frecuencia
-                </option>
-                <option value="Nunca">Nunca</option>
+                <option value="" disabled hidden>Frecuencia</option>
                 <option value="Rara vez">Rara vez</option>
                 <option value="Ocasionalmente">Ocasionalmente</option>
-                <option value="Regularmente">Regularmente</option>
                 <option value="Frecuentemente">Frecuentemente</option>
               </select>
             </div>
@@ -136,20 +169,14 @@ function Trastornos() {
 
       {/* Gineco-Obstétricos */}
       <div className="grid grid-cols-2 gap-6">
-        <div
-          className="shadow-md p-6 rounded-md"
-          style={{ backgroundColor: "#11404E" }}
-        >
+        <div className="shadow-md p-6 rounded-md" style={{ backgroundColor: "#11404E" }}>
           <h3 className="text-xl text-center font-semibold mb-4 text-white">
             Gineco-Obstétricos
           </h3>
-          <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
           <div className="grid grid-cols-2 gap-4">
             {Object.keys(ginecoObstetricos).map((label) => (
               <div key={label}>
-                <label className="block font-medium mb-1 text-white">
-                  {label}
-                </label>
+                <label className="block font-medium mb-1 text-white">{labels[label] || label}</label>
                 <input
                   type="text"
                   name={label}
@@ -161,9 +188,8 @@ function Trastornos() {
             ))}
           </div>
         </div>
-
         {/* Notas */}
-        <div className="bg-white shadow-md p-6 rounded-md">
+        {/* <div className="bg-white shadow-md p-6 rounded-md">
           <h3 className="text-xl font-semibold mb-4">Notas</h3>
           <textarea
             className="w-full h-3/4 p-2 border rounded-md"
@@ -171,14 +197,16 @@ function Trastornos() {
             value={notas}
             onChange={(e) => setNotas(e.target.value)}
           />
-        </div>
+        </div> */}
       </div>
 
       {/* Botones de Navegación */}
       <div className="flex justify-between mt-8">
         <button
           className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
-          onClick={() => router.push("/consultas/formularios/estilovida")}
+          onClick={() => {
+            handleGuardar();
+            router.push("/consultas/formularios/estilovida")}}
         >
           Anterior
         </button>

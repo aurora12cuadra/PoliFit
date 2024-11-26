@@ -6,7 +6,7 @@ import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
 function Recordatorio24Hrs() {
-  const { control, handleSubmit, reset } = useForm();
+  const { control, handleSubmit, reset, getValues  } = useForm();
   const router = useRouter();
   const { consultaData, updateConsultaData, guardarConsulta } = usePaciente();
 
@@ -29,6 +29,14 @@ function Recordatorio24Hrs() {
     //alert("Datos de Recordatorio 24 hrs guardados correctamente.");
   };
 
+  // Función para manejar el clic en el botón "Anterior"
+  const handleAnterior = () => {
+    const currentData = getValues(); // Obtener los datos actuales del formulario
+    updateConsultaData("recordatorio24Hrs", currentData);
+    //console.log("Datos guardados al hacer clic en Anterior:", currentData);
+    router.push("/consultas/formularios/kilocalorias");
+  };
+
   const handleFinalSave = async () => {
     await guardarConsulta(); // Llama a la función para guardar la consulta en el backend
     alert("Consulta finalizada con éxito.");
@@ -47,7 +55,7 @@ function Recordatorio24Hrs() {
           {/* Botón Anterior */}
           <button
             type="button"
-            onClick={() => router.push("/consultas/formularios/kilocalorias")}
+            onClick={handleAnterior}
             className="bg-gray-500 text-white px-4 py-2 rounded-md"
           >
             Anterior

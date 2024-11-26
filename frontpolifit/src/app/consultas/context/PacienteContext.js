@@ -14,6 +14,8 @@ export function PacienteProvider({ children }) {
     apellidoMaterno: "",
     email: "",
     telefono: "",
+    edad: "",
+    sexo: "",
     // Puedes añadir más datos aquí si es necesario
   });
 
@@ -92,8 +94,39 @@ const resetConsultaData = () => {
     const consulta = {
       // noBoleta: "2019988777", // Usa el ID de prueba o el real desde el contexto
       noBoleta: pacienteData.pacienteId,
+      actLaboralData: consultaData.estiloDeVida.actividadLaboral,
+      actFisicaData: consultaData.estiloDeVida.actividadFisica,
+      toxicomaniasData: consultaData.estiloDeVida.toxicomanias,
+      habitosDietData: consultaData.estiloDeVida.habitosDieteticos,
+      transGastroData: consultaData.trastornos.formattedTrastornos,
+      ginecoObstreData: consultaData.trastornos.ginecoObstetricos,
+      plieguesData: consultaData.mediciones.pliegues,
+      perimetrosData: consultaData.mediciones.perimetros,
+      diametrosData: consultaData.mediciones.diametros,
+      bioimpedanciaData: consultaData.mediciones.bioimpedancia,
+      bioquimicosData: consultaData.mediciones.indicadores,
+      recordatorioData: consultaData.recordatorio24Hrs,
+      kilocaloriasData: consultaData.kilocalorias,
     };
   
+    // Agregar console.log para verificar el contenido de cada parte
+    console.log("noBoleta:", consulta.noBoleta);
+    console.log("actLaboralData:", consulta.actLaboralData);
+    console.log("actFisicaData:", consulta.actFisicaData);
+    console.log("toxicomaniasData:", consulta.toxicomaniasData);
+    console.log("habitosDietData:", consulta.habitosDietData);
+    console.log("transGastroData:", consulta.transGastroData);
+    console.log("ginecoObstreData:", consulta.ginecoObstreData);
+    console.log("plieguesData:", consulta.plieguesData);
+    console.log("perimetroData:", consulta.perimetrosData);
+    console.log("diametrosData:", consulta.diametrosData);
+    console.log("bioimopedanciaData:", consulta.bioimpedanciaData);
+    console.log("bioquimicosData:", consulta.bioimpedanciaData);
+    console.log("bioquimicosData:", consulta.recordatorioData);
+
+    // Log completo del objeto consulta
+    console.log("Consulta completa:", consulta);
+
     try {
       const response = await fetch("/api/consulta/register", {
         method: "POST",

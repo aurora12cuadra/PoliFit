@@ -17,52 +17,62 @@ function AgendaCitas() {
 
   const [citas, setCitas] = useState([
     {
-      id: 1,
+      idCita: 1,  
+      noBoleta: 1,
       nombre: "Juan Pérez",
       email: "juan@ejemplo.com",
       telefono: "5512345678",
-      fecha: "2024-02-15",
-      hora: "10:00",
+      fecha_consulta: "2024-02-15",
+      hora_consulta: "10:00",
     },
     {
-      id: 2,
+      idCita: 2,
+      noBoleta: 2,
       nombre: "María García",
       email: "maria@ejemplo.com",
       telefono: "5587654321",
-      fecha: "2024-02-16",
-      hora: "11:30",
+      fecha_consulta: "2024-02-16",
+      hora_consulta: "11:30",
     },
   ]);
 
   const [newCita, setNewCita] = useState({
+    //idCita: "",
+    noBoleta: "",
     nombre: "",
     email: "",
     telefono: "",
-    fecha: "",
-    hora: "",
+    fecha_consulta: "",
+    hora_consulta: "",
   });
 
+  // Funcion para el calendario
   const getCalendarEvents = useMemo(() => {
     return citas.map((cita) => ({
-      id: cita.id,
+      id: cita.idCita,
       title: cita.nombre,
-      start: `${cita.fecha}T${cita.hora}:00`,
-      end: `${cita.fecha}T${cita.hora.split(":")[0]}:${
-        parseInt(cita.hora.split(":")[1]) + 30
+      start: `${cita.fecha_consulta}T${cita.hora_consulta}:00`,
+      end: `${cita.fecha_consulta}T${cita.hora_consulta.split(":")[0]}:${
+        parseInt(cita.hora_consulta.split(":")[1]) + 30
       }:00`,
       backgroundColor: "#11404E",
       borderColor: "#11404E",
     }));
   }, [citas]);
 
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [isSelectingPatient, setIsSelectingPatient] = useState(true);
+
   const handleOpenModal = (cita = null) => {
     setNewCita(
       cita || {
+        //idCita: "",
+        noBoleta: "",
         nombre: "",
         email: "",
         telefono: "",
-        fecha: "",
-        hora: "",
+        fecha_consulta: "",
+        hora_consulta: "",
       }
     );
     setModalState({
@@ -71,23 +81,58 @@ function AgendaCitas() {
       isEditing: !!cita,
     });
     setSelectedCita(cita);
+    // setIsSelectingPatient(true);
+    // setIsOpen(true); // Abre el modal
   };
+
+  const [selectedPaciente, setSelectedPaciente] = useState(null);
 
   const handleCloseModal = () => {
     setModalState({ ...modalState, isModalOpen: false });
     setSelectedCita(null);
+    // setIsSelectingPatient(true);
+    // setSelectedPaciente(null);
+    // setIsOpen(false); // Cierra el modal
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (modalState.isEditing) {
       setCitas(
         citas.map((cita) =>
-          cita.id === selectedCita.id ? { ...newCita, id: cita.id } : cita
+          cita.idCita === selectedCita.idCita ? { ...newCita, idCita: cita.idCita } : cita
         )
       );
     } else {
-      setCitas([...citas, { ...newCita, id: citas.length + 1 }]);
+      try {
+        console.log("newCita: ", newCita);
+        const { noBoleta, fecha_consulta, hora_consulta } = newCita;
+        const payload = {
+          noBoleta,
+          fecha_consulta,
+          hora_consulta,
+        };
+        console.log("Payload: ", payload);
+        const response = await fetch(`/api/citas/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
+          },
+          body: JSON.stringify(payload),
+        });
+        
+        const data = await response.json();
+        if (response.ok) {
+          console.log("Cita registrada con exito:", data);
+          alert("Registro de cita exitoso");
+        } else {
+          console.error("Error al registrar cita:", data.error);
+        }
+      } catch (error) {
+        console.error("Error al conectar con el servidor:", error);
+      }
+      setCitas([...citas, { ...newCita, idCita: citas.length + 1 }]);
     }
     handleCloseModal();
   };
@@ -98,7 +143,7 @@ function AgendaCitas() {
   };
 
   const confirmDelete = () => {
-    setCitas(citas.filter((cita) => cita.id !== selectedCita.id));
+    setCitas(citas.filter((cita) => cita.idCita !== selectedCita.idCita));
     setModalState({ ...modalState, isDeleteModalOpen: false });
     setSelectedCita(null);
   };

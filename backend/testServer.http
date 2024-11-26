@@ -24,11 +24,12 @@ Content-Type: application/json
 
 ### Obtener perfil
 GET http://localhost:3000/nutriologos/perfil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MTI1MywiZXhwIjoxNzMyMjg3MjUzfQ.k6BoToqz5_fAlepNY7dipBgc3WNrEU0FY_LRJYHThkM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
 Content-Type: application/json
 
 ### Registrar un nuevo paciente
 POST http://localhost:3000/pacientes/register
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
 Content-Type: application/json
 
 {
@@ -67,7 +68,11 @@ Content-Type: application/json
     "password": "password123"
 }
 
-###
+### Traer todas las consultas del nutriologo con sesión iniciada
+GET http://localhost:3000/consulta/getAll
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
+
+
 
 ### Iniciar sesión (login)
 POST http://localhost:3000/nutriologos/login
@@ -109,7 +114,7 @@ Authorization: Bearer {token}
 
 ### Registrar un nuevo paciente - María López
 POST http://localhost:3000/pacientes/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAxODQiLCJlbWFpbCI6ImNsYXVkaWEubWV6YXVyaWJlQHlhaG9vLmNvbS5teCIsImlhdCI6MTczMTcyMzc0OSwiZXhwIjoxNzMxNzU5NzQ5fQ.yYdOdgNxAOeP-XPeCkgulB7DQXrQG8BTKVXVIDU_V2o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJqdWFuLnBlcmV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzI5OTE4NDY2LCJleHAiOjE3Mjk5MjIwNjZ9.UBmAJhkI2nxFgNtPl_e6Kd5IlUgoliKiWQU1lLU29KM
 Content-Type: application/json
 
 {
@@ -117,13 +122,14 @@ Content-Type: application/json
   "apellidoMaterno": "López",
   "apellidoPaterno": "Ramírez",
   "fechaNacimiento": "1988-11-22",
+  "edad": "22",
   "sexo": "Mujer",
   "telefono": "5556677889",
   "email": "maria.lopez@example.com",
   "escuela": "ESIME",
   "carrera": "Ingeniería Eléctrica",
   "domicilio": "Avenida Siempre Viva 742",
-  "noBoleta": "2019988777",
+  "noBoleta": "12345678",
   "turno": "Matutino",
   "estadoCivil": "Soltera",
   "ocupacion": "Estudiante",
@@ -512,6 +518,10 @@ Content-Type: application/json
   "noBoleta": "2019988777"
 }  
 
+###Traer Consultas
+GET http://localhost:3000/consulta/getAll
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMTY0MzU1NywiZXhwIjoxNzMxNjc5NTU3fQ.yEdIuN3q5JWZ0sCh_yVqz6g67hF8YLn7rdP4lt-Sacw
+
 ### Registrar una consulta completa
 POST http://localhost:3000/consulta/register
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwODkwNSwiZXhwIjoxNzMxMTQ0OTA1fQ.MPD87HFmuhfCDmEvnd8vg8pAEBCgOFvryxhl5uwnUSY
@@ -658,42 +668,57 @@ GET http://localhost:3000/pacientes/nombre?nombre=w
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTEwNTA2NiwiZXhwIjoxNzMxMTA4NjY2fQ.DbGRsCnp5kL23g_uKPke01BvufldPO9Rz1wGsbrZHu8
 Content-Type: application/json
 
-### Crear una nueva cita
-POST http://localhost:3000/citas
+### Registrar una nueva Cita
+POST http://localhost:3000/citas/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjA2NjM4NywiZXhwIjoxNzMyMTAyMzg3fQ.zWTnvVxxPl4dwGMfastFvdCDdqfu23kNfyUbsNnR7X4
 Content-Type: application/json
 
 {
-  "fecha_consulta": "2024-11-10",
-  "hora_consulta": "10:00:00",
-  "numeroEmpleado": "EMP123",
-  "noBoleta": "BOLETA456"
+  "fecha_consulta": "2024-11-15",
+  "hora_consulta": "10:30:00",
+  "noBoleta": "2019988777"
 }
 
-### Obtener todas las citas
+### Obtener todas las Citas del Nutriólogo autenticado
 GET http://localhost:3000/citas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjA2NjM4NywiZXhwIjoxNzMyMTAyMzg3fQ.zWTnvVxxPl4dwGMfastFvdCDdqfu23kNfyUbsNnR7X4
 
-### Obtener citas filtradas por fecha
-GET http://localhost:3000/citas?fecha_consulta=2024-11-10
-
-### Obtener citas filtradas por número de empleado
-GET http://localhost:3000/citas?numeroEmpleado=EMP123
-
-### Obtener citas filtradas por número de boleta
-GET http://localhost:3000/citas?noBoleta=BOLETA456
-
-### Obtener una cita por su ID
+### Obtener una Cita por ID
 GET http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
 
-### Actualizar una cita existente
-PUT http://localhost:3000/citas/1
+### Actualizar una Cita
+PATCH http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
 Content-Type: application/json
 
 {
-    "fecha_consulta": "2024-11-15",
-    "hora_consulta": "12:30:00",
-    "numeroEmpleado": "EMP123",
-    "noBoleta": "BOLETA789"
+  "hora_consulta": "11:00:00"
 }
 
-### Eliminar una cita existente
+### Eliminar una Cita
 DELETE http://localhost:3000/citas/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDg4MywiZXhwIjoxNzMwOTk4NDgzfQ.y3gXkOz_uf1oDPS-BYC4mUisLq2NHtdgVEIORc8RHF8
+
+### Obtener Citas por Fecha
+GET http://localhost:3000/citas/fecha/2024-11-15
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
+
+### Obtener Citas de un Paciente por su número de Boleta
+GET http://localhost:3000/citas/paciente/2019988777
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyMjcyMywiZXhwIjoxNzMxNjU4NzIzfQ.TVZ84kcb2iykrw4L9UwEomExUf0zx3qjvoUufG_jGbU
+
+### Obtener Citas en un Rango de Fechas
+GET http://localhost:3000/citas/rango?fechaInicio=2024-11-10&fechaFin=2024-11-20
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMDk5NDg4MywiZXhwIjoxNzMwOTk4NDgzfQ.y3gXkOz_uf1oDPS-BYC4mUisLq2NHtdgVEIORc8RHF8
+
+
+
+
+### Obtener todas las consultas de un Paciente
+GET http://localhost:3000/consulta/paciente/2019988777
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyNjkxNSwiZXhwIjoxNzMxNjYyOTE1fQ.wUwsEnhZKgv-OwelRcLH8iab8AhyVEJx6qGJtQs7dvA
+
+### Obtener todas las consultas de un Paciente
+GET http://localhost:3000/consulta/paciente/2019988777/consulta/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMTYyNjkxNSwiZXhwIjoxNzMxNjYyOTE1fQ.wUwsEnhZKgv-OwelRcLH8iab8AhyVEJx6qGJtQs7dvA

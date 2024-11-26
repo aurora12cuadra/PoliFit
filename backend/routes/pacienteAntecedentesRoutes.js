@@ -2,7 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const pacienteAntecedentesController = require('../controllers/pacienteAntecedentesController');
+const pacienteController = require('../controllers/pacienteController');
 const verifyToken = require('../middlewares/auth'); // Middleware para verificar autenticación
+
+router.get('/nombre/:nombre', verifyToken, pacienteController.obtenerPacientePorNombre);
 
 // Crear un paciente completo con antecedentes
 router.post('/register', verifyToken, pacienteAntecedentesController.registrarPacienteCompleto);
