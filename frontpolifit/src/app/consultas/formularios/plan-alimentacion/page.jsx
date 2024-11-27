@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
+import html2pdf from "html2pdf.js";
 import Image from "next/image";
 //import Cronometro from "../../components/Cronometro";
 
@@ -53,7 +54,12 @@ function PlanAlimentacion() {
         </div>
         <div>
           {/* Logo a la derecha */}
-          <Image src="/images/IPN_leyenda.png" alt="Logo derecha" width={270} height={100} />
+          <Image
+            src="/images/IPN_leyenda.png"
+            alt="Logo derecha"
+            width={270}
+            height={100}
+          />
         </div>
       </div>
       <h1 className="text-3xl font-bold mb-6 text-center">
@@ -717,33 +723,56 @@ function PlanAlimentacion() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div>
+                <div className="flex items-center gap-2">
+                  {/* Campo para cantidad */}
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
-                  />{" "}
-                  Cereal o tubérculo
+                  />
+                  {/* Etiqueta de texto */}
+                  <span>Cereal o tubérculo:</span>
+                  {/* Campo para descripción */}
+                  <input
+                    type="text"
+                    
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Alimento de Origen Animal
+                  Alimento de Origen Animal:
+                  <input
+                    type="text"
+                   
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Verdura
+                  Verdura:
+                  <input
+                    type="text"
+                   
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Fruta
+                  Fruta:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
               <div>
@@ -752,21 +781,36 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leguminosas
+                  Leguminosas:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leche o yogurt
+                  Leche o yogurt:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Aceite y grasas (semillas)
+                  Aceite y grasas (semillas):
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
             </div>
@@ -784,14 +828,24 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Ración
+                  Ración:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Ración
+                  Ración:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
             </div>
@@ -809,28 +863,48 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Cereal o tubérculo
+                  Cereal o tubérculo:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Alimento de Origen Animal
+                  Alimento de Origen Animal:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Verdura
+                  Verdura:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Fruta
+                  Fruta:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
               <div>
@@ -839,21 +913,36 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leguminosas
+                  Leguminosas:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leche o yogurt
+                  Leche o yogurt:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Aceite y grasas (semillas)
+                  Aceite y grasas (semillas):
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
             </div>
@@ -871,14 +960,24 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Ración
+                  Ración:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Ración
+                  Ración:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
             </div>
@@ -896,28 +995,48 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Cereal o tubérculo
+                  Cereal o tubérculo:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Alimento de Origen Animal
+                  Alimento de Origen Animal:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Verdura
+                  Verdura:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Fruta
+                  Fruta:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
               <div>
@@ -926,21 +1045,36 @@ function PlanAlimentacion() {
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leguminosas
+                  Leguminosas:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Leche o yogurt
+                  Leche o yogurt:
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
                 <div>
                   <input
                     type="number"
                     className="w-16 p-2 border-b border-black focus:outline-none text-center"
                   />{" "}
-                  Aceite y grasas (semillas)
+                  Aceite y grasas (semillas):
+                  <input
+                    type="text"
+                    placeholder="Descripción de alimentos"
+                    className="w-64 p-2 border-b border-black focus:outline-none"
+                  />
                 </div>
               </div>
             </div>
