@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### Obtener perfil
 GET http://localhost:3000/nutriologos/perfil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU5Mzc5OSwiZXhwIjoxNzMyNjI5Nzk5fQ.07wkisDCWUTqBMGpJsQ2Bbaq-eIkMPn-XCTGJ0gaFyo
 Content-Type: application/json
 
 ### Registrar un nuevo paciente
@@ -96,9 +96,9 @@ Authorization: Bearer {token}
 ###
 
 # Actualizar un nutriólogo
-PATCH http://localhost:3000/nutriologos/1
+PATCH http://localhost:3000/nutriologos/2021630184
 Content-Type: application/json
-Authorization: Bearer {token}
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjU5NjUxMCwiZXhwIjoxNzMyNjMyNTEwfQ.iPkOZbyjisVm2qnvfTmPeP8B88fVcjq4Slu4z4l2qcE
 
 {
     "nombre": "Juan Carlos",

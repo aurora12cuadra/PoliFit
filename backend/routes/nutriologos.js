@@ -13,14 +13,14 @@ router.post('/login', nutriologoController.loginNutriologo);
 // Obtener el perfil del nutriólogo autenticado
 router.get('/perfil', verifyToken, nutriologoController.obtenerPerfilNutriologo);
 
+// Actualizar un nutriólogo por ID (PATCH)
+router.patch('/:id', verifyToken, nutriologoController.actualizarNutriologo);
+
 // Obtener todos los nutriólogos (GET)
 router.get('/', nutriologoController.obtenerNutriologos);
 
 // Obtener un nutriólogo por ID (GET)
 router.get('/:id', nutriologoController.obtenerNutriologoPorId);
-
-// Actualizar un nutriólogo por ID (PATCH)
-router.patch('/:id', nutriologoController.actualizarNutriologo);
 
 // Eliminar un nutriólogo por ID (DELETE)
 router.delete('/:id', nutriologoController.eliminarNutriologo);
