@@ -73,7 +73,7 @@ function Consultas() {
     console.log("Consulta seleccionada:", consulta); // Verifica el valor
     setSelectedConsulta(consulta);
   };
-  
+
   const handleClosePanel = () => {
     setSelectedConsulta(null);
   };
@@ -89,13 +89,23 @@ function Consultas() {
       if (response.ok) {
         const data = await response.json();
         console.log("Consultas obtenidas:", data);
-        setConsultas(data); // Actualiza el estado con las consultas obtenidas
+
+        // Si la respuesta contiene un array de consultas, lo asignamos
+        if (Array.isArray(data)) {
+          setConsultas(data); // Actualiza el estado con las consultas obtenidas
+        } else {
+          // Si no es un array, lo tratamos como un error o respuesta vacía
+          console.warn("No se encontraron consultas o respuesta inesperada");
+          setConsultas([]); // Establece consultas como un array vacío
+        }
       } else {
         const errorData = await response.json();
         console.error("Error al obtener consultas:", errorData.error);
+        setConsultas([]); // En caso de error, establece consultas como un array vacío
       }
     } catch (error) {
       console.error("Error al obtener consultas:", error);
+      setConsultas([]); // En caso de excepción, establece consultas como un array vacío
     }
   };
 
@@ -156,57 +166,56 @@ function Consultas() {
 
   // Filtrado de consultas
   const consultasFiltradas = useMemo(() => {
-    return consultas.filter((consulta) => {
+    return (Array.isArray(consultas) ? consultas : []).filter((consulta) => {
       const fechaConsulta = new Date(consulta.fechaConsulta);
       let cumpleFecha = true;
-  
+
       switch (filtroFechaTipo) {
         case "ultima_semana":
           const fechaSemana = new Date();
           fechaSemana.setDate(fechaSemana.getDate() - 7);
           cumpleFecha = fechaConsulta >= fechaSemana;
           break;
-  
+
         case "ultimo_mes":
           const fechaMes = new Date();
           fechaMes.setMonth(fechaMes.getMonth() - 1);
           cumpleFecha = fechaConsulta >= fechaMes;
           break;
-  
-          case "fecha_especifica":
-            if (consulta.fechaConsulta && fechaEspecifica) {
-              try {
-                // Convertir ambas fechas al mismo formato (YYYY-MM-DD)
-                const consultaFecha = new Date(consulta.fechaConsulta)
-                  .toISOString()
-                  .split("T")[0];
-                const filtroFecha = new Date(fechaEspecifica)
-                  .toISOString()
-                  .split("T")[0];
-                cumpleFecha = consultaFecha === filtroFecha;
-              } catch (error) {
-                console.error("Error al procesar las fechas:", error);
-                cumpleFecha = false;
-              }
-            } else {
+
+        case "fecha_especifica":
+          if (consulta.fechaConsulta && fechaEspecifica) {
+            try {
+              // Convertir ambas fechas al mismo formato (YYYY-MM-DD)
+              const consultaFecha = new Date(consulta.fechaConsulta)
+                .toISOString()
+                .split("T")[0];
+              const filtroFecha = new Date(fechaEspecifica)
+                .toISOString()
+                .split("T")[0];
+              cumpleFecha = consultaFecha === filtroFecha;
+            } catch (error) {
+              console.error("Error al procesar las fechas:", error);
               cumpleFecha = false;
             }
-            break;
-  
+          } else {
+            cumpleFecha = false;
+          }
+          break;
+
         default:
           cumpleFecha = true;
       }
-  
+
       const cumpleGenero =
         filtroGenero !== "todos" ? consulta.sexo === filtroGenero : true;
       const cumpleBusqueda =
         consulta.paciente.toLowerCase().includes(busqueda.toLowerCase()) ||
         consulta.email.toLowerCase().includes(busqueda.toLowerCase());
-  
+
       return cumpleFecha && cumpleGenero && cumpleBusqueda;
     });
   }, [consultas, filtroFechaTipo, fechaEspecifica, filtroGenero, busqueda]);
-  
 
   // Limpiar filtros
   const limpiarFiltros = () => {
@@ -435,11 +444,8 @@ function Consultas() {
         </Modal>
       </div>
       {selectedConsulta && (
-      <PanelConsulta
-        consulta={selectedConsulta}
-        onClose={handleClosePanel}
-      />
-    )}
+        <PanelConsulta consulta={selectedConsulta} onClose={handleClosePanel} />
+      )}
     </CronometroProvider>
   );
 }
