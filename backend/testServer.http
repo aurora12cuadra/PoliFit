@@ -79,8 +79,8 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-    "email": "juan.perez@example.com",
-    "password": "password123"
+    "email": "pablo@gmail.com",
+    "password": "Contrasena"
 }
 
 ### Obtener todos los nutriólogos
@@ -96,13 +96,12 @@ Authorization: Bearer {token}
 ###
 
 # Actualizar un nutriólogo
-PATCH http://localhost:3000/nutriologos/1
+PATCH http://localhost:3000/nutriologos/1111
 Content-Type: application/json
-Authorization: Bearer {token}
 
 {
-    "nombre": "Juan Carlos",
-    "especialidad": "Nutrición Deportiva"
+    "password": "Contrasena"
+    
 }
 
 ###
@@ -520,7 +519,7 @@ Content-Type: application/json
 
 ###Traer Consultas
 GET http://localhost:3000/consulta/getAll
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMTY0MzU1NywiZXhwIjoxNzMxNjc5NTU3fQ.yEdIuN3q5JWZ0sCh_yVqz6g67hF8YLn7rdP4lt-Sacw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMjU5NzM3NCwiZXhwIjoxNzMyNjMzMzc0fQ.Otm7tQCSKGzM0fORB2_RKvMwxGkJo_8KV8-KgkiniVo
 
 ### Registrar una consulta completa
 POST http://localhost:3000/consulta/register
