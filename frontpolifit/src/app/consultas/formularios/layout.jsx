@@ -4,7 +4,7 @@ import MenuConsultas from "../components/MenuConsultas";
 import Cronometro from "../components/Cronometro";
 
 export default function FormulariosLayout({ children }) {
-    const { pacienteId, nombre, email, telefono } = usePaciente();
+    const { noBoleta, nombre, email, telefono } = usePaciente();
   
     return (
       <div>

@@ -1,7 +1,7 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Input, Autocomplete,  AutocompleteItem, } from "@nextui-org/react";
 import { useState, useEffect, } from "react";
 
-function ModalCita({ isOpen, isEditing, newCita, setNewCita, handleCloseModal, handleSubmit, }) {
+function ModalCita({ isOpen, isEditing, newCita, setNewCita, handleCloseModal, handleSubmit, selectedCita }) {
   // const [isOpen, setIsOpen] = useState(false);
   const [isSelectingPatient, setIsSelectingPatient] = useState(true);
   const [selectedPaciente, setSelectedPaciente] = useState(null);
@@ -26,35 +26,48 @@ function ModalCita({ isOpen, isEditing, newCita, setNewCita, handleCloseModal, h
 
   // Funciones de manejo
   const handlePacienteSelect = (noBoleta) => {
-    console.log("Paciente seleccionado con ID:", noBoleta); // Verificar el ID seleccionado
-    console.log("Resultados de búsqueda 2:", searchResults);
-    const paciente = searchResults.find((p) => p.noBoleta === noBoleta);
-    console.log("Resultados de paciente:", paciente);
-    setSelectedPaciente(paciente);
-    setNewCita({ ...newCita, noBoleta, nombre: paciente.nombre, email: paciente.email, telefono: paciente.telefono });
-    setIsSelectingPatient(false);
+    if(isSelectingPatient && noBoleta){
+      console.log("Paciente seleccionado con ID:", noBoleta); // Verificar el ID seleccionado
+      console.log("Resultados de búsqueda 2:", searchResults);
+      const paciente = searchResults.find((p) => p.noBoleta === noBoleta);
+      console.log("Resultados de paciente:", paciente);
+      // setSelectedPaciente(paciente);
+      /// setNewCita({ ...newCita, noBoleta, nombre: paciente.nombre, email: paciente.email, telefono: paciente.telefono });
+      // Concatenar nombre, apellido paterno y apellido materno
+      const fullName = `${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`;
+      setNewCita({ ...newCita, nombre: fullName });
+      setIsSelectingPatient(true);
+    }
   };  
 
   const searchPaciente = async (nombre) => {
-    try {
-      const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
-        },
-      });
-      
-      if (response.ok) {
+    if(isSelectingPatient){
+      try {
+        // Asegura que el primer carácter de "nombre" sea mayúscula
+        nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+        const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
+          },
+        });
         const data = await response.json();
-        console.log("Resultados de búsqueda:", data);
-        setSearchResults(data);
-      } else {
-        const errorData = await response.json();
-        console.error("Error al buscar paciente:", errorData.error);
-        setSearchResults([]); // Vacía los resultados si hay error
+        if (response.ok) {
+          if (data == ""){
+            console.log("Datos vacíos, asignando el nombre ingresado manualmente: ", nombre);
+            setNewCita({ ...newCita, nombre: nombre });
+            setIsSelectingPatient(true);
+          } else {
+            console.log("Resultados de búsqueda:", data);
+            setSearchResults(data);
+          }
+        } else {
+          console.error("Error al buscar paciente:", data.error);
+          setSearchResults([]); // Vacía los resultados si hay error
+        }
+      } catch (error) {
+        console.error("Error al buscar paciente:", error);
+        setSearchResults([]);
       }
-    } catch (error) {
-      console.error("Error al buscar paciente:", error);
-      setSearchResults([]);
     }
   };  
 
@@ -63,7 +76,9 @@ function ModalCita({ isOpen, isEditing, newCita, setNewCita, handleCloseModal, h
       searchPaciente(searchText);
       console.log("Paciente seleccionado:", searchText);
     } else {
+      console.log("No hay resultados");
       setSearchResults([]);
+      setIsSelectingPatient(true);
     }
   }, [searchText]);
   return (
@@ -73,12 +88,16 @@ function ModalCita({ isOpen, isEditing, newCita, setNewCita, handleCloseModal, h
           <ModalHeader className="flex flex-col gap-1">{isEditing ? "Editar Cita" : "Nueva Cita"}</ModalHeader>
           <ModalBody>
             <Autocomplete
+              allowsCustomValue
               label="Buscar paciente"
               placeholder="Escriba el nombre del paciente"
               className="w-full"
               items={searchResults}
+              defaultInputValue={selectedCita?.nombre}
+              // value={"Hola"}
+              //startContent={nombre}
               // value={isSelectingPatient ? searchText : selectedPaciente?.nombre || ""}
-              onInputChange={(value) => setSearchText(value) }
+              onInputChange={(value) => setSearchText(value)}
               onSelectionChange={handlePacienteSelect}
               // value={isSelectingPatient ? searchText : selectedPaciente?.nombre || ""} // Conectar valor del input
               // onInputChange={(value) => {

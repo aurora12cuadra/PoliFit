@@ -6,7 +6,7 @@ import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
 function EstiloDeVida() {
-  const { pacienteId, consultaData, updateConsultaData } = usePaciente();
+  const { noBoleta, consultaData, updateConsultaData } = usePaciente();
   const router = useRouter();
 
   // Estados para capturar datos de los inputs
@@ -103,7 +103,7 @@ function EstiloDeVida() {
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">
-        Estilo de Vida para Paciente ID: {pacienteId}
+        Estilo de Vida para Paciente ID: {noBoleta}
       </h2>
   
       {/* Actividad Laboral */}

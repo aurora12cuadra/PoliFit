@@ -43,7 +43,7 @@ function Consultas() {
     resetConsultaData();
     // Almacena la información completa del paciente en el contexto
     setPacienteInfo({
-      pacienteId: selectedPaciente.noBoleta,
+      noBoleta: selectedPaciente.noBoleta,
       nombre: selectedPaciente.nombre,
       apellidoPaterno: selectedPaciente.apellidoPaterno,
       apellidoMaterno: selectedPaciente.apellidoMaterno,
@@ -102,12 +102,15 @@ function Consultas() {
   };
 
   const handlePacienteSelect = (pacienteId) => {
-    console.log("Paciente seleccionado con ID:", pacienteId); // Verificar el ID seleccionado
-    console.log("Resultados de búsqueda 2:", searchResults);
-    const paciente = searchResults.find((p) => p.noBoleta === pacienteId);
-    console.log("Resultados de paciente:", paciente);
-    setSelectedPaciente(paciente);
-    setIsSelectingPatient(false);
+    if(isSelectingPatient){
+      console.log("Paciente seleccionado con ID:", pacienteId); // Verificar el ID seleccionado
+      console.log("Resultados de búsqueda 2:", searchResults);
+      const paciente = searchResults.find((p) => p.noBoleta === pacienteId);
+      console.log("Resultados de paciente:", paciente);
+      setSelectedPaciente(paciente);
+      setIsSelectingPatient(false);
+      // console.log("dd")
+    }
   };  
 
   const handleCloseModal = () => {
@@ -117,25 +120,29 @@ function Consultas() {
   };
 
   const searchPaciente = async (nombre) => {
-    try {
-      const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
-        },
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Resultados de búsqueda:", data);
-        setSearchResults(data);
-      } else {
-        const errorData = await response.json();
-        console.error("Error al buscar paciente:", errorData.error);
-        setSearchResults([]); // Vacía los resultados si hay error
+    if(isSelectingPatient){
+      try {
+        // Asegura que el primer carácter de "nombre" sea mayúscula
+        nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+        const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Resultados de búsqueda:", data);
+          setSearchResults(data);
+        } else {
+          const errorData = await response.json();
+          console.error("Error al buscar paciente:", errorData.error);
+          setSearchResults([]); // Vacía los resultados si hay error
+        }
+      } catch (error) {
+        console.error("Error al buscar paciente:", error);
+        setSearchResults([]);
       }
-    } catch (error) {
-      console.error("Error al buscar paciente:", error);
-      setSearchResults([]);
     }
   };  
   
@@ -208,7 +215,9 @@ function Consultas() {
       searchPaciente(searchText);
       console.log("Paciente seleccionado:", searchText);
     } else {
+      console.log("No hay resultados");
       setSearchResults([]);
+      setIsSelectingPatient(true);
     }
   }, [searchText]);
 
@@ -355,6 +364,7 @@ function Consultas() {
           </ModalHeader>
           <ModalBody>
             <Autocomplete
+              allowsCustomValue
               label="Buscar paciente"
               placeholder="Escriba el nombre del paciente"
               className="w-full"
@@ -383,7 +393,7 @@ function Consultas() {
             <Button
               className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
               onPress={handleIniciarConsulta}
-              isDisabled={!selectedPaciente} // Deshabilitar si no hay paciente seleccionado
+              //isDisabled={!selectedPaciente} // Deshabilitar si no hay paciente seleccionado
             >
               Iniciar Consulta
             </Button>

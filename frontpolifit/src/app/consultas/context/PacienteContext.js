@@ -8,7 +8,7 @@ const PacienteContext = createContext();
 export function PacienteProvider({ children }) {
   // Información básica del paciente
   const [pacienteData, setPacienteData] = useState({
-    pacienteId: null,
+    noBoleta: null,
     nombre: "",
     apellidoPaterno: "",
     apellidoMaterno: "",
@@ -93,7 +93,7 @@ const resetConsultaData = () => {
   const guardarConsulta = async () => {
     const consulta = {
       // noBoleta: "2019988777", // Usa el ID de prueba o el real desde el contexto
-      noBoleta: pacienteData.pacienteId,
+      noBoleta: pacienteData.noBoleta,
       actLaboralData: consultaData.estiloDeVida.actividadLaboral,
       actFisicaData: consultaData.estiloDeVida.actividadFisica,
       toxicomaniasData: consultaData.estiloDeVida.toxicomanias,

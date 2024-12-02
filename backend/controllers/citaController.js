@@ -97,20 +97,20 @@ exports.obtenerCitasPorFecha = async (req, res) => {
 };
 
 // Obtener citas de un paciente específico
-exports.obtenerCitasPorPaciente = async (req, res) => {
-    const noBoleta = req.params.noBoleta;
-    try {
-        const citas = await Cita.findAll({
-            where: {
-                noBoleta: noBoleta,
-                numeroEmpleado: req.nutriologoId
-            }
-        });
-        res.status(200).json(citas);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
+// exports.obtenerCitasPorPaciente = async (req, res) => {
+//     const noBoleta = req.params.noBoleta;
+//     try {
+//         const citas = await Cita.findAll({
+//             where: {
+//                 noBoleta: noBoleta,
+//                 numeroEmpleado: req.nutriologoId
+//             }
+//         });
+//         res.status(200).json(citas);
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
 
 // Obtener citas en un rango de fechas
 exports.obtenerCitasPorRangoFechas = async (req, res) => {
