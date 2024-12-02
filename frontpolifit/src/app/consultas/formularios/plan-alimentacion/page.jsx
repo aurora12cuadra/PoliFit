@@ -5,7 +5,6 @@ import { useReactToPrint } from "react-to-print";
 //import html2pdf from "html2pdf.js";
 import Image from "next/image";
 import { usePaciente } from "../../context/PacienteContext";
-//import Cronometro from "../../components/Cronometro";
 
 function PlanAlimentacion() {
   const { nombre, edad, peso, talla, email } = usePaciente();
@@ -45,19 +44,23 @@ function PlanAlimentacion() {
   };
 
   const handleFinalSave = async () => {
-
     try {
       await guardarConsulta(); // Llama a la función para guardar la consulta en el backend
       alert("Consulta finalizada y guardada con éxito.");
       router.push("/consultas"); // Redirige a la página principal de consultas
     } catch (error) {
       console.error("Error al guardar la consulta:", error);
-      alert("Hubo un error al finalizar la consulta. Por favor, inténtalo de nuevo.");
+      alert(
+        "Hubo un error al finalizar la consulta. Por favor, inténtalo de nuevo."
+      );
     }
-  }; 
+  };
 
   // Función para generar el PDF con html2pdf.js
   const handleDownloadPDF = async () => {
+    // Oculta los botones antes de generar el PDF
+    const buttons = document.querySelectorAll(".no-print");
+    buttons.forEach((button) => (button.style.display = "none"));
     const html2pdf = (await import("html2pdf.js")).default; // Dynamically import
     const options = {
       margin: 0.5, // Márgenes: [arriba, derecha, abajo, izquierda]
@@ -66,12 +69,27 @@ function PlanAlimentacion() {
       html2canvas: {
         scale: 2, // Mejora la calidad del PDF
         useCORS: true, // Permite cargar recursos de otras fuentes
+        ignoreElements: (el) => el.classList.contains("no-print"),
       },
       jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
     };
 
     const element = componentRef.current;
-    html2pdf().set(options).from(element).save();
+
+    // Generar el PDF
+  html2pdf()
+    .set(options)
+    .from(element)
+    .save()
+    .then(() => {
+      // Restaura los botones después de generar el PDF
+      buttons.forEach(button => button.style.display = '');
+    })
+    .catch(err => {
+      console.error("Error al generar el PDF:", err);
+      // Restaura los botones en caso de error
+      buttons.forEach(button => button.style.display = '');
+    });
   };
 
   return (
@@ -1149,13 +1167,13 @@ function PlanAlimentacion() {
         <div className="space-x-4">
           <button
             onClick={handleDownloadPDF}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6]"
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
           >
             Descargar en PDF
           </button>
           <button
             //onClick={handlePrint}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6]"
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
           >
             Enviar al correo electrónico
           </button>
@@ -1164,7 +1182,7 @@ function PlanAlimentacion() {
           onClick={() => {
             handleFinalSave();
           }}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print"
         >
           Terminar Consulta
         </button>
