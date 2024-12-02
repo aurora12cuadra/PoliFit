@@ -30,6 +30,43 @@ function DatosPersonales() {
     padecimientoActual: "",
   });
 
+  const opcionesCarreras = {
+    ESIA: ["Ingeniería Civil"],
+    ESIME: [
+      "Ingeniería Eléctrica",
+      "Ingeniería en Comunicaciones y Electrónica",
+      "Ingeniería en Control y Automatización",
+      "Ingeniería en Robótica Industrial",
+      "Ingeniería en Sistemas Automotrices",
+      "Ingeniería Fotónica",
+      "Ingeniería Mecánica",
+    ],
+    ESCOM: [
+      "Ingeniería en Inteligencia Artificial",
+      "Ingeniería en Sistemas Computacionales",
+      "Licenciatura en Ciencia de Datos",
+    ],
+    ENCB: [
+      "Ingeniería Bioquímica",
+      "Ingeniería en Sistemas Ambientales",
+      "Licenciatura en Biología",
+      "Químico Bacteriólogo y Parasitólogo",
+      "Químico Farmacéutico Industrial",
+    ],
+    ESFM: [
+      "Ingeniería Matemática",
+      "Licenciatura en Física y Matemáticas",
+      "Licenciatura en Matemática Algorítmica",
+    ],
+    ESIQIE: ["Ingeniería Química Petrolera", "Ingeniería Química Industrial"],
+  };
+
+  Object.keys(opcionesCarreras).forEach((escuela) => {
+    opcionesCarreras[escuela].push("PAE", "Docente");
+  });
+
+  const [opcionesDinamicasCarrera, setOpcionesDinamicasCarrera] = useState([]);
+
   //Validacion de campos
   const [errores, setErrores] = useState({});
 
@@ -50,15 +87,14 @@ function DatosPersonales() {
       // Validar formato de correo electrónico
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(datosPersonales.email)) {
-        errores.email = "El formato del email no es válido";
+        errores.email = "Formato inválido. Ejemplo: usuario@dominio.com";
       }
     }
     // if(!datosPersonales.escuela)
     //   errores.escuela = "La escuela es obligatoria"
-    if(!datosPersonales.carrera)
-      errores.carrera = "La carrera es obligatoria"
-    if(!datosPersonales.noBoleta)
-      errores.noBoleta = "El numero de Boleta / Empleado es obligatorio"
+    if (!datosPersonales.carrera) errores.carrera = "La carrera es obligatoria";
+    if (!datosPersonales.noBoleta)
+      errores.noBoleta = "El numero de Boleta / Empleado es obligatorio";
 
     // Validar nombre (no debe contener números)
     // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
@@ -93,7 +129,10 @@ function DatosPersonales() {
     const fechaNacimientoDate = new Date(fechaNacimiento);
     let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
     const mes = hoy.getMonth() - fechaNacimientoDate.getMonth();
-    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate())) {
+    if (
+      mes < 0 ||
+      (mes === 0 && hoy.getDate() < fechaNacimientoDate.getDate())
+    ) {
       edad--;
     }
     return edad;
@@ -126,8 +165,17 @@ function DatosPersonales() {
   // Manejador de cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // Actualizar la edad automáticamente si cambia la fecha de nacimiento
-    if (name === "fechaNacimiento") {
+
+    if (name === "escuela") {
+      setOpcionesDinamicasCarrera(opcionesCarreras[value] || []); // Actualiza las carreras según la escuela
+      setDatosPersonales((prevData) => ({
+        ...prevData,
+        [name]: value,
+        carrera: "", // Resetea la carrera al cambiar de escuela
+      }));
+
+      // Actualizar la edad automáticamente si cambia la fecha de nacimiento
+    } else if (name === "fechaNacimiento") {
       const edadCalculada = calcularEdad(value);
       setDatosPersonales((prevData) => ({
         ...prevData,
@@ -153,7 +201,6 @@ function DatosPersonales() {
     }
   };
 
-
   return (
     <div className="p-4 md:p-8">
       <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
@@ -175,10 +222,10 @@ function DatosPersonales() {
             ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
-            ["Escuela", "text", "escuela"],
-            ["*Carrera", "text", "carrera"],
+            // ["Escuela", "text", "escuela"],
+            // ["*Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
-            
+
             ["*No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
@@ -198,6 +245,7 @@ function DatosPersonales() {
                     </option>
                   ))}
                 </select>
+                
               ) : (
                 <input
                   type={type}
@@ -214,6 +262,51 @@ function DatosPersonales() {
               )}
             </div>
           ))}
+          {/* Selector para Escuela */}
+        <div>
+          <label className="block font-medium mb-1">Escuela</label>
+          <select
+            name="escuela"
+            value={datosPersonales.escuela}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md"
+          >
+            <option value="" disabled>
+              Selecciona una escuela
+            </option>
+            {Object.keys(opcionesCarreras).map((escuela) => (
+              <option key={escuela} value={escuela}>
+                {escuela}
+              </option>
+            ))}
+          </select>
+          {errores.escuela && (
+            <p className="text-red-500 text-sm mt-1">{errores.escuela}</p>
+          )}
+        </div>
+
+        {/* Selector para Carrera */}
+        <div>
+          <label className="block font-medium mb-1">*Carrera</label>
+          <select
+            name="carrera"
+            value={datosPersonales.carrera}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md"
+          >
+            <option value="" disabled>
+              Selecciona una carrera
+            </option>
+            {opcionesDinamicasCarrera.map((carrera) => (
+              <option key={carrera} value={carrera}>
+                {carrera}
+              </option>
+            ))}
+          </select>
+          {errores.carrera && (
+            <p className="text-red-500 text-sm mt-1">{errores.carrera}</p>
+          )}
+        </div>
         </div>
       </div>
 

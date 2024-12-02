@@ -125,17 +125,18 @@ exports.registrarConsultaCompleta = async (req, res) => {
   }
 };
 
-// Metodo para obtener todas las consultas
 
+
+// Metodo para obtener todas las consultas
 exports.obtenerTodasLasConsultas = async (req, res) => {
   try {
     // Recuperar el numeroEmpleado del nutriólogo actual (desde el token)
     const numeroEmpleado = req.nutriologoId;
-    console.log("Iniciando obtención de todas las consultas");
+    console.log("Iniciando obtención de todas las consultas para el nutriólogo:", numeroEmpleado);
 
     // Consultar todas las consultas con el modelo Paciente
     const consultas = await Consulta.findAll({
-      numeroEmpleado,
+      where: { numeroEmpleado }, // Filtro por el nutriólogo actual
       include: [
         {
           model: Paciente,

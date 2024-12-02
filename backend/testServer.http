@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ### Obtener perfil
 GET http://localhost:3000/nutriologos/perfil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiLCJlbWFpbCI6InRhbS40NUBleGFtcGxlLmNvbSIsImlhdCI6MTczMjI1MTI1MywiZXhwIjoxNzMyMjg3MjUzfQ.k6BoToqz5_fAlepNY7dipBgc3WNrEU0FY_LRJYHThkM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExMTEiLCJlbWFpbCI6InBhYmxvQGdtYWlsLmNvbSIsImlhdCI6MTczMjQ3Njk0NywiZXhwIjoxNzMyNTEyOTQ3fQ.5LyQRxdGjaWzCRpjd8hy0nAJuKN16sQsYgqIgLeLvr4
 Content-Type: application/json
 
 ### Registrar un nuevo paciente
@@ -68,9 +68,9 @@ Content-Type: application/json
     "password": "password123"
 }
 
-### Traer todas las consultas 
+### Traer todas las consultas del nutriologo con sesión iniciada
 GET http://localhost:3000/consulta/getAll
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjcyODQwMywiZXhwIjoxNzMyNzY0NDAzfQ.I1h8epx5v_QnsxqePHNFQZBNEfMX2pMCf6WazXGG3I0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYW5hLmxvcGV6QGV4YW1wbGUuY29tIiwiaWF0IjoxNzMyMjM4NTUwLCJleHAiOjE3MzIyNzQ1NTB9.nCPlL1LoSt7Axhc1jnaW6pnWcN8pxen-8qdf7jd7u-c
 
 
 
@@ -79,8 +79,8 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-    "email": "juan.perez@example.com",
-    "password": "password123"
+    "email": "pablo@gmail.com",
+    "password": "Contrasena"
 }
 
 ### Obtener todos los nutriólogos
@@ -96,13 +96,12 @@ Authorization: Bearer {token}
 ###
 
 # Actualizar un nutriólogo
-PATCH http://localhost:3000/nutriologos/1
+PATCH http://localhost:3000/nutriologos/1111
 Content-Type: application/json
-Authorization: Bearer {token}
 
 {
-    "nombre": "Juan Carlos",
-    "especialidad": "Nutrición Deportiva"
+    "password": "Contrasena"
+    
 }
 
 ###
@@ -520,7 +519,7 @@ Content-Type: application/json
 
 ###Traer Consultas
 GET http://localhost:3000/consulta/getAll
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMTY0MzU1NywiZXhwIjoxNzMxNjc5NTU3fQ.yEdIuN3q5JWZ0sCh_yVqz6g67hF8YLn7rdP4lt-Sacw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyIsImVtYWlsIjoiYXVyb3JhQGdtYWlsLmNvbSIsImlhdCI6MTczMjU5NzM3NCwiZXhwIjoxNzMyNjMzMzc0fQ.Otm7tQCSKGzM0fORB2_RKvMwxGkJo_8KV8-KgkiniVo
 
 ### Registrar una consulta completa
 POST http://localhost:3000/consulta/register
