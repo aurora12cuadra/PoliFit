@@ -299,3 +299,33 @@ exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+// Obtener la última consulta de un paciente y sus modelos asociados
+exports.obtenerUltimaConsultaConPlieguesYDiametros = async (req, res) => {
+  const { noBoleta } = req.params; // noBoleta del paciente
+
+  try {
+    // Recuperar el número de empleado del nutriólogo actual (desde el token)
+    const numeroEmpleado = req.nutriologoId;
+
+    // Buscar la última consulta para el paciente (ordenada por fecha descendente)
+    const ultimaConsulta = await Consulta.findOne({
+      where: { noBoleta, numeroEmpleado },
+      order: [['fecha_consulta', 'DESC']], // Ordenar por fecha de consulta, la más reciente primero
+      include: [
+        { model: Pliegues },  // Incluir el modelo Pliegues
+        { model: Diametros }  // Incluir el modelo Diametros
+      ]
+    });
+
+    if (!ultimaConsulta) {
+      return res.status(404).json({ error: "No se encontró ninguna consulta para este paciente." });
+    }
+
+    // Responder con la última consulta y los modelos asociados
+    res.status(200).json(ultimaConsulta);
+  } catch (error) {
+    console.error("Error al obtener la última consulta:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};

@@ -44,7 +44,7 @@ function Consultas() {
     resetConsultaData();
     // Almacena la información completa del paciente en el contexto
     setPacienteInfo({
-      pacienteId: selectedPaciente.noBoleta,
+      noBoleta: selectedPaciente.noBoleta,
       nombre: selectedPaciente.nombre,
       apellidoPaterno: selectedPaciente.apellidoPaterno,
       apellidoMaterno: selectedPaciente.apellidoMaterno,
@@ -120,13 +120,16 @@ function Consultas() {
   };
 
   const handlePacienteSelect = (pacienteId) => {
-    console.log("Paciente seleccionado con ID:", pacienteId); // Verificar el ID seleccionado
-    console.log("Resultados de búsqueda 2:", searchResults);
-    const paciente = searchResults.find((p) => p.noBoleta === pacienteId);
-    console.log("Resultados de paciente:", paciente);
-    setSelectedPaciente(paciente);
-    setIsSelectingPatient(false);
-  };
+    if(isSelectingPatient){
+      console.log("Paciente seleccionado con ID:", pacienteId); // Verificar el ID seleccionado
+      console.log("Resultados de búsqueda 2:", searchResults);
+      const paciente = searchResults.find((p) => p.noBoleta === pacienteId);
+      console.log("Resultados de paciente:", paciente);
+      setSelectedPaciente(paciente);
+      setIsSelectingPatient(false);
+      // console.log("dd")
+    }
+  };  
 
   const handleCloseModal = () => {
     setIsSelectingPatient(true);
@@ -135,25 +138,29 @@ function Consultas() {
   };
 
   const searchPaciente = async (nombre) => {
-    try {
-      const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Resultados de búsqueda:", data);
-        setSearchResults(data);
-      } else {
-        const errorData = await response.json();
-        console.error("Error al buscar paciente:", errorData.error);
-        setSearchResults([]); // Vacía los resultados si hay error
+    if(isSelectingPatient){
+      try {
+        // Asegura que el primer carácter de "nombre" sea mayúscula
+        nombre = nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+        const response = await fetch(`/api/pacientes/buscar?nombre=${nombre}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Pasa el token desde localStorage
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Resultados de búsqueda:", data);
+          setSearchResults(data);
+        } else {
+          const errorData = await response.json();
+          console.error("Error al buscar paciente:", errorData.error);
+          setSearchResults([]); // Vacía los resultados si hay error
+        }
+      } catch (error) {
+        console.error("Error al buscar paciente:", error);
+        setSearchResults([]);
       }
-    } catch (error) {
-      console.error("Error al buscar paciente:", error);
-      setSearchResults([]);
     }
   };
 
@@ -247,7 +254,9 @@ function Consultas() {
       searchPaciente(searchText);
       console.log("Paciente seleccionado:", searchText);
     } else {
+      console.log("No hay resultados");
       setSearchResults([]);
+      setIsSelectingPatient(true);
     }
   }, [searchText]);
 
@@ -390,62 +399,57 @@ function Consultas() {
           </Table>
         </div>
 
-        {/* Modal para seleccionar paciente */}
-        <Modal isOpen={isOpen} onClose={handleCloseModal} size="md">
-          <ModalContent>
-            <ModalHeader>
-              <h2 className="text-2xl font-semibold">Seleccionar Paciente</h2>
-            </ModalHeader>
-            <ModalBody>
-              <Autocomplete
-                label="Buscar paciente"
-                placeholder="Escriba el nombre del paciente"
-                className="w-full"
-                items={searchResults}
-                onInputChange={(value) => setSearchText(value)}
-                onSelectionChange={handlePacienteSelect}
-              >
-                {(paciente) => (
-                  <AutocompleteItem
-                    key={paciente.noBoleta}
-                    textValue={`${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
-                  >
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium">
-                        {`${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
-                      </span>
-                      <span className="text-xs text-default-400">
-                        {paciente.email}
-                      </span>
-                    </div>
-                  </AutocompleteItem>
-                )}
-              </Autocomplete>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="danger" variant="flat" onPress={handleCloseModal}>
-                Cancelar
-              </Button>
-              <Button
-                className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
-                onPress={handleIniciarConsulta}
-                isDisabled={!selectedPaciente} // Deshabilitar si no hay paciente seleccionado
-              >
-                Iniciar Consulta
-              </Button>
-              <Button
-                className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
-                onPress={() => (window.location.href = "/nuevopaciente")}
-              >
-                Nuevo Paciente
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
-      </div>
-      {selectedConsulta && (
-        <PanelConsulta consulta={selectedConsulta} onClose={handleClosePanel} />
-      )}
+      {/* Modal para seleccionar paciente */}
+      <Modal isOpen={isOpen} onClose={handleCloseModal} size="md">
+        <ModalContent>
+          <ModalHeader>
+            <h2 className="text-2xl font-semibold">Seleccionar Paciente</h2>
+          </ModalHeader>
+          <ModalBody>
+            <Autocomplete
+              allowsCustomValue
+              label="Buscar paciente"
+              placeholder="Escriba el nombre del paciente"
+              className="w-full"
+              items={searchResults}
+              onInputChange={(value) => setSearchText(value)}
+              onSelectionChange={handlePacienteSelect}
+            >
+              {(paciente) => (
+                <AutocompleteItem key={paciente.noBoleta} textValue={`${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">
+                      {`${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`}
+                    </span>
+                    <span className="text-xs text-default-400">
+                      {paciente.email}
+                    </span>
+                  </div>
+                </AutocompleteItem>
+              )}
+            </Autocomplete>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" variant="flat" onPress={handleCloseModal}>
+              Cancelar
+            </Button>
+            <Button
+              className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
+              onPress={handleIniciarConsulta}
+              //isDisabled={!selectedPaciente} // Deshabilitar si no hay paciente seleccionado
+            >
+              Iniciar Consulta
+            </Button>
+            <Button
+              className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
+              onPress={() => (window.location.href = "/nuevopaciente")}
+            >
+              Nuevo Paciente
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </div>
     </CronometroProvider>
   );
 }

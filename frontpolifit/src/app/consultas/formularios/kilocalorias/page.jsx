@@ -5,14 +5,9 @@ import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
 function Kilocalorias() {
-  const { consultaData, updateConsultaData, sexo, edad, nombre, apellidoPaterno } = usePaciente();
+  const { consultaData, updateConsultaData, sexo, edad } = usePaciente();
   const router = useRouter();
-  // useEffect(() => {
-  //   if (consultaData.kilocalorias) {
-  //     setKilocalorias(consultaData.kilocalorias);
-  //   }
-  // }, [consultaData.kilocalorias]);
-  
+
   let frecuencia = consultaData?.estiloDeVida?.actividadFisica?.frecuencia || 1;
 
   if(frecuencia === 1) {
@@ -25,14 +20,14 @@ function Kilocalorias() {
     frecuencia = 1.725;
   } else if(frecuencia === 5) {
     frecuencia = 1.9;
-  } 
+  }
 
   // console.log("Edad afuera: ", edad);
   // console.log("Nombre: ", nombre);
   // console.log("Sexo: ", sexo);
   // console.log("Edad: ", edad);
   // console.log("Revisar dato en kilo: ", consultaData.estiloDeVida.actividadFisica.frecuencia);
-  
+
   const [kilocalorias, setKilocalorias] = useState({
     peso: 0,
     altura: 0,
@@ -49,6 +44,9 @@ function Kilocalorias() {
     hcPercentage: 30,
     protPercentage: 40,
     lpPercentage: 30,
+    hc_g: 0,
+    prot_g: 0,
+    lp_g: 0,
   });
 
   useEffect(() => {
@@ -62,7 +60,7 @@ function Kilocalorias() {
       let tmb = 0, af1 = 0, kcal = 0, eta = 0;
       if (formula === "Harris-Benedict") {
         tmb = 66.473 + (13.752 * peso) + (5.003 * ((altura/100) * 100)) - (6.775 * edad); // 88.362 + 13.397 * peso + 4.799 * altura - 5.677 * 25;
-        console.log("TMB con Harris: ", tmb);        
+        console.log("TMB con Harris: ", tmb);
       } else if (formula === "Mifflin-St") {
         if (sexo === "Masculino") {
           tmb = (9.99*peso)+(6.25*((altura/100)*100))-(4.92*edad)+5;
@@ -96,15 +94,26 @@ function Kilocalorias() {
       const hc = ((kcal * hcPercentage) / 100).toFixed(2);
       const prot = ((kcal * protPercentage) / 100).toFixed(2);
       const lp = ((kcal * lpPercentage) / 100).toFixed(2);
-
+      const hc_g = (hc / 4).toFixed(2);
+      const prot_g = (prot / 4).toFixed(2);
+      const lp_g = (lp / 9).toFixed(2);
       setKilocalorias((prev) => ({
         ...prev,
         hc,
         prot,
         lp,
+        hc_g,
+        prot_g,
+        lp_g,
       }));
     }
   }, [kilocalorias.kcal, kilocalorias.hcPercentage, kilocalorias.protPercentage, kilocalorias.lpPercentage]);
+
+  // useEffect(() => {
+  //   if (consultaData.kilocalorias) {
+  //     setKilocalorias(consultaData.kilocalorias);
+  //   }
+  // }, [consultaData.kilocalorias]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -180,8 +189,8 @@ function Kilocalorias() {
               onChange={handleChange}
               className="w-full p-2 border rounded-md">
               <option value="Harris-Benedict">Harris-Benedict</option>
-              <option value="Mifflin-St Jeor">Mifflin-St Jeor</option>
-              <option value="Katch-McArdle">Katch-McArdle</option>
+              <option value="Mifflin-St">Mifflin-St</option>
+              <option value="Valencia">Valencia</option>
             </select>
           </div>
 
@@ -268,35 +277,64 @@ function Kilocalorias() {
             />
           </div>
 
+          {/* Resultados en calorias */}
+          <div>
+            <label className="block font-medium mb-1">HC (calorías)</label>
+            <input
+              type="text"
+              name="hc"
+              value={kilocalorias.hc || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="HC (calorías)" />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Proteínas (calorías)</label>
+            <input
+              type="text"
+              name="prot"
+              value={kilocalorias.prot || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="Proteínas (calorías)" />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Lípidos (calorías)</label>
+            <input
+              type="text"
+              name="lp"
+              value={kilocalorias.lp || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="Lípidos (calorías)" />
+          </div>
+
           {/* Resultados en gramos */}
           <div>
             <label className="block font-medium mb-1">HC (g)</label>
             <input
               type="text"
               name="hc"
-              value={kilocalorias.hc || ""}
+              value={kilocalorias.hc_g || ""}
               readOnly
-              className="w-full p-2 border rounded-md" placeholder="HC (g)" /> 
-          </div> 
-          <div> 
-            <label className="block font-medium mb-1">Proteínas (g)</label> 
-            <input 
-              type="text" 
-              name="prot" 
-              value={kilocalorias.prot || ""} 
-              readOnly 
-              className="w-full p-2 border rounded-md" placeholder="Proteínas (g)" /> 
-          </div> 
-          <div> 
-            <label className="block font-medium mb-1">Lípidos (g)</label> 
-            <input 
-              type="text" 
-              name="lp" 
-              value={kilocalorias.lp || ""} 
-              readOnly 
-              className="w-full p-2 border rounded-md" placeholder="Lípidos (g)" /> 
-          </div> 
-        </div> 
+              className="w-full p-2 border rounded-md" placeholder="HC (g)" />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Proteínas (g)</label>
+            <input
+              type="text"
+              name="prot"
+              value={kilocalorias.prot_g || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="Proteínas (g)" />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Lípidos (g)</label>
+            <input
+              type="text"
+              name="lp"
+              value={kilocalorias.lp_g || ""}
+              readOnly
+              className="w-full p-2 border rounded-md" placeholder="Lípidos (g)" />
+          </div>
+        </div>
       </div>
       <div className="flex justify-between mt-8">
         <button
@@ -319,7 +357,7 @@ function Kilocalorias() {
         </button>
       </div>
     </div>
-  ); 
+  );
 }
 
 export default Kilocalorias;

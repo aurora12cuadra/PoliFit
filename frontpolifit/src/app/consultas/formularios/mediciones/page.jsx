@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 //import Cronometro from "../../components/Cronometro";
 
 function Mediciones() {
-  const { consultaData, updateConsultaData } = usePaciente();
+  const { consultaData, updateConsultaData, noBoleta } = usePaciente();
+  const [plieguesAnterior, setPlieguesAnterior] = useState({});
   const router = useRouter();
 
   // Local state for each section
@@ -15,6 +16,41 @@ function Mediciones() {
   const [bioimpedancia, setBioimpedancia] = useState({});
   const [indicadores, setIndicadores] = useState({});
 
+  // Función para realizar la consulta a la API
+  const fetchPlieguesAnterior = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("No estás autenticado. Por favor, inicia sesión.");
+      return;
+    }
+    try {
+      // console.log("noBoleta en mediciones: ", noBoleta);
+      const response = await fetch(`/api/consulta/getMediciones?noBoleta=${noBoleta}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        },
+      });
+      // Verificamos si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error('No se pudo obtener la última consulta');
+      }
+  
+      const data = await response.json();
+      console.log("Data recuperado de mediciones: ", data);
+      console.log("Data recuperado de mediciones pliegue: ", data.Pliegue);
+
+      // Recuperar los datos de Mediciones
+      const plieguesData = data.Pliegue || [];  // Si no hay datos de pliegues, asignamos un arreglo vacío
+      const diametrosData = data.Diametro || [];  // Lo mismo para Diametros
+      setPlieguesAnterior(plieguesData); // Aquí se asume que `data` es un objeto con los campos de pliegues
+      // Ahora puedes usar estas variables como desees, por ejemplo:
+      console.log('Pliegues:', plieguesData);
+      console.log('Diametros:', diametrosData);
+    } catch (error) {
+      console.error("Error al realizar la consulta de pliegues:", error);
+    }
+  };
+
   useEffect(() => {
     if (consultaData.mediciones) {
       setPliegues(consultaData.mediciones.pliegues || {});
@@ -23,7 +59,65 @@ function Mediciones() {
       setBioimpedancia(consultaData.mediciones.bioimpedancia || {});
       setIndicadores(consultaData.mediciones.indicadores || {});
     }
+    fetchPlieguesAnterior();
   }, [consultaData.mediciones]);
+
+  // async function obtenerUltimaConsulta(noBoleta) {
+  //   try {
+  //     // Suponiendo que tienes la URL de la API configurada correctamente
+  //     const response = await fetch(`/api/consulta/getMediciones/${noBoleta}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         // Aquí puedes agregar tu token de autenticación si es necesario
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`
+  //       }
+  //     });
+  
+  //     // Verificamos si la respuesta fue exitosa
+  //     if (!response.ok) {
+  //       throw new Error('No se pudo obtener la última consulta');
+  //     }
+  
+  //     const data = await response.json();
+  
+  //     // Asumimos que `data` contiene la consulta con los modelos asociados
+  //     // Recuperar los datos de Pliegues y Diametros
+  //     const plieguesData = data.Pliegues || [];  // Si no hay datos de pliegues, asignamos un arreglo vacío
+  //     const diametrosData = data.Diametros || [];  // Lo mismo para Diametros
+  
+  //     // Aquí puedes asignar estos datos a las variables que uses
+  //     let pliegues = plieguesData;
+  //     let diametros = diametrosData;
+  
+  //     // Ahora puedes usar estas variables como desees, por ejemplo:
+  //     console.log('Pliegues:', pliegues);
+  //     console.log('Diametros:', diametros);
+  
+  //     return { pliegues, diametros };  // Regresamos los datos si es necesario
+  
+  //   } catch (error) {
+  //     console.error('Error al obtener la última consulta:', error.message);
+  //   }
+  // }
+
+
+
+  // useEffect para ejecutar la consulta al montar el componente
+  // useEffect(() => {
+  //   fetchPlieguesAnterior();
+  // }, []);
+
+  const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     await fetchPlieguesAnterior();
+  //     setLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
 
   const handleInputChange = (section, key, value) => {
     const updateFunc = {
@@ -62,16 +156,16 @@ function Mediciones() {
         <h4 className="text-lg font-semibold mb-2">Parámetros</h4>
           <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Subescapular", field: "subescapular" },
-            { label: "Tríceps", field: "triceps" },
-            { label: "Bíceps", field: "biceps" },
-            { label: "Cresta Ilíaca", field: "cresta_iliaca" },
-            { label: "Supraspinal", field: "supraespinal" },
-            { label: "Abdominal", field: "abdominal" },
-            { label: "Muslo Frontal", field: "muslo_frontal" },
-            { label: "Pantorrilla Medial", field: "pantorrilla_medial" },
-            { label: "Axilar Medial", field: "axilar_medial" },
-            { label: "Pectoral", field: "pectoral" },
+            { label: "Subescapular (mm)", field: "subescapular" },
+            { label: "Tríceps (mm)", field: "triceps" },
+            { label: "Bíceps (mm)", field: "biceps" },
+            { label: "Cresta Ilíaca (mm)", field: "cresta_iliaca" },
+            { label: "Supraspinal (mm)", field: "supraespinal" },
+            { label: "Abdominal (mm)", field: "abdominal" },
+            { label: "Muslo Frontal (mm)", field: "muslo_frontal" },
+            { label: "Pantorrilla Medial (mm)", field: "pantorrilla_medial" },
+            { label: "Axilar Medial (mm)", field: "axilar_medial" },
+            { label: "Pectoral (mm)", field: "pectoral" },
           ].map(({ label, field }) => (
             <div key={field}>
               <label className="block font-medium mb-1">{label}</label>
@@ -81,6 +175,9 @@ function Mediciones() {
                 value={pliegues[field] || ""}
                 onChange={(e) => handleInputChange("pliegues", field, e.target.value)}
               />
+              <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {plieguesAnterior[field] || "N/A"}
+              </p>
             </div>
           ))}
         </div>
@@ -120,6 +217,9 @@ function Mediciones() {
                 value={perimetros[field] || ""}
                 onChange={(e) => handleInputChange("perimetros", field, e.target.value)}
               />
+              <p className="text-sm text-gray-500 mt-1">
+                Medida anterior: {plieguesAnterior[field] || "N/A"}
+              </p>
             </div>
           ))}
         </div>
