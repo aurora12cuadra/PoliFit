@@ -228,7 +228,7 @@ function Mediciones() {
           className="bg-gray-500 text-white px-4 py-2 rounded-md"
           onClick={() => {
             handleSaveAndNext();
-            router.push("/consultas/formularios/trastornos")}}
+            router.push("/consultas/formularios/recordatorio24hrs")}}
         >
           Anterior
         </button>

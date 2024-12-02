@@ -312,7 +312,7 @@ function Kilocalorias() {
           className="bg-[#11404E] text-white py-2 px-4 rounded-md"
           onClick={() => {
             handleSaveAndNext();
-            router.push("/consultas/formularios/recordatorio24hrs");
+            router.push("/consultas/formularios/plan-alimentacion");
           }}
         >
           Siguiente

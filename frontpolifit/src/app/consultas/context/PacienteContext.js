@@ -33,13 +33,7 @@ export function PacienteProvider({ children }) {
     recordatorio24Hrs:{},
     // Añadir más secciones según sea necesario
   });
-  // Función para actualizar datos específicos de cada formulario en consultaData
-  // const updateConsultaData = (section, data) => {
-  //   setConsultaData((prevData) => ({
-  //     ...prevData,
-  //     [section]: { ...prevData[section], ...data },
-  //   }));
-  // };
+  
   const updateConsultaData = (field, value) => {
     setConsultaData((prevData) => {
         const updatedData = { ...prevData, [field]: value };
@@ -57,38 +51,6 @@ const resetConsultaData = () => {
     recordatorio24Hrs: {},
   });
 };
-
-  // // Función para guardar la consulta completa
-  // const guardarConsulta = async () => {
-  //   const consultaCompleta = {
-  //     noBoleta: pacienteData.pacienteId,
-  //     // actLaboralData: consultaData.estiloDeVida.actividadLaboral,
-  //     // actFisicaData: consultaData.estiloDeVida.actividadFisica,
-  //     // toxicomaniasData: consultaData.estiloDeVida.toxicomanias,
-  //     // habitosDietData: consultaData.estiloDeVida.habitosDieteticos,
-  //     // recordatorioData: consultaData.recordatorio24Hrs,
-  //   };
-  
-  //   try {
-  //     const response = await fetch("/api/consultas/register", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       },
-  //       body: JSON.stringify(consultaCompleta)
-  //     });
-  
-  //     if (response.ok) {
-  //       console.log("Consulta registrada exitosamente");
-  //     } else {
-  //       const errorData = await response.text(); // Usa `text()` para leer la respuesta completa en caso de error
-  //       console.error("Error al registrar consulta:", errorData);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error al registrar consulta:", error);
-  //   }
-  // };
   
   const guardarConsulta = async () => {
     const consulta = {

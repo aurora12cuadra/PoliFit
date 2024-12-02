@@ -11,9 +11,9 @@ const MenuConsultas = () => {
     { name: "Consultas", path: "/consultas" },
     { name: "Estilo de Vida", path: "/consultas/formularios/estilovida" },
     { name: "Trastornos", path: "/consultas/formularios/trastornos" },
-    { name: "Mediciones", path: "/consultas/formularios/mediciones" },
-    { name: "Kilocalorias", path: "/consultas/formularios/kilocalorias" },
     { name: "Recordatorio 24 hrs.", path: "/consultas/formularios/recordatorio24hrs" },
+    { name: "Mediciones", path: "/consultas/formularios/mediciones" },
+    { name: "Kilocalorias", path: "/consultas/formularios/kilocalorias" },    
     { name: "Plan alimentación", path: "/consultas/formularios/plan-alimentacion" },
   ];
 

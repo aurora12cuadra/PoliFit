@@ -104,7 +104,7 @@ function Trastornos() {
     console.log("datos recolectados de trastornos 4: ", datosTrastornos.formattedTrastornos);
     // Enviar el objeto completo como un solo `updateConsultaData`
     updateConsultaData("trastornos", datosTrastornos);
-    router.push("/consultas/formularios/mediciones");
+    router.push("/consultas/formularios/recordatorio24hrs");
   };  
 
   const labels = {
