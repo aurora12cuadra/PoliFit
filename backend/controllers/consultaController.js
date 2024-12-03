@@ -301,7 +301,7 @@ exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
 };
 
 // Obtener la última consulta de un paciente y sus modelos asociados
-exports.obtenerUltimaConsultaConPlieguesYDiametros = async (req, res) => {
+exports.obtenerUltimaConsultaMediciones = async (req, res) => {
   const { noBoleta } = req.params; // noBoleta del paciente
 
   try {
@@ -314,7 +314,11 @@ exports.obtenerUltimaConsultaConPlieguesYDiametros = async (req, res) => {
       order: [['fecha_consulta', 'DESC']], // Ordenar por fecha de consulta, la más reciente primero
       include: [
         { model: Pliegues },  // Incluir el modelo Pliegues
-        { model: Diametros }  // Incluir el modelo Diametros
+        { model: Diametros },  // Incluir el modelo Diametros
+        { model: Perimetros },
+        { model: Bioimpedancia },
+        { model: Bioquimicos },
+        { model: Kilocalorias },
       ]
     });
 

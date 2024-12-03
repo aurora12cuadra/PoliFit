@@ -49,10 +49,10 @@ function EstiloDeVida() {
     if (consultaData.estiloDeVida) {
       setActividadLaboral({
         ocupacion: consultaData.estiloDeVida.actividadLaboral?.ocupacion || "",
-        descrip: consultaData.estiloDeVida.actividadLaboral?.descripcion || "", // Cambiado a 'descrip'
+        descrip: consultaData.estiloDeVida.actividadLaboral?.descrip || "", // Cambiado a 'descrip'
         horario: consultaData.estiloDeVida.actividadLaboral?.horario || "",
-        total_horas: consultaData.estiloDeVida.actividadLaboral?.horasTrabajadas || "", // Cambiado a 'total_horas'
-        n_estres: Number(consultaData.estiloDeVida.actividadLaboral?.nivelEstres) || 0, // Cambiado a 'n_estres' y convertido a número
+        total_horas: consultaData.estiloDeVida.actividadLaboral?.total_horas || "", // Cambiado a 'total_horas'
+        n_estres: Number(consultaData.estiloDeVida.actividadLaboral?.n_estres) || 0, // Cambiado a 'n_estres' y convertido a número
       });
   
       setActividadFisica({
@@ -61,25 +61,25 @@ function EstiloDeVida() {
       });
   
       setToxicomanias({
-        alcohol: consultaData.estiloDeVida.toxicomanias?.alcohol ? "true" : "false",
-        tabaco: consultaData.estiloDeVida.toxicomanias?.tabaco ? "true" : "false",
-        cafe: consultaData.estiloDeVida.toxicomanias?.cafe ? "true" : "false",
-        farmacodep: consultaData.estiloDeVida.toxicomanias?.farmaco ? "true" : "false", // Cambiado a 'farmacodep'
-        medicamentos: consultaData.estiloDeVida.toxicomanias?.medicamentos ? "true" : "false",
-        otro: consultaData.estiloDeVida.toxicomanias?.otro ? "true" : "false",
+        alcohol: consultaData.estiloDeVida.toxicomanias?.alcohol || "false",
+        tabaco: consultaData.estiloDeVida.toxicomanias?.tabaco || "false",
+        cafe: consultaData.estiloDeVida.toxicomanias?.cafe || "false",
+        farmacodep: consultaData.estiloDeVida.toxicomanias?.farmacodep || "false", // Cambiado a 'farmacodep'
+        medicamentos: consultaData.estiloDeVida.toxicomanias?.medicamentos || "false",
+        otro: consultaData.estiloDeVida.toxicomanias?.otro || "false",
       });
   
       setHabitosDieteticos({
-        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimentosNoDeseados || "", // Cambiado a 'alimen_ndesead'
-        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimentosFavoritos || "", // Cambiado a 'alimen_fav'
-        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergiaComida || "", // Cambiado a 'alergia'
-        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.desayunoLugarHora || "", // Cambiado a 'hora_bkf'
-        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cantidadAgua || "", // Cambiado a 'cant_agua'
-        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.comidaLugarHora || "", // Cambiado a 'hora_comida'
-        cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cantidadAzucar || "", // Cambiado a 'cant_azu'
-        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.cenaLugarHora || "", // Cambiado a 'hora_cena'
-        cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cantidadSal || "", // Cambiado a 'cant_sal'
-        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.horaDespierta || "", // Cambiado a 'hora_desp'
+        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimen_ndesead || "", // Cambiado a 'alimen_ndesead'
+        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimen_fav || "", // Cambiado a 'alimen_fav'
+        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergia || "", // Cambiado a 'alergia'
+        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.hora_bkf || "", // Cambiado a 'hora_bkf'
+        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cant_agua || "", // Cambiado a 'cant_agua'
+        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.hora_comida || "", // Cambiado a 'hora_comida'
+        cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cant_azu || "", // Cambiado a 'cant_azu'
+        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.hora_cena || "", // Cambiado a 'hora_cena'
+        cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cant_sal || "", // Cambiado a 'cant_sal'
+        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.hora_desp || "", // Cambiado a 'hora_desp'
         alimen_nconsum: "",
         alimen_into: "",  
       });
