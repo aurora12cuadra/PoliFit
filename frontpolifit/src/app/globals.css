@@ -78,3 +78,8 @@
     @apply text-center;
   }
 }
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

@@ -1,11 +1,16 @@
 "use client";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 //import html2pdf from "html2pdf.js";
 import Image from "next/image";
-//import Cronometro from "../../components/Cronometro";
+import { usePaciente } from "../../context/PacienteContext";
 
 function PlanAlimentacion() {
+  const { nombre, edad, peso, talla, email } = usePaciente();
+  const { consultaData, guardarConsulta } = usePaciente();
+  const router = useRouter();
+
   const componentRef = useRef();
   // Estado para la tabla editable con 5 filas
   const [tableData, setTableData] = useState(
@@ -38,8 +43,24 @@ function PlanAlimentacion() {
     });
   };
 
+  const handleFinalSave = async () => {
+    try {
+      await guardarConsulta(); // Llama a la función para guardar la consulta en el backend
+      alert("Consulta finalizada y guardada con éxito.");
+      router.push("/consultas"); // Redirige a la página principal de consultas
+    } catch (error) {
+      console.error("Error al guardar la consulta:", error);
+      alert(
+        "Hubo un error al finalizar la consulta. Por favor, inténtalo de nuevo."
+      );
+    }
+  };
+
   // Función para generar el PDF con html2pdf.js
   const handleDownloadPDF = async () => {
+    // Oculta los botones antes de generar el PDF
+    const buttons = document.querySelectorAll(".no-print");
+    buttons.forEach((button) => (button.style.display = "none"));
     const html2pdf = (await import("html2pdf.js")).default; // Dynamically import
     const options = {
       margin: 0.5, // Márgenes: [arriba, derecha, abajo, izquierda]
@@ -48,12 +69,27 @@ function PlanAlimentacion() {
       html2canvas: {
         scale: 2, // Mejora la calidad del PDF
         useCORS: true, // Permite cargar recursos de otras fuentes
+        ignoreElements: (el) => el.classList.contains("no-print"),
       },
       jsPDF: { unit: "mm", format: "letter", orientation: "portrait" },
     };
 
     const element = componentRef.current;
-    html2pdf().set(options).from(element).save();
+
+    // Generar el PDF
+  html2pdf()
+    .set(options)
+    .from(element)
+    .save()
+    .then(() => {
+      // Restaura los botones después de generar el PDF
+      buttons.forEach(button => button.style.display = '');
+    })
+    .catch(err => {
+      console.error("Error al generar el PDF:", err);
+      // Restaura los botones en caso de error
+      buttons.forEach(button => button.style.display = '');
+    });
   };
 
   return (
@@ -104,7 +140,12 @@ function PlanAlimentacion() {
           </div>
           <div>
             <label className="block font-medium mb-1">Nombre:</label>
-            <input type="text" className="w-full p-2 border rounded-md" />
+            <input
+              type="text"
+              className="w-full p-2 border rounded-md"
+              value={nombre || ""}
+              readOnly
+            />
           </div>
           <div className="col-span-2">
             <label className="block font-medium mb-1">Diagnóstico:</label>
@@ -112,11 +153,21 @@ function PlanAlimentacion() {
           </div>
           <div>
             <label className="block font-medium mb-1">Edad:</label>
-            <input type="number" className="w-full p-2 border rounded-md" />
+            <input
+              type="number"
+              className="w-full p-2 border rounded-md"
+              value={edad || ""}
+              readOnly
+            />
           </div>
           <div>
             <label className="block font-medium mb-1">Peso:</label>
-            <input type="number" className="w-full p-2 border rounded-md" />
+            <input
+              type="number"
+              className="w-full p-2 border rounded-md"
+              value={consultaData.kilocalorias.peso || ""}
+              readOnly
+            />
           </div>
           <div>
             <label className="block font-medium mb-1">Talla:</label>
@@ -124,11 +175,21 @@ function PlanAlimentacion() {
           </div>
           <div>
             <label className="block font-medium mb-1">IMC:</label>
-            <input type="number" className="w-full p-2 border rounded-md" />
+            <input
+              type="number"
+              className="w-full p-2 border rounded-md"
+              value={consultaData.kilocalorias.imc || ""}
+              readOnly
+            />
           </div>
           <div>
             <label className="block font-medium mb-1">KCAL:</label>
-            <input type="number" className="w-full p-2 border rounded-md" />
+            <input
+              type="number"
+              className="w-full p-2 border rounded-md"
+              value={consultaData.kilocalorias.kcal || ""}
+              readOnly
+            />
           </div>
         </div>
 
@@ -136,16 +197,25 @@ function PlanAlimentacion() {
         <h2 className="text-lg font-semibold mb-2">Distribución</h2>
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            { label: "HC", suffix: "%" },
-            { label: "PROT", suffix: "%" },
-            { label: "LIP", suffix: "%" },
+            { label: "HC", suffix: "%", field: "hcPercentage" },
+            { label: "PROT", suffix: "%", field: "protPercentage" },
+            { label: "LIP", suffix: "%", field: "lpPercentage" },
             { label: "MM", suffix: "%" },
             { label: "CINT", suffix: "%" },
             { label: "CADERA", suffix: "%" },
-          ].map(({ label, suffix }) => (
+          ].map(({ label, suffix, field }) => (
             <div key={label} className="flex items-center">
               <label className="block font-medium mr-2">{label}:</label>
-              <input type="number" className="w-1/2 p-2 border rounded-md" />
+              {field ? (
+                <input
+                  type="number"
+                  className="w-1/2 p-2 border rounded-md"
+                  value={consultaData.kilocalorias[field] || ""}
+                  readOnly
+                />
+              ) : (
+                <input type="number" className="w-1/2 p-2 border rounded-md" />
+              )}
               <span className="ml-2">{suffix}</span>
             </div>
           ))}
@@ -697,7 +767,7 @@ function PlanAlimentacion() {
               type="text"
               className="w-20 h-12 p-2 border-2 border-black rounded-md"
               value={quantities.grasas}
-              onChange={(e) => handleQuantityChange("frutas", e.target.value)}
+              onChange={(e) => handleQuantityChange("grasas", e.target.value)}
             />
           </div>
         </div>
@@ -1092,21 +1162,29 @@ function PlanAlimentacion() {
         </div>
       </div>
 
-      {/* Botón para generar el PDF */}
-
-      <div className="flex justify-start space-x-4">
+      {/* Botones de acciones (excluidos del PDF mediante una clase especial) */}
+      <div className="flex justify-between space-x-4 no-print">
+        <div className="space-x-4">
+          <button
+            onClick={handleDownloadPDF}
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+          >
+            Descargar en PDF
+          </button>
+          <button
+            //onClick={handlePrint}
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+          >
+            Enviar al correo electrónico
+          </button>
+        </div>
         <button
-          onClick={handleDownloadPDF}
-          className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6]"
+          onClick={() => {
+            handleFinalSave();
+          }}
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print"
         >
-          Descargar en PDF
-        </button>
-
-        <button
-          //onClick={handlePrint}
-          className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6]"
-        >
-          Enviar al correo electrónico
+          Terminar Consulta
         </button>
       </div>
     </div>
