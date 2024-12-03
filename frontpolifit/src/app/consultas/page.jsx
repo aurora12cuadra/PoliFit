@@ -450,6 +450,12 @@ function Consultas() {
         </ModalContent>
       </Modal>
     </div>
+    {selectedConsulta && (
+      <PanelConsulta
+        consulta={selectedConsulta}
+        onClose={handleClosePanel}
+      />
+    )}
     </CronometroProvider>
   );
 }
