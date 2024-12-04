@@ -1,15 +1,18 @@
-"use client"; // Necesario para usar usePathname en este componente
+"use client";
 
 import { usePathname } from "next/navigation";
 import Header from "./Header";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
-  const hideHeaderPaths = ["/registro","/inicio"]; // Rutas donde no se debe mostrar el Header
+  const hideHeaderPaths = ["/registro", "/inicio", "/restablecer"]; // Rutas específicas
 
-  // Si la ruta actual está en hideHeaderPaths, no muestra el Header
-  if (hideHeaderPaths.includes(pathname)) return null;
+  // Verifica si la ruta actual es dinámica y coincide con el patrón
+  const isDynamicRoute = pathname.startsWith("/restablecer/");
 
-  // De lo contrario, muestra el Header
+  if (hideHeaderPaths.includes(pathname) || isDynamicRoute) {
+    return null;
+  }
+
   return <Header />;
 }

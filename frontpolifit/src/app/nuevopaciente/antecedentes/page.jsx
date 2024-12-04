@@ -79,7 +79,7 @@ function Antecedentes() {
     { label: "Renales", name: "renales" },
     { label: "Hipertension", name: "hipertension" },
     { label: "Anemia", name: "anemia" },
-    { label: "Desordenes ax.", name: "desordenes_aux" },
+    { label: "Desordenes alimenticios", name: "desordenes_aux" },
     { label: "Hepatobiliares", name: "hepatobiliares" },
     { label: "Dislipidimias", name: "dislipidimias" },
     { label: "Otros", name: "otros" },

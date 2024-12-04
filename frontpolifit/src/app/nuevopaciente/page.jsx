@@ -28,6 +28,7 @@ function DatosPersonales() {
     tipoSangre: "",
     motivoVisita: "",
     padecimientoActual: "",
+    semestre: "", // Nuevo campo
   });
 
   const opcionesCarreras = {
@@ -222,10 +223,8 @@ function DatosPersonales() {
             ["Ocupación", "text", "ocupacion"],
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
-            // ["Escuela", "text", "escuela"],
-            // ["*Carrera", "text", "carrera"],
             ["Domicilio", "text", "domicilio"],
-
+            ["Semestre", "text", "semestre"], // Nuevo campo agregado
             ["*No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
@@ -245,7 +244,6 @@ function DatosPersonales() {
                     </option>
                   ))}
                 </select>
-                
               ) : (
                 <input
                   type={type}
@@ -256,59 +254,59 @@ function DatosPersonales() {
                   disabled={name === "edad" || name === "fechaRegistro"}
                 />
               )}
-              {/* Mostrar mensaje de error si existe */}
               {errores[name] && (
                 <p className="text-red-500 text-sm mt-1">{errores[name]}</p>
               )}
             </div>
           ))}
           {/* Selector para Escuela */}
-        <div>
-          <label className="block font-medium mb-1">Escuela</label>
-          <select
-            name="escuela"
-            value={datosPersonales.escuela}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="" disabled>
-              Selecciona una escuela
-            </option>
-            {Object.keys(opcionesCarreras).map((escuela) => (
-              <option key={escuela} value={escuela}>
-                {escuela}
+          <div>
+            <label className="block font-medium mb-1">Escuela</label>
+            <select
+              name="escuela"
+              value={datosPersonales.escuela}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+            >
+              <option value="" disabled>
+                Selecciona una escuela
               </option>
-            ))}
-          </select>
-          {errores.escuela && (
-            <p className="text-red-500 text-sm mt-1">{errores.escuela}</p>
-          )}
-        </div>
+              {Object.keys(opcionesCarreras).map((escuela) => (
+                <option key={escuela} value={escuela}>
+                  {escuela}
+                </option>
+              ))}
+            </select>
+            {errores.escuela && (
+              <p className="text-red-500 text-sm mt-1">{errores.escuela}</p>
+            )}
+          </div>
 
-        {/* Selector para Carrera */}
-        <div>
-          <label className="block font-medium mb-1">*Carrera</label>
-          <select
-            name="carrera"
-            value={datosPersonales.carrera}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-          >
-            <option value="" disabled>
-              Selecciona una carrera
-            </option>
-            {opcionesDinamicasCarrera.map((carrera) => (
-              <option key={carrera} value={carrera}>
-                {carrera}
+          {/* Selector para Carrera */}
+          <div>
+            <label className="block font-medium mb-1">*Carrera</label>
+            <select
+              name="carrera"
+              value={datosPersonales.carrera}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+            >
+              <option value="" disabled>
+                Selecciona una carrera
               </option>
-            ))}
-          </select>
-          {errores.carrera && (
-            <p className="text-red-500 text-sm mt-1">{errores.carrera}</p>
-          )}
-        </div>
+              {opcionesDinamicasCarrera.map((carrera) => (
+                <option key={carrera} value={carrera}>
+                  {carrera}
+                </option>
+              ))}
+            </select>
+            {errores.carrera && (
+              <p className="text-red-500 text-sm mt-1">{errores.carrera}</p>
+            )}
+          </div>
         </div>
       </div>
+
 
       <div className="bg-white shadow-md p-4 md:p-6 rounded-md mb-6 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
         <div>

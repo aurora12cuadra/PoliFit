@@ -39,9 +39,9 @@ function EstiloDeVida() {
     hora_bkf: "", // Cambiado de 'desayunoLugarHora' a 'hora_bkf'
     cant_agua: "", // Cambiado de 'cantidadAgua' a 'cant_agua'
     hora_comida: "", // Cambiado de 'comidaLugarHora' a 'hora_comida'
-    cant_azu: "", // Cambiado de 'cantidadAzucar' a 'cant_azu'
+    //cant_azu: "", // Cambiado de 'cantidadAzucar' a 'cant_azu'
     hora_cena: "", // Cambiado de 'cenaLugarHora' a 'hora_cena'
-    cant_sal: "", // Cambiado de 'cantidadSal' a 'cant_sal'
+    //cant_sal: "", // Cambiado de 'cantidadSal' a 'cant_sal'
     hora_desp: "", // Cambiado de 'horaDespierta' a 'hora_desp'
   });
 
@@ -70,17 +70,17 @@ function EstiloDeVida() {
       });
   
       setHabitosDieteticos({
-        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimen_ndesead || "", // Cambiado a 'alimen_ndesead'
-        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimen_fav || "", // Cambiado a 'alimen_fav'
-        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergia || "", // Cambiado a 'alergia'
-        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.hora_bkf || "", // Cambiado a 'hora_bkf'
-        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cant_agua || "", // Cambiado a 'cant_agua'
-        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.hora_comida || "", // Cambiado a 'hora_comida'
-        cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cant_azu || "", // Cambiado a 'cant_azu'
-        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.hora_cena || "", // Cambiado a 'hora_cena'
-        cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cant_sal || "", // Cambiado a 'cant_sal'
-        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.hora_desp || "", // Cambiado a 'hora_desp'
-        alimen_nconsum: "",
+        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimentosNoDeseados || "", // Cambiado a 'alimen_ndesead'
+        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimentosFavoritos || "", // Cambiado a 'alimen_fav'
+        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergiaComida || "", // Cambiado a 'alergia'
+        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.desayunoLugarHora || "", // Cambiado a 'hora_bkf'
+        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cantidadAgua || "", // Cambiado a 'cant_agua'
+        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.comidaLugarHora || "", // Cambiado a 'hora_comida'
+        //cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cantidadAzucar || "", // Cambiado a 'cant_azu'
+        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.cenaLugarHora || "", // Cambiado a 'hora_cena'
+        //cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cantidadSal || "", // Cambiado a 'cant_sal'
+        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.horaDespierta || "", // Cambiado a 'hora_desp'
+        //alimen_nconsum: "",
         alimen_into: "",  
       });
     }
@@ -267,16 +267,16 @@ function EstiloDeVida() {
           {[
             { label: "Alimentos no deseados", field: "alimen_ndesead" },
             { label: "Alimentos Favoritos", field: "alimen_fav" },
-            { label: "Alergía a alguna comida", field: "alergia" },
+            { label: "¿Es alérgico(a) a algún alimento?", field: "alergia" },
             { label: "¿Dónde y a qué hora desayuna?", field: "hora_bkf" },
-            { label: "Cantidad de agua", field: "cant_agua" },
+            { label: "¿Qué cantidad de agua tomas al día?", field: "cant_agua" },
             { label: "¿Dónde y a qué hora come?", field: "hora_comida" },
-            { label: "Cantidad de azúcar", field: "cant_azu" },
+           // { label: "Cantidad de azúcar", field: "cant_azu" },
             { label: "¿Dónde y a qué hora cena?", field: "hora_cena" },
-            { label: "Cantidad de sal", field: "cant_sal" },
+            //{ label: "Cantidad de sal", field: "cant_sal" },
             { label: "¿A qué hora despierta?", field: "hora_desp" },
-            { label: "Alimentos no consumidos", field: "alimen_nconsum" },
-            { label: "Alimentos que generan intolerancia", field: "alimen_into" },
+           // { label: "Alimentos no consumidos", field: "alimen_nconsum" },
+            { label: "¿Eres intolerante a algún alimento?", field: "alimen_into" },
           ].map(({ label, field }) => (
             <div key={field}>
               <label className="block font-medium mb-1">{label}</label>

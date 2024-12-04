@@ -12,6 +12,8 @@ const Nutriologo = sequelize.define('Nutriologo', {
     escuela: { type: DataTypes.STRING(60), allowNull: false },
     email: { type: DataTypes.STRING(70), allowNull: false, unique: true },
     password: { type: DataTypes.STRING(70), allowNull: false },
+    resetToken: { type: DataTypes.STRING(100), allowNull: true }, // Token para restablecer contraseña
+    resetTokenExpiration: { type: DataTypes.DATE, allowNull: true }, // Expiración del token
 });
 
 // Cifrar la contraseña antes de guardar

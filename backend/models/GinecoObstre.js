@@ -8,10 +8,10 @@ const GinecoObstre = sequelize.define('GinecoObstre', {
     g: { type: DataTypes.STRING(50) },
     p: { type: DataTypes.STRING(50) },
     c: { type: DataTypes.STRING(50) },
-    fum: { type: DataTypes.STRING(50) },
-    fup: { type: DataTypes.STRING(50) },
+    fum: { type: DataTypes.DATEONLY },
+    fup: { type: DataTypes.DATEONLY },
     sdgi: { type: DataTypes.STRING(50) },
-    ppg: { type: DataTypes.STRING(50) },
+    ppg: { type: DataTypes.BOOLEAN },
     anticon: { type: DataTypes.STRING(50) },
     notas: { type: DataTypes.STRING(200) },
     id_consulta: {
