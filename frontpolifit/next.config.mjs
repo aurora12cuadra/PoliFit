@@ -6,6 +6,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig = {
+  reactStrictMode: true, // Habilitar modo estricto de React
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -16,3 +17,5 @@ const nextConfig = {
 };
 
 export default withBundleAnalyzer(nextConfig);
+
+

@@ -3,14 +3,14 @@ POST http://localhost:3000/nutriologos/register
 Content-Type: application/json
 
 {
-  "nombre": "Ana",
+  "nombre": "Molly",
   "apellidos": "López",
   "fechaNacimiento": "1990-05-10",
-  "numeroEmpleado": "2021630",
+  "numeroEmpleado": "2021630789",
   "especialidad": "Nutrición Clínica",
   "escuela": "ESIME IPN",
-  "email": "tam.45@example.com",
-  "password": "supersecreta"
+  "email": "tamaracervantes568@gmail.com",
+  "password": "supersecreta4"
 }
 
 ### Iniciar sesión
@@ -19,8 +19,26 @@ Content-Type: application/json
 
 {
   "email": "tam.45@example.com",
-  "password": "supersecreta"
+  "password": "supersecreta2"
 }
+
+###Solicitar Restablecer contraseña 
+POST http://localhost:3000/nutriologos/reset-password-request
+Content-Type: application/json
+
+{
+  "email": "tamaracervantes568@gmail.com"
+}
+
+
+###Restablecer la contraseña
+PATCH http://localhost:3000/nutriologos/reset-password/460af140b9b34848b50b128d74ab61843c99f16b95be4b7ed33fc1c25381f775
+Content-Type: application/json
+
+{
+  "newPassword": "NuevaContraseña123!"
+}
+
 
 ### Obtener perfil
 GET http://localhost:3000/nutriologos/perfil

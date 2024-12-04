@@ -10,6 +10,12 @@ router.post('/register', nutriologoController.registrarNutriologo);
 // Iniciar sesión
 router.post('/login', nutriologoController.loginNutriologo);
 
+// Solicitar restablecimiento de contraseña
+router.post('/reset-password-request', nutriologoController.solicitarRestablecimientoContrasena);
+
+// Restablecer contraseña
+router.patch('/reset-password/:token', nutriologoController.restablecerContrasena);
+
 // Obtener el perfil del nutriólogo autenticado
 router.get('/perfil', verifyToken, nutriologoController.obtenerPerfilNutriologo);
 
@@ -24,7 +30,6 @@ router.get('/:id', nutriologoController.obtenerNutriologoPorId);
 
 // Eliminar un nutriólogo por ID (DELETE)
 router.delete('/:id', nutriologoController.eliminarNutriologo);
-
 
 
 module.exports = router;
