@@ -129,7 +129,7 @@ function LoginForm() {
             </div>
           </form>
           <div className="text-center">
-            <a href="#" className="text-[#004d40] underline">¿Olvidaste la contraseña?</a>
+            <a href="/restablecer" className="text-[#004d40] underline">¿Olvidaste la contraseña?</a>
           </div>
           <div className="text-center mt-2">
             <a

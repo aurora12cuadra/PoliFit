@@ -37,22 +37,19 @@ function Trastornos() {
 
   useEffect(() => {
     if (consultaData.trastornos) {
-      setTrastornos(consultaData.trastornos.trastornos || {});
+      setTrastornos((prev) => ({
+        ...prev,
+        ...consultaData.trastornos.trastornos,
+      }));
     }
-    if (consultaData.ginecoObstetricos) {
-      setGinecoObstetricos(consultaData.ginecoObstetricos || {
-        G: "",
-        P: "",
-        C: "",
-        FUM: "",
-        "FUP/C": "",
-        SDGI: "",
-        PPG: "",
-        Anticonceptivos: "",
-        notas: "",
-      });
+    if (consultaData.trastornos?.ginecoObstetricos) {
+      setGinecoObstetricos((prev) => ({
+        ...prev,
+        ...consultaData.trastornos.ginecoObstetricos,
+      }));
     }
   }, [consultaData]);
+  
 
   const handleTrastornoChange = (event, name) => {
     const { checked } = event.target;
@@ -86,17 +83,17 @@ function Trastornos() {
   };
 
   const handleGuardar = () => {
-    // Convertir cada trastorno en un string de frecuencia o vacío según corresponda
-    const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
-      acc[key] = trastornos[key].value ? trastornos[key].frecuencia : "";
-      return acc;
-    }, {});
-  
-    // Combinar `formattedTrastornos` con `ginecoObstetricos` en un solo objeto
-    const datosTrastornos = {
-      formattedTrastornos,
-      ginecoObstetricos,
-    };
+    // Formatear trastornos gastrointestinales
+  const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
+    acc[key] = trastornos[key]?.value ? trastornos[key].frecuencia : "";
+    return acc;
+  }, {});
+
+  // Combina los datos de trastornos y gineco-obstétricos
+  const datosTrastornos = {
+    trastornos: formattedTrastornos,
+    ginecoObstetricos,
+  };
   
     console.log("datos recolectados de trastornos 1: ", formattedTrastornos);
     console.log("datos recolectados de trastornos 2: ", ginecoObstetricos);
@@ -116,7 +113,7 @@ function Trastornos() {
     nauseas: "Náuseas",
     reflujo: "Reflujo",
     disfagia: "Disfagia",
-    flatulen: "Flatulencia",
+    flatulen: "Flatulencias",
     disten: "Distensión",
     pirosis: "Pirosis",
     G: "Gestaciones",
@@ -166,7 +163,6 @@ function Trastornos() {
           ))}
         </div>
       </div>
-
       {/* Gineco-Obstétricos */}
       <div className="grid grid-cols-2 gap-6">
         <div className="shadow-md p-6 rounded-md" style={{ backgroundColor: "#11404E" }}>
@@ -174,32 +170,103 @@ function Trastornos() {
             Gineco-Obstétricos
           </h3>
           <div className="grid grid-cols-2 gap-4">
-            {Object.keys(ginecoObstetricos).map((label) => (
-              <div key={label}>
-                <label className="block font-medium mb-1 text-white">{labels[label] || label}</label>
+            {/* Campos de texto existentes */}
+            {["G", "P", "C", "SDGI"].map((field) => (
+              <div key={field}>
+                <label className="block font-medium mb-1 text-white">{labels[field] || field}</label>
                 <input
                   type="text"
-                  name={label}
-                  value={ginecoObstetricos[label]}
+                  name={field}
+                  value={ginecoObstetricos[field]}
                   onChange={handleGinecoObstetricosChange}
                   className="w-full p-2 border rounded-md"
                 />
               </div>
             ))}
+
+            {/* Campo "Fecha Última Menstruación" (FUM) */}
+            <div>
+              <label className="block font-medium mb-1 text-white">
+                {labels.FUM || "Fecha Última Menstruación"}
+              </label>
+              <input
+                type="date"
+                name="FUM"
+                value={ginecoObstetricos.FUM}
+                onChange={handleGinecoObstetricosChange}
+                className="w-full p-2 border rounded-md"
+              />
+            </div>
+
+            {/* Campo "Fecha Último Parto/Cesárea" (FUP/C) */}
+            <div>
+              <label className="block font-medium mb-1 text-white">
+                {labels["FUP/C"] || "Fecha Último Parto/Cesárea"}
+              </label>
+              <input
+                type="date"
+                name="FUP/C"
+                value={ginecoObstetricos["FUP/C"]}
+                onChange={handleGinecoObstetricosChange}
+                className="w-full p-2 border rounded-md"
+              />
+            </div>
+
+            {/* Campo "Planificación Familiar" (PPG) */}
+            <div>
+              <label className="block font-medium mb-1 text-white">
+                {labels.PPG || "Planificación Familiar"}
+              </label>
+              <input
+                type="checkbox"
+                name="PPG"
+                checked={ginecoObstetricos.PPG === "true"}
+                onChange={(e) =>
+                  setGinecoObstetricos({
+                    ...ginecoObstetricos,
+                    PPG: e.target.checked ? "true" : "false",
+                  })
+                }
+                className="w-5 h-5 border rounded-md"
+              />
+            </div>
+
+            {/* Campo "Uso de Anticonceptivos" (Anticonceptivos) */}
+            <div>
+              <label className="block font-medium mb-1 text-white">
+                {labels.Anticonceptivos || "Uso de Anticonceptivos"}
+              </label>
+              <select
+                name="Anticonceptivos"
+                value={ginecoObstetricos.Anticonceptivos}
+                onChange={handleGinecoObstetricosChange}
+                className="w-full p-2 border rounded-md"
+              >
+                <option value="" disabled hidden>Seleccione...</option>
+                <option value="Píldora">Píldora</option>
+                <option value="DIU">DIU</option>
+                <option value="Condón">Condón</option>
+                <option value="Implante">Implante</option>
+                <option value="Inyección">Inyección</option>
+                <option value="Anillo Vaginal">Anillo Vaginal</option>
+                <option value="Parche">Parche</option>
+              </select>
+            </div>
+
+            {/* Campo "Notas" */}
+            <div className="col-span-2">
+              <label className="block font-medium mb-1 text-white">{labels.notas || "Notas"}</label>
+              <textarea
+                name="notas"
+                value={ginecoObstetricos.notas}
+                onChange={handleGinecoObstetricosChange}
+                className="w-full p-2 border rounded-md"
+                rows="4"
+              />
+            </div>
           </div>
         </div>
-        {/* Notas */}
-        {/* <div className="bg-white shadow-md p-6 rounded-md">
-          <h3 className="text-xl font-semibold mb-4">Notas</h3>
-          <textarea
-            className="w-full h-3/4 p-2 border rounded-md"
-            placeholder="Ingrese cualquier observación adicional"
-            value={notas}
-            onChange={(e) => setNotas(e.target.value)}
-          />
-        </div> */}
       </div>
-
       {/* Botones de Navegación */}
       <div className="flex justify-between mt-8">
         <button

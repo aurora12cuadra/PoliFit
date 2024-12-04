@@ -17,6 +17,7 @@ const Paciente = sequelize.define('Paciente', {
     escuela: { type: DataTypes.STRING(60), allowNull: true },
     carrera: { type: DataTypes.STRING(100), allowNull: true },
     domicilio: { type: DataTypes.STRING(60), allowNull: true },
+    semestre: { type: DataTypes.STRING, allowNull: true },
     turno: { type: DataTypes.STRING(50), allowNull: true },
     tipoSangre: { type: DataTypes.STRING(50), allowNull: true },
     motivoVisita: { type: DataTypes.TEXT, allowNull: true },

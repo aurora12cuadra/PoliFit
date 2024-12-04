@@ -2,6 +2,9 @@
 const Nutriologo = require('../models/Nutriologo');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const { Op } = require('sequelize'); // Agrega esta línea
+const nodemailer = require('nodemailer');
 
 // Registrar un nuevo nutriólogo
 exports.registrarNutriologo = async (req, res) => {
@@ -40,6 +43,85 @@ exports.loginNutriologo = async (req, res) => {
         res.status(200).json({ token, nutriologo: { nombre: nutriologo.nombre, email: nutriologo.email } });
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+};
+
+// Enviar correo para restablecer contraseña
+exports.solicitarRestablecimientoContrasena = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        const nutriologo = await Nutriologo.findOne({ where: { email } });
+        if (!nutriologo) {
+            return res.status(404).json({ error: 'Correo electrónico no encontrado' });
+        }
+
+        // Generar token de restablecimiento
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const resetTokenExpiration = new Date(Date.now() + 3600000); // 1 hora
+
+        // Guardar token y fecha de expiración
+        await nutriologo.update({ resetToken, resetTokenExpiration });
+
+        // Configurar transporte de correo
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail', // O el proveedor de correo que uses
+            auth: {
+                user: process.env.EMAIL_USER, // Tu correo
+                pass: process.env.EMAIL_PASS, // Tu contraseña
+            },
+        });
+
+        const resetURL = `http://localhost:3001/restablecer/${resetToken}`;
+        const mailOptions = {
+            to: email,
+            from: process.env.EMAIL_USER,
+            subject: 'Restablecimiento de contraseña',
+            text: `Haga clic en el siguiente enlace para restablecer su contraseña: ${resetURL}`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: 'Correo de restablecimiento enviado' });
+    } catch (error) {
+        console.error('Error al solicitar restablecimiento de contraseña:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+// Restablecer la contraseña
+exports.restablecerContrasena = async (req, res) => {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    try {
+        console.log("===== INICIO: Restablecer contraseña =====");
+        console.log("Token recibido en la solicitud:", token);
+        console.log("Nueva contraseña recibida:", newPassword);
+        const nutriologo = await Nutriologo.findOne({
+            where: {
+                resetToken: token,
+                resetTokenExpiration: { [Op.gt]: new Date() }, // Token no expirado
+            },
+        });
+
+        if (!nutriologo) {
+            console.log("Token inválido o expirado. No se encontró el nutriólogo.");
+            return res.status(400).json({ error: 'Token inválido o expirado' });
+        }
+        console.log("Nutriólogo encontrado:", nutriologo.email);
+
+        // Actualizar la contraseña
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        console.log("Nueva contraseña encriptada generada.");
+        await nutriologo.update({ password: hashedPassword, resetToken: null, resetTokenExpiration: null });
+        console.log("Contraseña actualizada correctamente en la base de datos.");
+        console.log("===== FIN: Restablecer contraseña =====");
+        res.status(200).json({ message: 'Contraseña restablecida exitosamente' });
+    } catch (error) {
+        console.error('Error al restablecer la contraseña:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
     }
 };
 

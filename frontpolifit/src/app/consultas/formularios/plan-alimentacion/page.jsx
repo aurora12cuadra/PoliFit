@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 //import html2pdf from "html2pdf.js";
@@ -7,11 +7,12 @@ import Image from "next/image";
 import { usePaciente } from "../../context/PacienteContext";
 
 function PlanAlimentacion() {
-  const { nombre, edad, peso, talla, email } = usePaciente();
+  const { nombre, edad } = usePaciente();
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
 
   const componentRef = useRef();
+  const [fechaConsulta, setFechaConsulta] = useState("");
   // Estado para la tabla editable con 5 filas
   const [tableData, setTableData] = useState(
     Array(5).fill({ fecha: "", pesoActual: "", pesoPerdidoGanado: "" })
@@ -26,6 +27,12 @@ function PlanAlimentacion() {
     leguminosas: "",
     grasas: "",
   });
+
+  useEffect(() => {
+    // Obtener la fecha actual en formato YYYY-MM-DD
+    const today = new Date().toISOString().split("T")[0];
+    setFechaConsulta(today); // Establece la fecha actual como predeterminada
+  }, []);
 
   const handleTableChange = (index, field, value) => {
     const updatedTableData = [...tableData]; // Copia del array actual
@@ -77,19 +84,19 @@ function PlanAlimentacion() {
     const element = componentRef.current;
 
     // Generar el PDF
-  html2pdf()
-    .set(options)
-    .from(element)
-    .save()
-    .then(() => {
-      // Restaura los botones después de generar el PDF
-      buttons.forEach(button => button.style.display = '');
-    })
-    .catch(err => {
-      console.error("Error al generar el PDF:", err);
-      // Restaura los botones en caso de error
-      buttons.forEach(button => button.style.display = '');
-    });
+    html2pdf()
+      .set(options)
+      .from(element)
+      .save()
+      .then(() => {
+        // Restaura los botones después de generar el PDF
+        buttons.forEach((button) => (button.style.display = ""));
+      })
+      .catch((err) => {
+        console.error("Error al generar el PDF:", err);
+        // Restaura los botones en caso de error
+        buttons.forEach((button) => (button.style.display = ""));
+      });
   };
 
   return (
@@ -136,7 +143,12 @@ function PlanAlimentacion() {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div>
             <label className="block font-medium mb-1">Fecha de consulta:</label>
-            <input type="date" className="w-full p-2 border rounded-md" />
+            <input
+              type="date"
+              className="w-full p-2 border rounded-md"
+              value={fechaConsulta} // Establece la fecha predeterminada
+              onChange={(e) => setFechaConsulta(e.target.value)} // Permite cambios manuales
+            />
           </div>
           <div>
             <label className="block font-medium mb-1">Nombre:</label>
@@ -170,8 +182,13 @@ function PlanAlimentacion() {
             />
           </div>
           <div>
-            <label className="block font-medium mb-1">Talla:</label>
-            <input type="number" className="w-full p-2 border rounded-md" />
+            <label className="block font-medium mb-1">Altura (cm):</label>
+            <input
+              type="number"
+              className="w-full p-2 border rounded-md"
+              value={consultaData.kilocalorias.altura || ""}
+              readOnly
+            />
           </div>
           <div>
             <label className="block font-medium mb-1">IMC:</label>
@@ -201,20 +218,38 @@ function PlanAlimentacion() {
             { label: "PROT", suffix: "%", field: "protPercentage" },
             { label: "LIP", suffix: "%", field: "lpPercentage" },
             { label: "MM", suffix: "%" },
-            { label: "CINT", suffix: "%" },
-            { label: "CADERA", suffix: "%" },
-          ].map(({ label, suffix, field }) => (
+            {
+              label: "CINT",
+              suffix: "cm",
+              field: "cintura",
+              section: "perimetros",
+            },
+            {
+              label: "CADERA",
+              suffix: "cm",
+              field: "cadera",
+              section: "perimetros",
+            },
+          ].map(({ label, suffix, field, section }) => (
             <div key={label} className="flex items-center">
               <label className="block font-medium mr-2">{label}:</label>
               {field ? (
                 <input
                   type="number"
                   className="w-1/2 p-2 border rounded-md"
-                  value={consultaData.kilocalorias[field] || ""}
+                  value={
+                    section === "perimetros"
+                      ? consultaData.mediciones?.perimetros?.[field] || ""
+                      : consultaData.kilocalorias?.[field] || ""
+                  }
                   readOnly
                 />
               ) : (
-                <input type="number" className="w-1/2 p-2 border rounded-md" />
+                <input
+                  type="number"
+                  className="w-1/2 p-2 border rounded-md"
+                  readOnly
+                />
               )}
               <span className="ml-2">{suffix}</span>
             </div>
@@ -451,9 +486,9 @@ function PlanAlimentacion() {
       {/* Sección de Frutas */}
       <div
         className="mb-6 text-sm"
-        style={{
-          pageBreakBefore: "always", // Fuerza un salto de página antes de esta sección
-        }}
+        // style={{
+        //   pageBreakBefore: "always", // Fuerza un salto de página antes de esta sección
+        // }}
       >
         <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg font-bold">Frutas</h2>
@@ -1075,9 +1110,12 @@ function PlanAlimentacion() {
             <h3 className="bg-[#e2e2e8] font-bold text-[#11404E] py-2 px-8 rounded-full text-center">
               CENA
             </h3>
-            <div className="grid grid-cols-2 gap-4">
+            <div
+              className="grid grid-cols-2 gap-4"
+              style={{ pageBreakInside: "avoid" }}
+            >
               <div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1086,9 +1124,10 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1097,9 +1136,10 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1108,9 +1148,10 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1119,11 +1160,12 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
               </div>
               <div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1132,9 +1174,10 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1143,9 +1186,10 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
-                <div>
+                <div className="mb-6">
                   <input
                     type="number"
                     className="w-16 h-12 p-2 border-b border-black focus:outline-none text-center"
@@ -1154,6 +1198,7 @@ function PlanAlimentacion() {
                   <input
                     type="text"
                     className="w-64 h-12 p-2 border-b border-black focus:outline-none"
+                    style={{ marginLeft: "8px" }}
                   />
                 </div>
               </div>

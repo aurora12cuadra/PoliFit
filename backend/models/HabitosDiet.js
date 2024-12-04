@@ -12,9 +12,9 @@ const HabitosDiet = sequelize.define('HabitosDiet', {
     hora_cena: { type: DataTypes.STRING(50), allowNull: false },
     hora_desp: { type: DataTypes.STRING(50), allowNull: false },
     cant_agua: { type: DataTypes.STRING(50), allowNull: false },
-    cant_sal: { type: DataTypes.STRING(50), allowNull: false },
-    cant_azu: { type: DataTypes.STRING(50), allowNull: false },
-    alimen_nconsum: { type: DataTypes.STRING(50), allowNull: false },
+    //cant_sal: { type: DataTypes.STRING(50), allowNull: false },
+    //cant_azu: { type: DataTypes.STRING(50), allowNull: false },
+    //alimen_nconsum: { type: DataTypes.STRING(50), allowNull: false },
     alimen_into: { type: DataTypes.STRING(50), allowNull: false },
     id_consulta: {
         type: DataTypes.INTEGER,

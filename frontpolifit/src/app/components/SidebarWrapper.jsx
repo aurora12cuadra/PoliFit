@@ -1,15 +1,17 @@
-"use client"; // Necesario para usar usePathname en este componente
+"use client";
 
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 
 export default function SidebarWrapper() {
   const pathname = usePathname();
-  const hideSidebarPaths = ["/registro","/inicio"]; // Rutas donde no se debe mostrar el Sidebar
+  const hideSidebarPaths = ["/registro", "/inicio", "/restablecer"]; // Rutas específicas
 
-  // Si la ruta actual está en hideSidebarPaths, no muestra el Sidebar
-  if (hideSidebarPaths.includes(pathname)) return null;
+  const isDynamicRoute = pathname.startsWith("/restablecer/");
 
-  // De lo contrario, muestra el Sidebar
+  if (hideSidebarPaths.includes(pathname) || isDynamicRoute) {
+    return null;
+  }
+
   return <Sidebar />;
 }
