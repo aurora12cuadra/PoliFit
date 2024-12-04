@@ -26,7 +26,8 @@ app.listen(3000, () => {
     console.log('Servidor corriendo en http://localhost:3000');
 });
 
-
+//alter: true //sobreeescribe la bd
+//force: false //crea cada vez la bd 
 sequelize.sync({ alter: true }).then(() => {
     console.log('Base de datos sincronizada');
 }).catch((error) => {
