@@ -713,14 +713,26 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzAiL
 
 
 
+### Iniciar sesión
+POST http://localhost:3000/nutriologos/login
+Content-Type: application/json
+
+{
+  "email": "joser@gmail.com",
+  "password": "JoseRivera1803."
+}
 
 ### Obtener todas las consultas de un Paciente
 GET http://localhost:3000/consulta/paciente/2019988777
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjcyODQwMywiZXhwIjoxNzMyNzY0NDAzfQ.I1h8epx5v_QnsxqePHNFQZBNEfMX2pMCf6WazXGG3I0
 
-### Obtener todas las consultas de un Paciente
+### Obtener consulta de un Paciente y id de consulta
 GET http://localhost:3000/consulta/paciente/2019988777/consulta/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjcyODQwMywiZXhwIjoxNzMyNzY0NDAzfQ.I1h8epx5v_QnsxqePHNFQZBNEfMX2pMCf6WazXGG3I0
+
+### Obtener consulta en especifico por Id
+GET http://localhost:3000/consulta/consulta/49
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwMzAzOSIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzMTA5MjUyLCJleHAiOjE3MzMxNDUyNTJ9.5zaMnBv2cO7QN4Zz-gbPtb8_DmLC_c_tC0o-zvO5u3E
 
 ### Obtener datos de Mediciones de la ultima consulta de un Paciente
 GET http://localhost:3000/consulta/getMediciones/98765

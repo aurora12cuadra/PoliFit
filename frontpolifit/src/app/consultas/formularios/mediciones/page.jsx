@@ -7,6 +7,10 @@ import { useState, useEffect } from "react";
 function Mediciones() {
   const { consultaData, updateConsultaData, noBoleta } = usePaciente();
   const [plieguesAnterior, setPlieguesAnterior] = useState({});
+  const [perimetroData, setPerimetroData] = useState({});
+  const [diametroData, setDiametroData] = useState({});
+  const [bioimpedanciaData, setBioimpedanciaData] = useState({});
+  const [bioquimicoData, setBioquimicoData] = useState({});
   const router = useRouter();
 
   // Local state for each section
@@ -32,7 +36,7 @@ function Mediciones() {
       });
       // Verificamos si la respuesta fue exitosa
       if (!response.ok) {
-        throw new Error('No se pudo obtener la última consulta');
+        console.log('No se pudo obtener la última consulta');
       }
   
       const data = await response.json();
@@ -43,11 +47,16 @@ function Mediciones() {
       const plieguesData = data.Pliegue || [];  // Si no hay datos de pliegues, asignamos un arreglo vacío
       const diametrosData = data.Diametro || [];  // Lo mismo para Diametros
       setPlieguesAnterior(plieguesData); // Aquí se asume que `data` es un objeto con los campos de pliegues
+      setDiametroData(data.Diametro || []);
+      setPerimetroData(data.Perimetro || []);
+      setBioimpedanciaData(data.Bioimpedancium || []);
+      setBioquimicoData(data.Bioquimico || []);
       // Ahora puedes usar estas variables como desees, por ejemplo:
       console.log('Pliegues:', plieguesData);
       console.log('Diametros:', diametrosData);
     } catch (error) {
-      console.error("Error al realizar la consulta de pliegues:", error);
+      console.log("Error al realizar la consulta de pliegues:", error);
+      // console.error("Error al realizar la consulta de pliegues:", error);
     }
   };
 
@@ -61,47 +70,6 @@ function Mediciones() {
     }
     fetchPlieguesAnterior();
   }, [consultaData.mediciones]);
-
-  // async function obtenerUltimaConsulta(noBoleta) {
-  //   try {
-  //     // Suponiendo que tienes la URL de la API configurada correctamente
-  //     const response = await fetch(`/api/consulta/getMediciones/${noBoleta}`, {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         // Aquí puedes agregar tu token de autenticación si es necesario
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`
-  //       }
-  //     });
-  
-  //     // Verificamos si la respuesta fue exitosa
-  //     if (!response.ok) {
-  //       throw new Error('No se pudo obtener la última consulta');
-  //     }
-  
-  //     const data = await response.json();
-  
-  //     // Asumimos que `data` contiene la consulta con los modelos asociados
-  //     // Recuperar los datos de Pliegues y Diametros
-  //     const plieguesData = data.Pliegues || [];  // Si no hay datos de pliegues, asignamos un arreglo vacío
-  //     const diametrosData = data.Diametros || [];  // Lo mismo para Diametros
-  
-  //     // Aquí puedes asignar estos datos a las variables que uses
-  //     let pliegues = plieguesData;
-  //     let diametros = diametrosData;
-  
-  //     // Ahora puedes usar estas variables como desees, por ejemplo:
-  //     console.log('Pliegues:', pliegues);
-  //     console.log('Diametros:', diametros);
-  
-  //     return { pliegues, diametros };  // Regresamos los datos si es necesario
-  
-  //   } catch (error) {
-  //     console.error('Error al obtener la última consulta:', error.message);
-  //   }
-  // }
-
-
 
   // useEffect para ejecutar la consulta al montar el componente
   // useEffect(() => {
@@ -176,7 +144,7 @@ function Mediciones() {
                 onChange={(e) => handleInputChange("pliegues", field, e.target.value)}
               />
               <p className="text-sm text-gray-500 mt-1">
-                Medición anterior: {plieguesAnterior[field] || "N/A"}
+                Medición anterior: {plieguesAnterior[field] || "No disponible"}
               </p>
             </div>
           ))}
@@ -194,20 +162,20 @@ function Mediciones() {
         <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Cefálico", field: "cefalico" },
-            { label: "Cuello", field: "cuello" },
-            { label: "Mitad del brazo relajado", field: "mitad_bra_rela" },
-            { label: "Mitad del brazo contraído", field: "mitad_bra_contra" },
-            { label: "Antebrazo", field: "antebrazo" },
-            { label: "Muñeca", field: "muñeca" },
-            { label: "Mesosternal", field: "mesoesternal" },
-            { label: "Umbilical", field: "umbilical" },
-            { label: "Cintura", field: "cintura" },
-            { label: "Cadera", field: "cadera" },
-            { label: "Muslo 1 cm bajo la cresta ilíaca", field: "muslo" },
-            { label: "Muslo medio", field: "muslo_medio" },
-            { label: "Pantorrilla", field: "panto" },
-            { label: "Tobillo", field: "tobillo" },
+            { label: "Cefálico (cm)", field: "cefalico" },
+            { label: "Cuello (cm)", field: "cuello" },
+            { label: "Mitad del brazo relajado (cm)", field: "mitad_bra_rela" },
+            { label: "Mitad del brazo contraído (cm)", field: "mitad_bra_contra" },
+            { label: "Antebrazo (cm)", field: "antebrazo" },
+            { label: "Muñeca (cm)", field: "muñeca" },
+            { label: "Mesosternal (cm)", field: "mesoesternal" },
+            { label: "Umbilical (cm)", field: "umbilical" },
+            { label: "Cintura (cm)", field: "cintura" },
+            { label: "Cadera (cm)", field: "cadera" },
+            { label: "Muslo 1 cm bajo la cresta ilíaca (cm)", field: "muslo" },
+            { label: "Muslo medio (cm)", field: "muslo_medio" },
+            { label: "Pantorrilla (cm)", field: "panto" },
+            { label: "Tobillo (cm)", field: "tobillo" },
           ].map(({ label, field }) => (
             <div key={field}>
               <label className="block font-medium mb-1 text-white">{label}</label>
@@ -217,8 +185,8 @@ function Mediciones() {
                 value={perimetros[field] || ""}
                 onChange={(e) => handleInputChange("perimetros", field, e.target.value)}
               />
-              <p className="text-sm text-gray-500 mt-1">
-                Medida anterior: {plieguesAnterior[field] || "N/A"}
+              <p className="text-sm text-white mt-1">
+                Medida anterior: {perimetroData[field] || "No disponible"}
               </p>
             </div>
           ))}
@@ -232,18 +200,18 @@ function Mediciones() {
         <h4 className="text-lg font-semibold mb-2">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Biacromial", field: "biacromial" },
-            { label: "Biliocrestal", field: "biileocrestal" },
-            { label: "Longitud del pie", field: "long_pie" },
-            { label: "Transverso del tórax", field: "trans_torax" },
-            { label: "Anteroposterior del tórax", field: "ante_torax" },
-            { label: "Húmero", field: "humero" },
-            { label: "Biestiloidea de la muñeca", field: "bies_muñeca" },
-            { label: "Fémur", field: "femur" },
-            { label: "Bimaleolar", field: "bimaleolar" },
-            { label: "Transverso del pie", field: "trans_pie" },
-            { label: "Longitud mano", field: "long_mano" },
-            { label: "Transverso de la mano", field: "trans_mano" },
+            { label: "Biacromial (cm)", field: "biacromial" },
+            { label: "Biliocrestal (cm)", field: "biileocrestal" },
+            { label: "Longitud del pie (cm)", field: "long_pie" },
+            { label: "Transverso del tórax (cm)", field: "trans_torax" },
+            { label: "Anteroposterior del tórax (cm)", field: "ante_torax" },
+            { label: "Húmero (cm)", field: "humero" },
+            { label: "Biestiloidea de la muñeca (cm)", field: "bies_muñeca" },
+            { label: "Fémur (cm)", field: "femur" },
+            { label: "Bimaleolar (cm)", field: "bimaleolar" },
+            { label: "Transverso del pie (cm)", field: "trans_pie" },
+            { label: "Longitud mano (cm)", field: "long_mano" },
+            { label: "Transverso de la mano (cm)", field: "trans_mano" },
           ].map(({ label, field }) => (
             <div key={field}>
               <label className="block font-medium mb-1">{label}</label>
@@ -253,6 +221,9 @@ function Mediciones() {
                 value={diametros[field] || ""}
                 onChange={(e) => handleInputChange("diametros", field, e.target.value)}
               />
+              <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {diametroData[field] || "No disponible"}
+              </p>
             </div>
           ))}
         </div>
@@ -269,15 +240,15 @@ function Mediciones() {
         <h4 className="text-lg font-semibold mb-2 text-white">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Grasa total", field: "grasa_total" },
-            { label: "Grasa en sección superior", field: "grasa_secsuper" },
-            { label: "Grasa en sección inferior", field: "grasa_secinfe" },
-            { label: "Grasa visceral", field: "grasa_visceral" },
-            { label: "Edad Metabólica", field: "edad_meta" },
-            { label: "Masa libre de grasa", field: "masa_libregrasa" },
-            { label: "Masa Muscular", field: "masa_muscular" },
-            { label: "Peso óseo", field: "peso_oseo" },
-            { label: "Agua Corporal", field: "agua_corporal" },
+            { label: "Grasa total (%)", field: "grasa_total" },
+            { label: "Grasa en sección superior (%)", field: "grasa_secsuper" },
+            { label: "Grasa en sección inferior (%)", field: "grasa_secinfe" },
+            { label: "Grasa visceral (%)", field: "grasa_visceral" },
+            { label: "Edad Metabólica (años)", field: "edad_meta" },
+            { label: "Masa libre de grasa (kg)", field: "masa_libregrasa" },
+            { label: "Masa Muscular (kg)", field: "masa_muscular" },
+            { label: "Peso óseo (kg)", field: "peso_oseo" },
+            { label: "Agua Corporal (%)", field: "agua_corporal" },
           ].map(({ label, field }) => (
             <div key={field}>
               <label className="block font-medium mb-1 text-white">{label}</label>
@@ -287,6 +258,9 @@ function Mediciones() {
                 value={bioimpedancia[field] || ""}
                 onChange={(e) => handleInputChange("bioimpedancia", field, e.target.value)}
               />
+              <p className="text-sm text-white mt-1">
+                Medición anterior: {bioimpedanciaData[field] || "No disponible"}
+              </p>
             </div>
           ))}
         </div>
@@ -300,13 +274,13 @@ function Mediciones() {
         <h4 className="text-lg font-semibold mb-2">Parámetros</h4>
         <div className="grid grid-cols-3 gap-4">
           {[
-            { label: "Hemoglobina", field: "homoglobina" },
-            { label: "Glucosa", field: "glucosa" },
-            { label: "Colesterol", field: "colesterol" },
-            { label: "Triglicéridos", field: "trigliceridos" },
-            { label: "Urea", field: "urea" },
-            { label: "Ácido Úrico", field: "acido_urico" },
-            { label: "Albumina", field: "albumina" },
+            { label: "Hemoglobina (g/dL)", field: "homoglobina" },
+            { label: "Glucosa (mg/dL)", field: "glucosa" },
+            { label: "Colesterol (mg/dL)", field: "colesterol" },
+            { label: "Triglicéridos (mg/dL)", field: "trigliceridos" },
+            { label: "Urea (mg/dL)", field: "urea" },
+            { label: "Ácido Úrico (mg/dL)", field: "acido_urico" },
+            { label: "Albumina (g/dL)", field: "albumina" }
             // Opcionalmente podrías añadir "Otros" si es necesario en el frontend.
           ].map(({ label, field }) => (
             <div key={field}>
@@ -317,6 +291,9 @@ function Mediciones() {
                 value={indicadores[field] || ""}
                 onChange={(e) => handleInputChange("indicadores", field, e.target.value)}
               />
+              <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {bioquimicoData[field] || "No disponible"}
+              </p>
             </div>
           ))}
         </div>

@@ -5,8 +5,41 @@ import { usePaciente } from "../../context/PacienteContext";
 //import Cronometro from "../../components/Cronometro";
 
 function Kilocalorias() {
-  const { consultaData, updateConsultaData, sexo, edad } = usePaciente();
+  const { consultaData, updateConsultaData, sexo, edad, noBoleta } = usePaciente();
+  // const [kilocaloriasData, setKilocaloriasData] = useState({});
+  const [kilocaloriaData, setKilocaloriaData] = useState({});
   const router = useRouter();
+
+  // Función para realizar la consulta a la API
+  const fetchKilocaloriasAnterior = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("No estás autenticado. Por favor, inicia sesión.");
+      return;
+    }
+    try {
+      // console.log("noBoleta en mediciones: ", noBoleta);
+      const response = await fetch(`/api/consulta/getMediciones?noBoleta=${noBoleta}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        },
+      });
+      // Verificamos si la respuesta fue exitosa
+      if (!response.ok) {
+        console.log('No se pudo obtener la última consulta');
+        //throw new Error('No se pudo obtener la última consulta');
+      }
+  
+      const data = await response.json();
+      console.log("Data recuperado de mediciones: ", data);
+      console.log("Data recuperado de mediciones pliegue: ", data.Kilocaloria);
+      // Ejemplo de cómo actualizar los valores
+      setKilocaloriaData(data.Kilocaloria || []);
+    } catch (error) {
+      console.log('Error al realizar la consulta de kilocalorias');
+      // console.error("Error al realizar la consulta de pliegues:", error);
+    }
+  };
 
   let frecuencia = consultaData?.estiloDeVida?.actividadFisica?.frecuencia || 1;
 
@@ -107,13 +140,18 @@ function Kilocalorias() {
         lp_g,
       }));
     }
+    console.log("kilocaloriasData: ", kilocaloriaData);
   }, [kilocalorias.kcal, kilocalorias.hcPercentage, kilocalorias.protPercentage, kilocalorias.lpPercentage]);
 
-  // useEffect(() => {
-  //   if (consultaData.kilocalorias) {
-  //     setKilocalorias(consultaData.kilocalorias);
-  //   }
-  // }, [consultaData.kilocalorias]);
+  useEffect(() => {
+    fetchKilocaloriasAnterior();
+    //console.log("consultaData.kilocalorias: ", consultaData.kilocalorias.peso);
+    //console.log("consultaData.kilocalorias: ", consultaData.kilocalorias.altura);
+    if (consultaData.kilocalorias && ((consultaData.kilocalorias.peso) || (consultaData.kilocalorias.altura))) {
+      console.log("Hola desde asignacion de kilocalorias de useEffect");
+      setKilocalorias(consultaData.kilocalorias);
+    }
+  }, [consultaData.kilocalorias]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -144,6 +182,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="Peso en kg"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["peso"] || "No disponible"}
+            </p>
           </div>
           <div>
             <label className="block font-medium mb-1">Altura (cm)</label>
@@ -155,6 +196,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="Altura en cm"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["altura"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -167,6 +211,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="00.00"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["imc"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -179,6 +226,9 @@ function Kilocalorias() {
               <option value="Aumentar peso">Aumentar peso</option>
               <option value="Disminuir peso">Disminuir peso</option>
             </select>
+            <p className="text-sm text-gray-500 mt-1">
+                Objetivo anterior: {kilocaloriaData["objetivo"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -192,6 +242,9 @@ function Kilocalorias() {
               <option value="Mifflin-St">Mifflin-St</option>
               <option value="Valencia">Valencia</option>
             </select>
+            <p className="text-sm text-gray-500 mt-1">
+                Fórmula anterior: {kilocaloriaData["formula"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -204,6 +257,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="0000.00"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["tmb"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -216,6 +272,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="0.00"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["af"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -228,6 +287,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="0000.00"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["eta"] || "No disponible"}
+            </p>
           </div>
 
           <div>
@@ -240,6 +302,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="0000.00"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Medición anterior: {kilocaloriaData["kcal"] || "No disponible"}
+            </p>
           </div>
 
           {/* Porcentajes y resultados individuales */}
@@ -253,6 +318,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="HC %"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Porcentaje anterior: {kilocaloriaData["hcPercentage"] || "No disponible"}
+            </p>
           </div>
           <div>
             <label className="block font-medium mb-1">Porcentaje Proteínas</label>
@@ -264,6 +332,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="Proteínas %"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Porcentaje anterior: {kilocaloriaData["protPercentage"] || "No disponible"}
+            </p>
           </div>
           <div>
             <label className="block font-medium mb-1">Porcentaje Lípidos</label>
@@ -275,6 +346,9 @@ function Kilocalorias() {
               className="w-full p-2 border rounded-md"
               placeholder="Lípidos %"
             />
+            <p className="text-sm text-gray-500 mt-1">
+                Porcentaje anterior: {kilocaloriaData["lpPercentage"] || "No disponible"}
+            </p>
           </div>
 
           {/* Resultados en calorias */}
@@ -286,6 +360,9 @@ function Kilocalorias() {
               value={kilocalorias.hc || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="HC (calorías)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Calorías anteriores asignadas: {kilocaloriaData["hc"] || "No disponible"}
+            </p>  
           </div>
           <div>
             <label className="block font-medium mb-1">Proteínas (calorías)</label>
@@ -295,6 +372,9 @@ function Kilocalorias() {
               value={kilocalorias.prot || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="Proteínas (calorías)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Calorías anteriores asignadas: {kilocaloriaData["prot"] || "No disponible"}
+            </p>  
           </div>
           <div>
             <label className="block font-medium mb-1">Lípidos (calorías)</label>
@@ -304,6 +384,9 @@ function Kilocalorias() {
               value={kilocalorias.lp || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="Lípidos (calorías)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Calorías anteriores asignadas: {kilocaloriaData["lp"] || "No disponible"}
+            </p>  
           </div>
 
           {/* Resultados en gramos */}
@@ -315,6 +398,9 @@ function Kilocalorias() {
               value={kilocalorias.hc_g || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="HC (g)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Gramos anteriores asignadas: {kilocaloriaData["hc_g"] || "No disponible"}
+            </p>  
           </div>
           <div>
             <label className="block font-medium mb-1">Proteínas (g)</label>
@@ -324,6 +410,9 @@ function Kilocalorias() {
               value={kilocalorias.prot_g || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="Proteínas (g)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Gramos anteriores asignadas: {kilocaloriaData["prot_g"] || "No disponible"}
+            </p>  
           </div>
           <div>
             <label className="block font-medium mb-1">Lípidos (g)</label>
@@ -333,6 +422,9 @@ function Kilocalorias() {
               value={kilocalorias.lp_g || ""}
               readOnly
               className="w-full p-2 border rounded-md" placeholder="Lípidos (g)" />
+            <p className="text-sm text-gray-500 mt-1">
+              Gramos anteriores asignadas: {kilocaloriaData["lp_g"] || "No disponible"}
+            </p>  
           </div>
         </div>
       </div>

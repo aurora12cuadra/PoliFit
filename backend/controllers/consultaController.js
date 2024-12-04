@@ -187,13 +187,13 @@ exports.obtenerTodasLasConsultas = async (req, res) => {
   }
 };
 
-// Obtener una consulta específica por id_consulta y noBoleta del paciente
-exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
-    const { id_consulta, noBoleta } = req.params;
+// Obtener una consulta específica por id_consulta 
+exports.obtenerConsultaPorId = async (req, res) => {
+    const { id_consulta } = req.params;
 
     try {
         const consulta = await Consulta.findOne({
-            where: { id_consulta, noBoleta, numeroEmpleado: req.nutriologoId },
+            where: { id_consulta, numeroEmpleado: req.nutriologoId },
             include: [
                 { model: ActLaboral },
                 { model: ActFisica },
@@ -301,7 +301,7 @@ exports.obtenerConsultaPorIdYNoBoleta = async (req, res) => {
 };
 
 // Obtener la última consulta de un paciente y sus modelos asociados
-exports.obtenerUltimaConsultaConPlieguesYDiametros = async (req, res) => {
+exports.obtenerUltimaConsultaMediciones = async (req, res) => {
   const { noBoleta } = req.params; // noBoleta del paciente
 
   try {
@@ -314,7 +314,11 @@ exports.obtenerUltimaConsultaConPlieguesYDiametros = async (req, res) => {
       order: [['fecha_consulta', 'DESC']], // Ordenar por fecha de consulta, la más reciente primero
       include: [
         { model: Pliegues },  // Incluir el modelo Pliegues
-        { model: Diametros }  // Incluir el modelo Diametros
+        { model: Diametros },  // Incluir el modelo Diametros
+        { model: Perimetros },
+        { model: Bioimpedancia },
+        { model: Bioquimicos },
+        { model: Kilocalorias },
       ]
     });
 
