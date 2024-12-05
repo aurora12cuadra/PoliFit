@@ -156,7 +156,9 @@ Content-Type: application/json
 }
 
 ### Obtener todos los pacientes
-GET http://localhost:3000/pacientes
+GET http://localhost:3000/paciente/getAll
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzA4MTYiLCJlbWFpbCI6ImF1cm9yYTEyY3VhZHJhQGdtYWlsLmNvbSIsImlhdCI6MTczMzQyNDM3OCwiZXhwIjoxNzMzNDYwMzc4fQ.hOp9vRlnyq4nzl3_PJvZISjYk8ioBtWvdxD1C9_-PTI
+Content-Type: application/json
 
 ### Obtener un paciente por ID
 GET http://localhost:3000/pacientes/1

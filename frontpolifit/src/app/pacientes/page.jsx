@@ -1,88 +1,160 @@
 "use client";
-import { useState } from "react";
+
+import { useState, useEffect, useMemo } from "react";
+import {
+  Input,
+  Button,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableColumn,
+  TableCell,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
+import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FaFolderOpen } from "react-icons/fa";
-import PatientModal from "@/app/components/PacienteModal";
-
 function Pacientes() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const [filtroGenero, setFiltroGenero] = useState("todos");
+  const [pacientes, setPacientes] = useState([]);
+  const [pacientesFiltrados, setPacientesFiltrados] = useState([]);
+  const router = useRouter();
 
-  const openModal = (patient) => {
-    setSelectedPatient(patient);
-    setIsModalOpen(true);
+  // Obtener la lista de pacientes del backend
+  const fetchPacientes = async () => {
+    try {
+      const response = await fetch("/api/pacientes/getAll", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPacientes(data);
+      } else {
+        console.error("Error al obtener pacientes");
+      }
+    } catch (error) {
+      console.error("Error al conectar con el backend:", error);
+    }
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPatient(null);
-  };
+  useEffect(() => {
+    fetchPacientes();
+  }, []);
 
-  const patients = [
-    {
-      name: "Aurora Cuadra Camacho",
-      age: 21,
-      id: "2021063816",
-      career: "Sistemas Computacionales",
-      registrationDate: "01/01/2024",
-      semester: "8° semestre",
-      gender: "Femenino",
-      consultations: [
-        { date: "21/03/2024", weight: 64, imc: 21 },
-        { date: "15/02/2024", weight: 60, imc: 20 },
-        // Añadir más consultas si es necesario
-      ],
-    },
-    // Agrega más pacientes si es necesario
-  ];
+  // Filtros para la búsqueda y género
+  useEffect(() => {
+    const filtrados = pacientes.filter((paciente) => {
+      const cumpleBusqueda = paciente.nombre
+        .toLowerCase()
+        .includes(searchText.toLowerCase());
+      const cumpleGenero =
+        filtroGenero === "todos" || paciente.sexo === filtroGenero;
+      return cumpleBusqueda && cumpleGenero;
+    });
+    setPacientesFiltrados(filtrados);
+  }, [searchText, filtroGenero, pacientes]);
+
+  const limpiarFiltros = () => {
+    setSearchText("");
+    setFiltroGenero("todos");
+  };
 
   return (
     <div className="p-8">
-      <h1 className="text-4xl font-bold mb-6">PACIENTES</h1>
+      <h1 className="text-4xl font-bold mb-6">Mis Pacientes</h1>
 
-      {/* Tabla de Pacientes */}
-      <div className="bg-white shadow-md p-4 rounded-md">
-        <table className="w-full table-auto">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="px-4 py-2">Nombre</th>
-              <th className="px-4 py-2">Escuela</th>
-              <th className="px-4 py-2">Sexo</th>
-              <th className="px-4 py-2">Edad</th>
-              <th className="px-4 py-2">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {patients.map((patient) => (
-              <tr key={patient.id} className="border-b">
-                <td className="px-4 py-2">
-                  {patient.name} <br /> {patient.id}
-                </td>
-                <td className="px-4 py-2">
-                  {patient.semester} <br /> {patient.career}
-                </td>
-                <td className="px-4 py-2">{patient.gender}</td>
-                <td className="px-4 py-2">{patient.age}</td>
-                <td className="px-4 py-2 flex flex-col items-center">
-                  <button
-                    className="w-full bg-[#11404E] text-white py-2 rounded-md flex items-center justify-center space-x-2"
-                    onClick={() => openModal(patient)}
-                  >
-                    <FaFolderOpen />
-                    <span>Detalles</span>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      {/* Sección de filtros */}
+      <div className="bg-white shadow-md p-6 rounded-md mb-6">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            <Input
+              isClearable
+              placeholder="Buscar por nombre..."
+              startContent={<Search className="text-default-400 w-4 h-4" />}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          <div className="flex gap-4 flex-wrap">
+            <Select
+              label="Género"
+              placeholder="Todos"
+              value={filtroGenero}
+              onChange={(e) => setFiltroGenero(e.target.value)}
+              className="w-40"
+            >
+              <SelectItem key="todos" value="todos">
+                Todos
+              </SelectItem>
+              <SelectItem key="Hombre" value="Hombre">
+                Hombre
+              </SelectItem>
+              <SelectItem key="Mujer" value="Mujer">
+                Mujer
+              </SelectItem>
+            </Select>
+            <Button
+              className="bg-[#11404E] text-white hover:bg-[#1a5c70]"
+              variant="flat"
+              onPress={limpiarFiltros}
+            >
+              Limpiar filtros
+            </Button>
+          </div>
+        </div>
       </div>
 
-      {/* Modal de Detalles del Paciente */}
-      <PatientModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        patient={selectedPatient}
-      />
+      {/* Tabla de pacientes */}
+      <div className="bg-white shadow-md rounded-md">
+        <Table aria-label="Tabla de pacientes">
+          <TableHeader>
+            <TableColumn>NOMBRE</TableColumn>
+            <TableColumn>CARRERA</TableColumn>
+            <TableColumn>SEMESTRE</TableColumn>
+            <TableColumn>GÉNERO</TableColumn>
+            <TableColumn>EDAD</TableColumn>
+            <TableColumn align="center">ACCIONES</TableColumn>
+          </TableHeader>
+          <TableBody>
+            {pacientesFiltrados.map((paciente) => (
+              <TableRow key={paciente.noBoleta}>
+                <TableCell>
+                  {`${paciente.nombre} ${paciente.apellidoPaterno || ""} ${
+                    paciente.apellidoMaterno || ""
+                  }`.trim()}
+                </TableCell>
+                <TableCell>{paciente.carrera}</TableCell>
+                <TableCell>{paciente.semestre}</TableCell>
+                <TableCell>{paciente.sexo}</TableCell>
+                <TableCell>{paciente.edad}</TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    <Button
+                      size="sm"
+                      className="bg-[#11404E] text-white hover:bg-[#1a5c70] flex items-center space-x-2"
+                      variant="flat"
+                      onPress={() =>
+                        router.push(`/pacientes/${paciente.noBoleta}`)
+                      }
+                    >
+                      <FaFolderOpen className="text-white w-4 h-4" />
+                      {/* Ícono */}
+                      <span>Expediente</span> {/* Texto del botón */}
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }
