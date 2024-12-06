@@ -37,19 +37,22 @@ function Trastornos() {
 
   useEffect(() => {
     if (consultaData.trastornos) {
-      setTrastornos((prev) => ({
-        ...prev,
-        ...consultaData.trastornos.trastornos,
-      }));
+      setTrastornos(consultaData.trastornos.trastornos || {});
     }
-    if (consultaData.trastornos?.ginecoObstetricos) {
-      setGinecoObstetricos((prev) => ({
-        ...prev,
-        ...consultaData.trastornos.ginecoObstetricos,
-      }));
+    if (consultaData.ginecoObstetricos) {
+      setGinecoObstetricos(consultaData.ginecoObstetricos || {
+        G: "",
+        P: "",
+        C: "",
+        FUM: "",
+        "FUP/C": "",
+        SDGI: "",
+        PPG: "",
+        Anticonceptivos: "",
+        notas: "",
+      });
     }
   }, [consultaData]);
-  
 
   const handleTrastornoChange = (event, name) => {
     const { checked } = event.target;
@@ -83,17 +86,17 @@ function Trastornos() {
   };
 
   const handleGuardar = () => {
-    // Formatear trastornos gastrointestinales
-  const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
-    acc[key] = trastornos[key]?.value ? trastornos[key].frecuencia : "";
-    return acc;
-  }, {});
-
-  // Combina los datos de trastornos y gineco-obstétricos
-  const datosTrastornos = {
-    trastornos: formattedTrastornos,
-    ginecoObstetricos,
-  };
+    // Convertir cada trastorno en un string de frecuencia o vacío según corresponda
+    const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
+      acc[key] = trastornos[key].value ? trastornos[key].frecuencia : "";
+      return acc;
+    }, {});
+  
+    // Combinar `formattedTrastornos` con `ginecoObstetricos` en un solo objeto
+    const datosTrastornos = {
+      formattedTrastornos,
+      ginecoObstetricos,
+    };
   
     console.log("datos recolectados de trastornos 1: ", formattedTrastornos);
     console.log("datos recolectados de trastornos 2: ", ginecoObstetricos);

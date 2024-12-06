@@ -23,10 +23,10 @@ router.get('/perfil', verifyToken, nutriologoController.obtenerPerfilNutriologo)
 router.patch('/:id', verifyToken, nutriologoController.actualizarNutriologo);
 
 // Obtener todos los nutriólogos (GET)
-router.get('/', nutriologoController.obtenerNutriologos);
+// router.get('/', nutriologoController.obtenerNutriologos);
 
 // Obtener un nutriólogo por ID (GET)
-router.get('/:id', nutriologoController.obtenerNutriologoPorId);
+router.get('/', verifyToken, nutriologoController.obtenerNutriologoPorId);
 
 // Eliminar un nutriólogo por ID (DELETE)
 router.delete('/:id', nutriologoController.eliminarNutriologo);

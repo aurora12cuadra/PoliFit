@@ -138,7 +138,13 @@ exports.obtenerNutriologos = async (req, res) => {
 // Obtener un nutriólogo por ID
 exports.obtenerNutriologoPorId = async (req, res) => {
     try {
-        const nutriologo = await Nutriologo.findByPk(req.params.id);
+        // Recuperar el numeroEmpleado del nutriólogo actual (desde el token)
+        const numeroEmpleado = req.nutriologoId;
+        console.log("Iniciando obtención de todas las consultas para el nutriólogo:", numeroEmpleado);
+
+        const nutriologo = await Nutriologo.findOne({
+            where: { numeroEmpleado }
+        });
         if (!nutriologo) {
             return res.status(404).json({ error: "Nutriólogo no encontrado" });
         }

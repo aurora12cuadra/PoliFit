@@ -1,10 +1,17 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import CarouselSection from "../components/CarouselSection";
 
 const LandingPage = () => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false); // Estado para el loading
+
+  const handleClick = (path) => {
+    setLoading(true); // Activa el loading
+    router.push(path); // Realiza la navegación
+  };
 
   return (
     <div className="bg-white">
@@ -28,11 +35,22 @@ const LandingPage = () => {
           <a href="#about" className="text-gray-400 hover:text-white">
             Sobre Nosotros
           </a>
-          <button
+          {/* <button
             className="bg-gray-200 text-gray-800 px-4 py-2 rounded"
             onClick={() => router.push("/inicio")}
           >
-            Acceder
+            {loading ? (
+              <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full"></div>
+            ) : (
+              "Acceder"
+            )}
+          </button> */}
+          <button className="bg-gray-200 text-gray-800 px-4 py-2 rounded" onClick={() => handleClick("/inicio")}>
+            {loading ? (
+              <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full"></div>
+            ) : (
+              "Acceder"
+            )}
           </button>
         </nav>
       </header>
@@ -48,17 +66,31 @@ const LandingPage = () => {
           Quickly build landing pages that will help you get results fast.
         </p> */}
         <div className="mt-8 space-x-4">
-          <button
+          {/* <button
             className="bg-[#11404E] text-white px-6 py-2 rounded"
             onClick={() => router.push("/inicio")}
           >
             Acceder
+          </button> */}
+          <button className="bg-[#11404E] text-white px-6 py-2 rounded" onClick={() => handleClick("/inicio")}>
+            {loading ? (
+              <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full"></div>
+            ) : (
+              "Acceder"
+            )}
           </button>
-          <button
+          {/* <button
             className="bg-gray-100 text-gray-800 px-6 py-2 rounded"
             onClick={() => router.push("/registro")}
           >
             Unirse
+          </button> */}
+          <button className="bg-gray-100 text-gray-800 px-6 py-2 rounded" onClick={() => handleClick("/registro")}>
+            {loading ? (
+              <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full"></div>
+            ) : (
+              "Unirse"
+            )}
           </button>
         </div>
       </section>

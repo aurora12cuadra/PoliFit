@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 function RegistroForm() {
+  const [loading, setLoading] = useState(false); // Estado para el loading
   const [formData, setFormData] = useState({
     nombre: "",
     apellidos: "",
@@ -39,6 +40,7 @@ function RegistroForm() {
   // Manejador de cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
@@ -92,7 +94,7 @@ function RegistroForm() {
     setErrors({});
 
     if (!validateForm()) return;
-
+    setLoading(true); // Activa el loading
     try {
       const response = await fetch("/api/nutriologos/register", {
         method: "POST",
@@ -186,7 +188,14 @@ function RegistroForm() {
               <label htmlFor="terms">Acepto Términos y Condiciones <a href="#" className="text-green-600 underline">Ver aquí</a></label>
             </div>
             {errors.terms && <span className="text-red-500 text-sm">{errors.terms}</span>}
-            <button onClick={handleSubmit} className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button>
+            {/* <button onClick={handleSubmit} className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button> */}
+            <button className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40] flex justify-center items-center" onClick={handleSubmit}>
+              {loading ? (
+                <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
+              ) : (
+                "Registrar"
+              )}
+            </button>
             <div className="text-center mt-4">
               <a href="/inicio" className="text-white-500 underline">¿Ya tienes cuenta? Inicia sesión</a>
             </div>

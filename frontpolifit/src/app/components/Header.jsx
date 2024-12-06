@@ -1,6 +1,40 @@
 "use client";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 const Header = () => {
+  const [ nutriologoData, setNutriologoData ] = useState({});
+  // Función para realizar la consulta a la API
+  const fetchNutriologo = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("No estás autenticado. Por favor, inicia sesión.");
+      return;
+    }
+    try {
+      // console.log("noBoleta en mediciones: ", noBoleta);
+      const response = await fetch("/api/nutriologos/getNutriologo", {
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+        },
+      });
+      // Verificamos si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error('No se pudo obtener al nutriologo');
+      }
+  
+      const data = await response.json();
+      //console.log("Data recuperado de nutriologo: ", data);
+
+      setNutriologoData(data || []);  // Si no hay datos, asignamos un arreglo vacío
+    } catch (error) {
+      console.log("Error al realizar la consulta de Nutriologo:", error);
+    }
+  };
+
+  // useEffect para ejecutar la consulta al montar el componente
+  useEffect(() => {
+    fetchNutriologo();
+  }, []);
   return (
     <header className="bg-[#11404E] p-4 flex justify-between items-center flex-wrap">
       {/* Logo Section */}
@@ -21,7 +55,7 @@ const Header = () => {
       {/* User Info Section */}
       <div className="flex items-center space-x-4 text-white">
         <div className="text-right">
-          <h2 className="text-sm md:text-lg font-bold">Alicia Cardona Nava</h2>
+          <h2 className="text-sm md:text-lg font-bold">{(nutriologoData.nombre + " " + nutriologoData.apellidos) || " "}</h2>
           <p className="text-xs md:text-sm">Nutricionista</p>
         </div>
         <img

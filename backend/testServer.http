@@ -740,6 +740,15 @@ Content-Type: application/json
   "password": "JoseRivera1803."
 }
 
+### Iniciar sesión
+POST http://localhost:3000/nutriologos/login
+Content-Type: application/json
+
+{
+  "email": "carlos@perez.com",
+  "password": "JoseRivera1803."
+}
+
 ### Obtener todas las consultas de un Paciente
 GET http://localhost:3000/consulta/paciente/2019988777
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjcyODQwMywiZXhwIjoxNzMyNzY0NDAzfQ.I1h8epx5v_QnsxqePHNFQZBNEfMX2pMCf6WazXGG3I0
@@ -755,3 +764,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwMzAzOSIsI
 ### Obtener datos de Mediciones de la ultima consulta de un Paciente
 GET http://localhost:3000/consulta/getMediciones/98765
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwMzAzOSIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzMjgwNTkwLCJleHAiOjE3MzMzMTY1OTB9.if18BNSsljH3Avx8WTlNfYSbljtep5EraZ1C6DM8cyw
+
+### Obtener un nutriologo
+GET http://localhost:3000/nutriologos/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NiIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzMzUwNDYzLCJleHAiOjE3MzMzODY0NjN9.5w66S1qfVPRCryZpsi0Th5BB0csAkasKm4hKRTaMIEQ

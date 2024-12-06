@@ -70,18 +70,18 @@ function EstiloDeVida() {
       });
   
       setHabitosDieteticos({
-        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimentosNoDeseados || "", // Cambiado a 'alimen_ndesead'
-        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimentosFavoritos || "", // Cambiado a 'alimen_fav'
-        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergiaComida || "", // Cambiado a 'alergia'
-        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.desayunoLugarHora || "", // Cambiado a 'hora_bkf'
-        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cantidadAgua || "", // Cambiado a 'cant_agua'
-        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.comidaLugarHora || "", // Cambiado a 'hora_comida'
-        //cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cantidadAzucar || "", // Cambiado a 'cant_azu'
-        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.cenaLugarHora || "", // Cambiado a 'hora_cena'
-        //cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cantidadSal || "", // Cambiado a 'cant_sal'
-        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.horaDespierta || "", // Cambiado a 'hora_desp'
-        //alimen_nconsum: "",
-        alimen_into: "",  
+        alimen_ndesead: consultaData.estiloDeVida.habitosDieteticos?.alimen_ndesead || "", // Cambiado a 'alimen_ndesead'
+        alimen_fav: consultaData.estiloDeVida.habitosDieteticos?.alimen_fav || "", // Cambiado a 'alimen_fav'
+        alergia: consultaData.estiloDeVida.habitosDieteticos?.alergia || "", // Cambiado a 'alergia'
+        hora_bkf: consultaData.estiloDeVida.habitosDieteticos?.hora_bkf || "", // Cambiado a 'hora_bkf'
+        cant_agua: consultaData.estiloDeVida.habitosDieteticos?.cant_agua || "", // Cambiado a 'cant_agua'
+        hora_comida: consultaData.estiloDeVida.habitosDieteticos?.hora_comida || "", // Cambiado a 'hora_comida'
+        // cant_azu: consultaData.estiloDeVida.habitosDieteticos?.cant_azu || "", // Cambiado a 'cant_azu'
+        hora_cena: consultaData.estiloDeVida.habitosDieteticos?.hora_cena || "", // Cambiado a 'hora_cena'
+        // cant_sal: consultaData.estiloDeVida.habitosDieteticos?.cant_sal || "", // Cambiado a 'cant_sal'
+        hora_desp: consultaData.estiloDeVida.habitosDieteticos?.hora_desp || "", // Cambiado a 'hora_desp'
+        // alimen_nconsum: "",
+        alimen_into: consultaData.estiloDeVida.habitosDieteticos?.alimen_into || ""
       });
     }
   }, [consultaData.estiloDeVida]);
