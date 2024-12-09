@@ -161,7 +161,7 @@ const LandingPage = () => {
             <p className="mt-4 text-gray-600">
               En responsabilidad social con nuestra institución educativa,
               decidimos enfocarnos a el servicio de nutriología de la ESIME IPN
-              a través de "PoliFit, que surge como respuesta a estas
+              a través de &quot;PoliFit&quot;, que surge como respuesta a estas
               necesidades, proponiendo el desarrollo de un prototipo de
               aplicación web que permita a los nutriólogos gestionar de manera
               eficiente la información y el seguimiento de sus pacientes. Este

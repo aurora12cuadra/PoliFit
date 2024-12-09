@@ -2,9 +2,11 @@
 import { usePaciente } from "../../context/PacienteContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Spinner } from "@nextui-org/react";
 //import Cronometro from "../../components/Cronometro";
 
 function Mediciones() {
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, updateConsultaData, noBoleta } = usePaciente();
   const [plieguesAnterior, setPlieguesAnterior] = useState({});
   const [perimetroData, setPerimetroData] = useState({});
@@ -69,6 +71,11 @@ function Mediciones() {
       setIndicadores(consultaData.mediciones.indicadores || {});
     }
     fetchPlieguesAnterior();
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, [consultaData.mediciones]);
 
   // useEffect para ejecutar la consulta al montar el componente
@@ -76,7 +83,7 @@ function Mediciones() {
   //   fetchPlieguesAnterior();
   // }, []);
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -103,6 +110,7 @@ function Mediciones() {
   };
 
   const handleSaveAndNext = () => {
+    setIsLoading(true);
     const datosMediciones = {
       pliegues,
       perimetros,
@@ -114,6 +122,14 @@ function Mediciones() {
     router.push("/consultas/formularios/kilocalorias");
   };
 
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Mediciones</h2>

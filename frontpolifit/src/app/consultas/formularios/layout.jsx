@@ -4,7 +4,7 @@ import MenuConsultas from "../components/MenuConsultas";
 import Cronometro from "../components/Cronometro";
 
 export default function FormulariosLayout({ children }) {
-    const { noBoleta, nombre, email, telefono } = usePaciente();
+    const { noBoleta, nombre, email, telefono, apellidoPaterno, apellidoMaterno } = usePaciente();
   
     return (
       <div>
@@ -13,7 +13,7 @@ export default function FormulariosLayout({ children }) {
         {/* Información del paciente */}
         <div className="bg-white shadow-md p-4 rounded-md mb-6">
           <h2 className="text-xl font-semibold mb-2">Información del Paciente</h2>
-          <p><strong>Nombre:</strong> {nombre}</p>
+          <p><strong>Nombre:</strong> {nombre + " " + apellidoPaterno + " " + apellidoMaterno}</p>
           <p><strong>Email:</strong> {email}</p>
           <p><strong>Teléfono:</strong> {telefono}</p>
         </div>

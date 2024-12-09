@@ -5,6 +5,7 @@ import CitasTable from "./components/citastable";
 import ModalCita from "./components/ModalCita";
 import ModalEliminar from "./components/ModalEliminar";
 import HeaderAgenda from "./components/HeaderAgenda";
+import { Spinner } from "@nextui-org/react";
 
 function AgendaCitas() {
   const [modalState, setModalState] = useState({
@@ -14,7 +15,7 @@ function AgendaCitas() {
   });
   const [viewType, setViewType] = useState("list");
   const [selectedCita, setSelectedCita] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const [citas, setCitas] = useState([
     // {
     //   idCita: 1,  
@@ -72,6 +73,11 @@ function AgendaCitas() {
       const data = await response.json();
       console.log("Data recuperado de citas: ", data);
       setCitas(data); 
+      // Inicia un "loader" al cargar la página
+      const timer = setTimeout(() => {
+        setIsLoading(false); // Oculta el loader después de cargar
+      }, 1500); // Tiempo de carga simulado
+      return () => clearTimeout(timer);
     } catch (error) {
       console.error("Error al realizar la consulta de citas", error);
     }
@@ -102,11 +108,6 @@ function AgendaCitas() {
     }
   };
 
-  // useEffect para ejecutar la consulta al montar el componente
-  useEffect(() => {
-    fetchCitas();
-  }, []);
-
   // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
@@ -130,6 +131,7 @@ function AgendaCitas() {
 
   // Funcion para el calendario
   const getCalendarEvents = useMemo(() => {
+    console.log("citas: ", citas);
     return citas.map((cita) => ({
       id: cita.idCita,
       title: cita.nombre,
@@ -263,6 +265,19 @@ function AgendaCitas() {
     fetchDeleteCita(selectedCita.idCita);
   };
 
+  // useEffect para ejecutar la consulta al montar el componente
+  useEffect(() => {
+    fetchCitas();
+  }, []);
+
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
   return (
     <div className="p-6">
       <HeaderAgenda viewType={viewType} setViewType={setViewType} handleOpenModal={handleOpenModal} />

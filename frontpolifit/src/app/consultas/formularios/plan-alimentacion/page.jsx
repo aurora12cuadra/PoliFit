@@ -5,9 +5,11 @@ import { useReactToPrint } from "react-to-print";
 //import html2pdf from "html2pdf.js";
 import Image from "next/image";
 import { usePaciente } from "../../context/PacienteContext";
+import { Spinner } from "@nextui-org/react";
 
 function PlanAlimentacion() {
   const { nombre, edad } = usePaciente();
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
 
@@ -32,6 +34,11 @@ function PlanAlimentacion() {
     // Obtener la fecha actual en formato YYYY-MM-DD
     const today = new Date().toISOString().split("T")[0];
     setFechaConsulta(today); // Establece la fecha actual como predeterminada
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, []);
 
   const handleTableChange = (index, field, value) => {
@@ -51,6 +58,7 @@ function PlanAlimentacion() {
   };
 
   const handleFinalSave = async () => {
+    setIsLoading(true);
     try {
       await guardarConsulta(); // Llama a la función para guardar la consulta en el backend
       alert("Consulta finalizada y guardada con éxito.");
@@ -98,6 +106,14 @@ function PlanAlimentacion() {
         buttons.forEach((button) => (button.style.display = ""));
       });
   };
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div

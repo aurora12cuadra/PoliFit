@@ -2,12 +2,14 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import { Spinner } from "@nextui-org/react";
 //import Cronometro from "../../components/Cronometro";
 
 function Kilocalorias() {
   const { consultaData, updateConsultaData, sexo, edad, noBoleta } = usePaciente();
   // const [kilocaloriasData, setKilocaloriasData] = useState({});
   const [kilocaloriaData, setKilocaloriaData] = useState({});
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const router = useRouter();
 
   // Función para realizar la consulta a la API
@@ -151,6 +153,11 @@ function Kilocalorias() {
       console.log("Hola desde asignacion de kilocalorias de useEffect");
       setKilocalorias(consultaData.kilocalorias);
     }
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, [consultaData.kilocalorias]);
 
   const handleChange = (e) => {
@@ -162,9 +169,17 @@ function Kilocalorias() {
   };
 
   const handleSaveAndNext = () => {
+    setIsLoading(true);
     updateConsultaData("kilocalorias", kilocalorias);
   };
-
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
   return (
     <div className="p-8">
       <h2 className="text-2xl font-semibold mb-4">Kilocalorías</h2>

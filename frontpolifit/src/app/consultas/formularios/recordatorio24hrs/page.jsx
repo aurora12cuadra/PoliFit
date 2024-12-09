@@ -1,12 +1,14 @@
 "use client";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import { Spinner } from "@nextui-org/react"; // Puedes usar cualquier spinner o loader que prefieras
 //import Cronometro from "../../components/Cronometro";
 
 function Recordatorio24Hrs() {
   const { control, handleSubmit, reset, getValues } = useForm();
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const router = useRouter();
   const { consultaData, updateConsultaData, guardarConsulta } = usePaciente();
 
@@ -22,6 +24,11 @@ function Recordatorio24Hrs() {
     if (consultaData.recordatorio24Hrs) {
       reset(consultaData.recordatorio24Hrs);
     }
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, [consultaData.recordatorio24Hrs, reset]);
 
   const handleGuardar = () => {
@@ -30,14 +37,24 @@ function Recordatorio24Hrs() {
   };
 
   const handleAnterior = () => {
+    setIsLoading(true);
     handleGuardar();
     router.push("/consultas/formularios/trastornos");
   };
 
   const handleSiguiente = () => {
+    setIsLoading(true);
     handleGuardar();
     router.push("/consultas/formularios/mediciones");
   };
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

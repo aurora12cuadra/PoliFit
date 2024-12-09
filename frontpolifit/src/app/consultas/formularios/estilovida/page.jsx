@@ -3,11 +3,13 @@
 import { useState, useEffect  } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import { Spinner } from "@nextui-org/react"; // Puedes usar cualquier spinner o loader que prefieras
 //import Cronometro from "../../components/Cronometro";
 
 function EstiloDeVida() {
   const { noBoleta, consultaData, updateConsultaData } = usePaciente();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
 
   // Estados para capturar datos de los inputs
   const [actividadLaboral, setActividadLaboral] = useState({
@@ -84,12 +86,18 @@ function EstiloDeVida() {
         alimen_into: consultaData.estiloDeVida.habitosDieteticos?.alimen_into || ""
       });
     }
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 2000); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, [consultaData.estiloDeVida]);
   
   
 
   // Manejar el guardado de datos en el contexto
   const handleGuardar = () => {
+    setIsLoading(true); 
     const datosEstiloDeVida = {
       actividadLaboral,
       actividadFisica,
@@ -99,6 +107,15 @@ function EstiloDeVida() {
     updateConsultaData("estiloDeVida", datosEstiloDeVida);
     router.push("/consultas/formularios/trastornos");
   };
+
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

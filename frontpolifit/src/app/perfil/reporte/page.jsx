@@ -1,14 +1,16 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useReactToPrint } from "react-to-print";
 import html2pdf from "html2pdf.js";
+import { Spinner } from "@nextui-org/react";
 
 function Reporte() {
   const router = useRouter();
   const componentRef = useRef();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   // Datos estáticos (pueden ser reemplazados con datos del backend)
   const carreraGeneroData = [
@@ -65,6 +67,22 @@ function Reporte() {
     html2pdf().set(options).from(element).save();
   };
 
+  useEffect(() => {
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Reporte de Pacientes</h1>

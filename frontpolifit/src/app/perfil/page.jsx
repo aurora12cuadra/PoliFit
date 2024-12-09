@@ -3,12 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
+import { Spinner } from "@nextui-org/react";
 
 function PerfilNutriologo() {
   const [nutriologo, setNutriologo] = useState(null); // Estado para almacenar datos reales del backend
   const [formData, setFormData] = useState(null); // Estado para manejar los datos del formulario
   const [isEditing, setIsEditing] = useState(false); // Modo edición
   const [alertMessage, setAlertMessage] = useState(""); // Mensaje de alerta
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,11 +34,15 @@ function PerfilNutriologo() {
   
         console.log("Estado de la respuesta:", response.status);
         console.log("Cuerpo de la respuesta:", data);
-  
         if (response.ok) {
           console.log("Perfil recibido:", data);
           setNutriologo(data); // Guardar datos reales en el estado
           setFormData(data); // Inicializar datos en el formulario
+          // Inicia un "loader" al cargar la página
+          const timer = setTimeout(() => {
+            setIsLoading(false); // Oculta el loader después de cargar
+          }, 1500); // Tiempo de carga simulado
+          return () => clearTimeout(timer);
         } else {
           alert("Error al obtener el perfil: " + (data.error || "Error desconocido"));
         }
@@ -45,7 +51,6 @@ function PerfilNutriologo() {
         alert("Error al conectar con el servidor");
       }
     };
-  
     fetchPerfil();
   }, []);
   
@@ -102,11 +107,17 @@ function PerfilNutriologo() {
 
   // Redirigir al reporte
   const handleReporteClick = () => {
+    setIsLoading(true);
     router.push("/perfil/reporte"); // Redirige a la página del reporte
   };
 
-  if (!formData) {
-    return <div>Cargando...</div>; // Mostrar cargando si aún no se obtienen los datos
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
   }
 
   return (

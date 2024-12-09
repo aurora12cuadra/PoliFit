@@ -2,9 +2,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePacienteRegistro } from "../context/PacienteRegistroContext";
+import { Spinner } from "@nextui-org/react";
 
 function Antecedentes() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const { guardarRegistroPaciente, pacienteData, updatePacienteData } =
     usePacienteRegistro();
   // Verificar el contexto
@@ -26,6 +28,7 @@ function Antecedentes() {
         pacienteData.antecedentes.selectedPersonalHistory || {}
       );
     }
+    setIsLoading(false);
   }, [pacienteData.antecedentes]);
 
   const handleFamilyHistoryChange = (event) => {
@@ -53,12 +56,14 @@ function Antecedentes() {
   };
 
   const handleRegistrarPaciente = async () => {
+    setIsLoading(true);
     const exito = await guardarRegistroPaciente();
   
     if (exito) {
       //alert("Registro exitoso.");
       router.push("/consultas");
     } else {
+      setIsLoading(false);
       console.warn("El registro del paciente falló. No se redirigirá.");
     }
   };
@@ -102,6 +107,14 @@ function Antecedentes() {
     { label: "Hepatitis", name: "hepatitis" },
     { label: "Otros", name: "otros" },
   ];
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 md:p-8">
@@ -192,13 +205,16 @@ function Antecedentes() {
         >
           Guardar
         </button>
-        <button
+        {/* <button
           className="bg-[#11404E] text-white py-2 px-4 rounded-md"
           onClick={() => {
             handleRegistrarPaciente();
           }}
         >
           Registrar Paciente
+        </button> */}
+        <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center" onClick={() => {handleRegistrarPaciente();}}>
+          Regitrar paciente
         </button>
       </div>
     </div>

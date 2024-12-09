@@ -109,6 +109,7 @@ function RegistroForm() {
         alert("Registro exitoso");
         router.push("/inicio");
       } else {
+        setLoading(false);
         setErrors({ email: data.error || "Error al registrar" });
       }
     } catch (error) {

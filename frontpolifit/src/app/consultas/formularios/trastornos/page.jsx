@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePaciente } from "../../context/PacienteContext";
+import { Spinner } from "@nextui-org/react"; // Puedes usar cualquier spinner o loader que prefieras
 //import Cronometro from "../../components/Cronometro";
 
 function Trastornos() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
+
   const { consultaData, updateConsultaData } = usePaciente();
   const trastornosOptions = [
     "vomito",
@@ -52,6 +55,11 @@ function Trastornos() {
         notas: "",
       });
     }
+    // Inicia un "loader" al cargar la página
+    const timer = setTimeout(() => {
+      setIsLoading(false); // Oculta el loader después de cargar
+    }, 1500); // Tiempo de carga simulado
+    return () => clearTimeout(timer);
   }, [consultaData]);
 
   const handleTrastornoChange = (event, name) => {
@@ -86,6 +94,7 @@ function Trastornos() {
   };
 
   const handleGuardar = () => {
+    setIsLoading(true);
     // Convertir cada trastorno en un string de frecuencia o vacío según corresponda
     const formattedTrastornos = Object.keys(trastornos).reduce((acc, key) => {
       acc[key] = trastornos[key].value ? trastornos[key].frecuencia : "";
@@ -129,6 +138,14 @@ function Trastornos() {
     Anticonceptivos: "Uso de Anticonceptivos",
     notas: "Notas",
   };
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

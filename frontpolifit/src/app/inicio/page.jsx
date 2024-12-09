@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 
 function LoginForm() {
+  const [loading, setLoading] = useState(false); // Estado para el loading
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -41,7 +42,7 @@ function LoginForm() {
     setErrors({});
 
     if (!validateForm()) return;
-
+    setLoading(true); // Activa el loading
     try {
       const response = await fetch("/api/nutriologos/login", {
         method: "POST",
@@ -57,6 +58,7 @@ function LoginForm() {
         console.log("Login exitoso", data);
         router.push("/nuevopaciente");
       } else {
+        setLoading(false); // Activa el loading
         // Mensaje de error genérico si el inicio de sesión falla
         setErrors({ general: "Usuario o contraseña inválidos." });
       }
@@ -113,11 +115,18 @@ function LoginForm() {
 
             {/* Botones de acción */}
             <div className="flex space-x-4 mb-4">
-              <button
+              {/* <button
                 type="submit"
                 className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]"
               >
                 Ingresar
+              </button> */}
+              <button className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40] flex justify-center items-center" type="submit">
+                {loading ? (
+                  <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
+                ) : (
+                  "Ingresar"
+                )}
               </button>
               <button
                 type="button"

@@ -24,7 +24,10 @@ export default function Sidebar() {
     setLoading(option); // Establecer la opción como cargando
     setTimeout(() => {
       setLoading(null); // Simulamos un tiempo de carga, se puede reemplazar con una solicitud real
-    }, 5000); // 2 segundos de simulación
+    }, 2000); // 2 segundos de simulación
+    if(option === "cerrarSesion"){
+      localStorage.clear();
+    }
   };
 
   return (
@@ -86,12 +89,14 @@ export default function Sidebar() {
                 onClick={() => handleClick("perfil")}
               />
             </Link>
-            <SidebarItem
-              icon={<FaSignOutAlt />}
-              text="Cerrar Sesión"
-              loading={loading === "cerrarSesion"}
-              onClick={() => handleClick("cerrarSesion")}
-            />
+            <Link href="/">
+              <SidebarItem
+                icon={<FaSignOutAlt />}
+                text="Cerrar Sesión"
+                loading={loading === "cerrarSesion"}
+                onClick={() => handleClick("cerrarSesion")}
+              />
+            </Link>
           </ul>
         </SidebarContext.Provider>
       </nav>

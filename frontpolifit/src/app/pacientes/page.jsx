@@ -16,12 +16,14 @@ import {
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FaFolderOpen } from "react-icons/fa";
+import { Spinner } from "@nextui-org/react";
 function Pacientes() {
   const [searchText, setSearchText] = useState("");
   const [filtroGenero, setFiltroGenero] = useState("todos");
   const [pacientes, setPacientes] = useState([]);
   const [pacientesFiltrados, setPacientesFiltrados] = useState([]);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Obtener la lista de pacientes del backend
   const fetchPacientes = async () => {
@@ -35,6 +37,11 @@ function Pacientes() {
       if (response.ok) {
         const data = await response.json();
         setPacientes(data);
+        // Inicia un "loader" al cargar la página
+        const timer = setTimeout(() => {
+          setIsLoading(false); // Oculta el loader después de cargar
+        }, 2000); // Tiempo de carga simulado
+        return () => clearTimeout(timer);
       } else {
         console.error("Error al obtener pacientes");
       }
@@ -64,6 +71,14 @@ function Pacientes() {
     setSearchText("");
     setFiltroGenero("todos");
   };
+  // Verifica si está cargando y muestra el spinner
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">
