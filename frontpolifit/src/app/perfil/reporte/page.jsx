@@ -1,8 +1,7 @@
 "use client";
+import dynamic from 'next/dynamic';
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useReactToPrint } from "react-to-print";
-import html2pdf from "html2pdf.js";
 import { Spinner } from "@nextui-org/react";
 
 function Reporte() {
@@ -55,17 +54,24 @@ function Reporte() {
   };
 
   //Descarga en PDF
-  const handleDownloadPDF = () => {
-    const element = document.getElementById("reportePDF");
+  const handleDownloadPDF = async () => {
+  
+    const html2pdf = (await import("html2pdf.js")).default; // Importa html2pdf dinámicamente
+    const element = componentRef.current;
+    //const element = document.getElementById("reportePDF");
     const options = {
       margin: 0.5,
       filename: "reporte_paciente.pdf",
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2 },
+      html2canvas: { scale: 2,
+        useCORS: true, // Permite cargar recursos de otras fuentes
+      },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
+    
     html2pdf().set(options).from(element).save();
   };
+  
 
   useEffect(() => {
     // Inicia un "loader" al cargar la página
@@ -116,7 +122,7 @@ function Reporte() {
       </div>
 
       {/* Contenido del Reporte */}
-      <div id="reportePDF">
+      <div id="reportePDF" ref={componentRef}>
         {/* Tablas */}
         <div className="grid grid-cols-2 gap-6 mb-6">
           {/* Tabla Carrera y Género */}
@@ -234,5 +240,4 @@ function Reporte() {
     </div>
   );
 }
-
-export default Reporte;
+export default dynamic(() => Promise.resolve(Reporte), { ssr: false });

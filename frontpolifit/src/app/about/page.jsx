@@ -109,6 +109,7 @@ const LandingPage = () => {
               title: "Cervantes Meza Tamara ",
               desc: "Quick example text to build on the card..",
               img: "/images/tamaro.webp", // Replace with your converted image path
+              
             },
             {
               title: "Cuadra Camacho Aurora Concepción",
@@ -170,12 +171,8 @@ const LandingPage = () => {
               la calidad del seguimiento nutricional.
             </p>
           </div>
-          <div className="md:w-1/2 mt-10 md:mt-0">
-            <img
-              src="/images/landing1.webp"
-              alt="Mockup"
-              className="rounded-lg shadow-lg"
-            />
+          <div className="md:w-1/2 mt-10 md:mt-0">            
+            <Image src="/images/landing1.webp" alt="Mockup" width={600} height={600} className="rounded-lg shadow-lg" />
           </div>
         </div>
       </section>
@@ -184,11 +181,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-6 md:flex items-center">
           {/* Imagen a la izquierda */}
           <div className="md:w-1/2 mt-10 md:mt-0">
-            <img
-              src="/images/landing2.webp"
-              alt="Mockup"
-              className="rounded-lg shadow-lg"
-            />
+            <Image src="/images/landing2.webp" alt="Mockup" width={600} height={600} className="rounded-lg shadow-lg" />
           </div>
           {/* Contenido a la derecha */}
           <div className="md:w-1/2 md:pl-12">

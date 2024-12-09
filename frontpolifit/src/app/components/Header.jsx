@@ -1,8 +1,9 @@
 "use client";
 import Image from "next/image";
+import { FaRegUserCircle } from "react-icons/fa";
 import { useState, useEffect } from "react";
 const Header = () => {
-  const [ nutriologoData, setNutriologoData ] = useState({});
+  const [nutriologoData, setNutriologoData] = useState({});
   // Función para realizar la consulta a la API
   const fetchNutriologo = async () => {
     const token = localStorage.getItem("token");
@@ -14,18 +15,18 @@ const Header = () => {
       // console.log("noBoleta en mediciones: ", noBoleta);
       const response = await fetch("/api/nutriologos/getNutriologo", {
         headers: {
-          'Authorization': `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`,
         },
       });
       // Verificamos si la respuesta fue exitosa
       if (!response.ok) {
-        throw new Error('No se pudo obtener al nutriologo');
+        throw new Error("No se pudo obtener al nutriologo");
       }
-  
+
       const data = await response.json();
       //console.log("Data recuperado de nutriologo: ", data);
 
-      setNutriologoData(data || []);  // Si no hay datos, asignamos un arreglo vacío
+      setNutriologoData(data || []); // Si no hay datos, asignamos un arreglo vacío
     } catch (error) {
       console.log("Error al realizar la consulta de Nutriologo:", error);
     }
@@ -55,14 +56,12 @@ const Header = () => {
       {/* User Info Section */}
       <div className="flex items-center space-x-4 text-white">
         <div className="text-right">
-          <h2 className="text-sm md:text-lg font-bold">{(nutriologoData.nombre + " " + nutriologoData.apellidos) || " "}</h2>
-          <p className="text-xs md:text-sm">Nutricionista</p>
-        </div>
-        <img
-          src="https://robohash.org/escom"
-          alt="User Avatar"
-          className="h-8 w-8 md:h-10 md:w-10 rounded-full"
-        />
+          <h2 className="text-sm md:text-lg font-bold">
+            {nutriologoData.nombre + " " + nutriologoData.apellidos || " "} 
+          </h2>
+          <p className="text-xs md:text-sm">Nutricionista </p>
+        </div>    
+        <FaRegUserCircle size={40}/>    
         <button className="text-white">
           <i className="fas fa-cog"></i>
         </button>

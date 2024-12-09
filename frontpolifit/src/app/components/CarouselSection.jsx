@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -27,9 +28,11 @@ const CarouselSection = () => {
         >
           {images.map((image, index) => (
             <SwiperSlide key={index}>
-              <img
+              <Image
                 src={image.src}
                 alt={image.alt}
+                width={1300}
+                height={1000}
                 className="rounded-lg shadow-lg mx-auto max-w-full"
               />
             </SwiperSlide>
