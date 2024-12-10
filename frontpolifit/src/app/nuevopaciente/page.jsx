@@ -96,6 +96,8 @@ function DatosPersonales() {
     if (!datosPersonales.carrera) errores.carrera = "La carrera es obligatoria";
     if (!datosPersonales.noBoleta)
       errores.noBoleta = "El numero de Boleta / Empleado es obligatorio";
+    if (!datosPersonales.semestre)
+      errores.semestre = "El semestre es obligatorio"; // Validación del semestre
 
     // Validar nombre (no debe contener números)
     // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
@@ -224,7 +226,7 @@ function DatosPersonales() {
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
             ["Domicilio", "text", "domicilio"],
-            ["Semestre", "text", "semestre"], // Nuevo campo agregado
+            ["*Semestre", "text", "semestre"], // Nuevo campo agregado
             ["*No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
@@ -337,7 +339,7 @@ function DatosPersonales() {
       <div className="flex justify-end">
         <button
           onClick={handleNext}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
         >
           Siguiente
         </button>

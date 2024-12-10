@@ -302,7 +302,7 @@ function Mediciones() {
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-6">
         <button
-          className="bg-gray-500 text-white px-4 py-2 rounded-md"
+          className="bg-gray-300 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-400"
           onClick={() => {
             handleSaveAndNext();
             router.push("/consultas/formularios/recordatorio24hrs")}}
@@ -311,7 +311,7 @@ function Mediciones() {
         </button>
         <button
           onClick={handleSaveAndNext}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
         >
           Siguiente
         </button>

@@ -10,6 +10,7 @@ function PlanAlimentacion() {
   const { nombre, edad } = usePaciente();
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
+  //const { email } = usePaciente(); 
 
   const componentRef = useRef();
   const [fechaConsulta, setFechaConsulta] = useState("");
@@ -1212,13 +1213,13 @@ function PlanAlimentacion() {
         <div className="space-x-4">
           <button
             onClick={handleDownloadPDF}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
           >
             Descargar en PDF
           </button>
           <button
-            //onClick={handlePrint}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+            //onClick={handleEnviarCorreo}
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
           >
             Enviar al correo electrónico
           </button>
@@ -1227,7 +1228,7 @@ function PlanAlimentacion() {
           onClick={() => {
             handleFinalSave();
           }}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print hover:bg-[#1a5c70]"
         >
           Terminar Consulta
         </button>

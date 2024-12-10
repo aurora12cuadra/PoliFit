@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
@@ -13,6 +12,7 @@ export default function RestablecerContrasena({ params }) {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({}); // Estado para manejar errores
 
   const passwordRegex =
     /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
@@ -32,16 +32,25 @@ export default function RestablecerContrasena({ params }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
+    setErrors({});
 
-    if (!passwordRegex.test(newPassword)) {
-      setMessage(
-        "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial."
-      );
-      return;
+    const newErrors = {};
+
+    if (!newPassword) {
+      newErrors.newPassword = "La contraseña es obligatoria.";
+    } else if (!passwordRegex.test(newPassword)) {
+      newErrors.newPassword =
+        "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial.";
     }
 
-    if (newPassword !== confirmPassword) {
-      setMessage("Las contraseñas no coinciden.");
+    if (!confirmPassword) {
+      newErrors.confirmPassword = "Debes confirmar la contraseña.";
+    } else if (newPassword !== confirmPassword) {
+      newErrors.confirmPassword = "Las contraseñas no coinciden.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
@@ -103,11 +112,12 @@ export default function RestablecerContrasena({ params }) {
             <div className="mb-4 relative">
               <input
                 type={showNewPassword ? "text" : "password"}
-                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className={`w-full p-3 border ${
+                  errors.newPassword ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="Nueva contraseña"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                required
               />
               <button
                 type="button"
@@ -120,17 +130,21 @@ export default function RestablecerContrasena({ params }) {
                   <EyeSlashIcon className="w-5 h-5" />
                 )}
               </button>
+              {errors.newPassword && (
+                <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
+              )}
             </div>
 
             {/* Input de confirmar contraseña */}
             <div className="mb-4 relative">
               <input
                 type={showConfirmPassword ? "text" : "password"}
-                className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className={`w-full p-3 border ${
+                  errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
                 placeholder="Confirmar contraseña"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
               />
               <button
                 type="button"
@@ -143,6 +157,11 @@ export default function RestablecerContrasena({ params }) {
                   <EyeSlashIcon className="w-5 h-5" />
                 )}
               </button>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword}
+                </p>
+              )}
             </div>
 
             {/* Botón de envío */}

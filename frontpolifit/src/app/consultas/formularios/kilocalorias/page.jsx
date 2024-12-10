@@ -430,7 +430,7 @@ function Kilocalorias() {
       </div>
       <div className="flex justify-between mt-8">
         <button
-          className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md"
+          className="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400"
           onClick={() => {
             handleSaveAndNext();
             router.push("/consultas/formularios/mediciones");
@@ -439,7 +439,7 @@ function Kilocalorias() {
           Anterior
         </button>
         <button
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
           onClick={() => {
             handleSaveAndNext();
             router.push("/consultas/formularios/plan-alimentacion");
