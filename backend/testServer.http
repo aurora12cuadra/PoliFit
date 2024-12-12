@@ -774,3 +774,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwMzAzOSIsI
 ### Obtener un nutriologo
 GET http://localhost:3000/nutriologos/
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NiIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzMzUwNDYzLCJleHAiOjE3MzMzODY0NjN9.5w66S1qfVPRCryZpsi0Th5BB0csAkasKm4hKRTaMIEQ
+
+### Obtener todos los IMC de la última consulta de todos los pacientes
+GET http://localhost:3000/consulta/getAllIMC
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NiIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzODkwNzg4LCJleHAiOjE3MzM5MjY3ODh9.8C57k2ApX2iuRF9vfvOQ8pz_TvG24C_MyseDzc3X0Cc
+
+### Obtener todos los IMC de la última consulta de todos los pacientes
+GET http://localhost:3000/paciente/getAll
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NiIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzODkwNzg4LCJleHAiOjE3MzM5MjY3ODh9.8C57k2ApX2iuRF9vfvOQ8pz_TvG24C_MyseDzc3X0Cc
+
+### Obtener todos los IMC de la última consulta de todos los pacientes
+GET http://localhost:3000/paciente/getAllAntecedentes
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NiIsImVtYWlsIjoiam9zZXJAZ21haWwuY29tIiwiaWF0IjoxNzMzODkwNzg4LCJleHAiOjE3MzM5MjY3ODh9.8C57k2ApX2iuRF9vfvOQ8pz_TvG24C_MyseDzc3X0Cc

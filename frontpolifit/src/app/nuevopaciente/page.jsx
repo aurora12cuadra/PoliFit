@@ -66,7 +66,7 @@ function DatosPersonales() {
   };
 
   Object.keys(opcionesCarreras).forEach((escuela) => {
-    opcionesCarreras[escuela].push("PAE", "Docente");
+    opcionesCarreras[escuela].push("PAAE", "Docente");
   });
 
   const [opcionesDinamicasCarrera, setOpcionesDinamicasCarrera] = useState([]);
