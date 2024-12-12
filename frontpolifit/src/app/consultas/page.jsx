@@ -421,7 +421,7 @@ function Consultas() {
               </TableHeader>
               <TableBody>
                 {consultasFiltradas.map((consulta) => (
-                  <TableRow key={consulta.id}>
+                  <TableRow key={consulta.id_consulta}>
                     <TableCell>{consulta.paciente || "N/A"}</TableCell>
                     <TableCell>
                       <a

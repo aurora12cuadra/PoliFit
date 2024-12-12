@@ -21,6 +21,8 @@ const PanelConsulta = ({ consulta, onClose }) => {
     setActiveSection((prev) => (prev === section ? null : section));
   };
 
+  console.log("ID de consulta recibido en PanelConsulta:", consulta?.id_consulta);
+
   // Función para realizar la consulta a la API
   const fetchFormularios = async () => {
     const token = localStorage.getItem("token");
@@ -30,7 +32,9 @@ const PanelConsulta = ({ consulta, onClose }) => {
     }
     try {
       // console.log("noBoleta en mediciones: ", noBoleta);
-      const response = await fetch(`/api/consulta/getConsulta?id_consulta=${consulta.id}`, {
+      //const response = await fetch(`/api/consulta/getConsulta?id_consulta=${consulta.id}`, { //LEam
+
+      const response = await fetch(`/api/consulta/getConsulta?id_consulta=${consulta?.id_consulta}`, {
         headers: {
           'Authorization': `Bearer ${token}`, 
         },
@@ -44,6 +48,7 @@ const PanelConsulta = ({ consulta, onClose }) => {
       console.log("Data recuperado de consulta: ", data);
       console.log("Data recuperado de actividad Laboral: ", data.ActLaboral);
       console.log("Data recuperado de actividad Física: ", data.ActFisica);
+      console.log("Datos obtenidos de la API:", data);
 
       const actFisica = data.ActFisica || [];
       console.log("Actividad Fisica: ", actFisica);

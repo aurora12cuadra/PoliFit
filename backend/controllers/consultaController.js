@@ -163,7 +163,7 @@ exports.obtenerTodasLasConsultas = async (req, res) => {
     const consultasFormateadas = consultas.map((consulta) => {
       const paciente = consulta.Paciente || {};
       return {
-        id: consulta.id_consulta,
+        id_consulta: consulta.id_consulta,
         paciente: `${paciente.nombre} ${paciente.apellidoPaterno} ${paciente.apellidoMaterno}`,
         email: paciente.email,
         telefono: paciente.telefono,
