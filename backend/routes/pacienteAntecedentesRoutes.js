@@ -13,6 +13,9 @@ router.post('/register', verifyToken, pacienteAntecedentesController.registrarPa
 // Obtener todos los pacientes del nutriólogo autenticado con sus antecedentes
 router.get('/getAll', verifyToken, pacienteController.obtenerPacientes);
 
+// Obtener todos los pacientes del nutriólogo autenticado con sus antecedentes
+router.get('/getAllAntecedentes', verifyToken, pacienteAntecedentesController.obtenerTodosPacientesConAntecedentes);
+
 // Obtener un paciente específico con sus antecedentes por ID
 router.get('/:id', verifyToken, pacienteAntecedentesController.obtenerPacienteCompleto);
 

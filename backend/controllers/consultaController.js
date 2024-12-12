@@ -333,3 +333,97 @@ exports.obtenerUltimaConsultaMediciones = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+// Obtener la última consulta de todos los pacientes y su IMC
+exports.obtenerUltimasConsultasIMCi = async (req, res) => {
+  try {
+    // Recuperar el número de empleado del nutriólogo actual (desde el token)
+    const numeroEmpleado = req.nutriologoId;
+
+    // Buscar todas las consultas del nutriólogo ordenadas por fecha descendente
+    const consultas = await Consulta.findAll({
+      where: { numeroEmpleado },
+      order: [['fecha_consulta', 'DESC']], // Ordenar por fecha de consulta, la más reciente primero
+      include: [
+        { model: Kilocalorias }, // Incluir solo el campo "imc" de Kilocalorias
+      ]
+    });
+
+    console.log("IMC: ", consultas);
+    if (!consultas || consultas.length === 0) {
+      return res.status(404).json({ error: "No se encontraron consultas para este nutriólogo." });
+    }
+
+    // Filtrar para obtener solo la última consulta de cada paciente
+    const ultimaConsultasPorPaciente = [];
+
+    consultas.forEach(consulta => {
+      // Verificar si ya se ha agregado la última consulta de este paciente
+      console.log("Kilo: ", consulta.Kilocalorias);
+      const pacienteId = consulta.noBoleta; // Identificador del paciente
+      const consultaExistente = ultimaConsultasPorPaciente.find(item => item.noBoleta === pacienteId);
+
+      if (!consultaExistente) {
+        ultimaConsultasPorPaciente.push({
+          noBoleta: pacienteId,
+          imc: consulta.Kilocalorias ? consulta.Kilocalorias.imc : null, // Obtener el IMC de Kilocalorias
+          fecha_consulta: consulta.fecha_consulta
+        });
+      }
+    });
+
+    // Responder con las últimas consultas y sus IMC
+    res.status(200).json(ultimaConsultasPorPaciente);
+  } catch (error) {
+    console.error("Error al obtener las consultas:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Obtener la última consulta de todos los pacientes del nutriólogo y sus modelos asociados, incluyendo IMC
+exports.obtenerUltimasConsultasIMC = async (req, res) => {
+  try {
+    // Recuperar el número de empleado del nutriólogo actual (desde el token)
+    const numeroEmpleado = req.nutriologoId;
+
+    // Buscar las consultas más recientes para cada paciente
+    const consultas = await Consulta.findAll({
+      where: { numeroEmpleado },
+      order: [['fecha_consulta', 'DESC']], // Ordenar por fecha de consulta, la más reciente primero
+      include: [
+        { 
+          model: Kilocalorias, 
+          attributes: ['imc'],  // Incluir solo el campo 'imc' del modelo Kilocalorias
+        },
+      ],
+    });
+
+    if (!consultas || consultas.length === 0) {
+      return res.status(404).json({ error: "No se encontraron consultas para este nutriólogo." });
+    }
+
+    // Agrupar las consultas por paciente (noBoleta) y seleccionar solo la más reciente
+    const ultimaConsultaPorPaciente = [];
+    const pacientesConsultados = new Set();  // Para asegurarnos de no duplicar pacientes
+
+    consultas.forEach(consulta => {
+      const pacienteId = consulta.noBoleta;
+
+      // Si aún no hemos agregado al paciente, lo agregamos
+      if (!pacientesConsultados.has(pacienteId)) {
+        pacientesConsultados.add(pacienteId);
+        ultimaConsultaPorPaciente.push({
+          noBoleta: pacienteId,
+          fecha_consulta: consulta.fecha_consulta,
+          imc: consulta.Kilocaloria ? consulta.Kilocaloria.imc : null,  // Verificar si hay imc
+        });
+      }
+    });
+
+    // Responder con la última consulta de cada paciente y el IMC correspondiente
+    res.status(200).json(ultimaConsultaPorPaciente);
+  } catch (error) {
+    console.error("Error al obtener la última consulta:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};

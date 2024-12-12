@@ -97,7 +97,7 @@ function Kilocalorias() {
         tmb = 66.473 + (13.752 * peso) + (5.003 * ((altura/100) * 100)) - (6.775 * edad); // 88.362 + 13.397 * peso + 4.799 * altura - 5.677 * 25;
         console.log("TMB con Harris: ", tmb);
       } else if (formula === "Mifflin-St") {
-        if (sexo === "Masculino") {
+        if (sexo === "Hombre") {
           tmb = (9.99*peso)+(6.25*((altura/100)*100))-(4.92*edad)+5;
         } else {
           tmb = (9.99*peso)+(6.25*((altura/100)*100))-(4.92*edad)-161;
