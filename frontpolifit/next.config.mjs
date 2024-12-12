@@ -7,6 +7,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig = {
   reactStrictMode: true, // Habilitar modo estricto de React
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb', // Aumentar el límite de tamaño del cuerpo de la solicitud
+    },
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
