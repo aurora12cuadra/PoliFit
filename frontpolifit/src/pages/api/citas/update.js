@@ -9,7 +9,7 @@ export default async function handler(req, res) {
                 return res.status(401).json({ error: 'Token de autorización no proporcionado' });
             }
     
-            const response = await fetch(`http://localhost:3000/citas/${idCita}`, {
+            const response = await fetch(`https://polifit-backend.onrender.com/citas/${idCita}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
