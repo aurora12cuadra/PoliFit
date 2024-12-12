@@ -190,11 +190,15 @@ function DatosPersonales() {
         ...prevData,
         [name]: value,
       }));
+      if (name === "sexo") {
+        console.log("Valor capturado para sexo:", value); // Verifica el valor aquí
+      }
     }
   };
 
   const handleNext = () => {
     if (validarFormulario()) {
+      console.log("Datos enviados aqui prueba:", datosPersonales); // Verifica que "sexo" tenga un valor válido
       updatePacienteData("datosPersonales", datosPersonales); // Guardar datos en el contexto
       router.push("../nuevopaciente/antecedentes");
     } else {
@@ -240,6 +244,9 @@ function DatosPersonales() {
                   onChange={handleChange}
                   className="w-full p-2 border rounded-md"
                 >
+                  <option value="" disabled>
+                  Selecciona una opción
+                  </option>
                   {options.map((option) => (
                     <option key={option} value={option}>
                       {option}
