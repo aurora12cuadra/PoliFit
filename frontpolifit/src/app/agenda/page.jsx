@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo, useEffect } from "react";
-import CalendarView from "./components/calendarview";
-import CitasTable from "./components/citastable";
+import CalendarView from "./components/CalendarView";
+import CitasTable from "./components/CitasTable";
 import ModalCita from "./components/ModalCita";
 import ModalEliminar from "./components/ModalEliminar";
 import HeaderAgenda from "./components/HeaderAgenda";
