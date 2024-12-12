@@ -752,8 +752,12 @@ Content-Type: application/json
 }
 
 ### Obtener todas las consultas de un Paciente
-GET http://localhost:3000/consulta/paciente/2019988777
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMzQ1NjY3IiwiZW1haWwiOiJhbGFuQHJhbSIsImlhdCI6MTczMjcyODQwMywiZXhwIjoxNzMyNzY0NDAzfQ.I1h8epx5v_QnsxqePHNFQZBNEfMX2pMCf6WazXGG3I0
+GET http://localhost:3000/consulta/paciente/20211235
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzA4MTYiLCJlbWFpbCI6ImF1cm9yYTEyY3VhZHJhQGdtYWlsLmNvbSIsImlhdCI6MTczMzg1OTgwOCwiZXhwIjoxNzMzODk1ODA4fQ.7rZZ0Mo1rfKT9O36ZpaECFqwaesot4ZyYuqb6JBbrjg
+
+###Obtener todas las consultas que ha tenido un paciente
+GET http://localhost:3000/consulta/paciente/20211234
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzA4MTYiLCJlbWFpbCI6ImF1cm9yYTEyY3VhZHJhQGdtYWlsLmNvbSIsImlhdCI6MTczMzg1OTgwOCwiZXhwIjoxNzMzODk1ODA4fQ.7rZZ0Mo1rfKT9O36ZpaECFqwaesot4ZyYuqb6JBbrjg
 
 ### Obtener consulta de un Paciente y id de consulta
 GET http://localhost:3000/consulta/paciente/2019988777/consulta/1

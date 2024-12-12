@@ -17,11 +17,15 @@ import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FaFolderOpen } from "react-icons/fa";
 import { Spinner } from "@nextui-org/react";
+import ModalExpediente from "../components/ModalExpediente";
+
 function Pacientes() {
   const [searchText, setSearchText] = useState("");
   const [filtroGenero, setFiltroGenero] = useState("todos");
   const [pacientes, setPacientes] = useState([]);
   const [pacientesFiltrados, setPacientesFiltrados] = useState([]);
+  const [selectedPaciente, setSelectedPaciente] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -71,6 +75,23 @@ function Pacientes() {
     setSearchText("");
     setFiltroGenero("todos");
   };
+
+  const handleOpenExpediente = (paciente) => {
+    console.log("Paciente seleccionado:", paciente);
+    setSelectedPaciente(paciente);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseExpediente = () => {
+    setSelectedPaciente(null);
+    setIsModalOpen(false);
+  };
+
+  const handleSelectConsulta = (consulta) => {
+    console.log("Consulta seleccionada:", consulta);
+    // Aquí rediriges a la página de consulta
+  };
+  
   // Verifica si está cargando y muestra el spinner
   if (isLoading) {
     return (
@@ -155,9 +176,8 @@ function Pacientes() {
                       size="sm"
                       className="bg-[#11404E] text-white hover:bg-[#1a5c70] flex items-center space-x-2"
                       variant="flat"
-                      onPress={() =>
-                        router.push(`/pacientes/${paciente.noBoleta}`)
-                      }
+                      onPress={() => handleOpenExpediente(paciente)}
+                      //onClick={() => handleOpenExpediente(paciente)}
                     >
                       <FaFolderOpen className="text-white w-4 h-4" />
                       {/* Ícono */}
@@ -170,6 +190,15 @@ function Pacientes() {
           </TableBody>
         </Table>
       </div>
+
+      {/* Modal de Expediente */}
+      <ModalExpediente
+        isOpen={isModalOpen}
+        onClose={handleCloseExpediente}
+        paciente={selectedPaciente}
+        onSelectConsulta={handleSelectConsulta}
+      />
+
     </div>
   );
 }
