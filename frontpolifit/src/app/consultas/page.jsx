@@ -70,6 +70,7 @@ function Consultas() {
     if (!selectedPaciente) return;
     setIsLoading(true);
     resetConsultaData();
+    console.log("Paciente seleccionado para iniciar consulta:", selectedPaciente);
     // Almacena la información completa del paciente en el contexto
     setPacienteInfo({
       noBoleta: selectedPaciente.noBoleta,
@@ -103,11 +104,13 @@ function Consultas() {
   };
 
   const handleClosePanel = () => {
+    console.log("Cerrando panel de consulta");
     setSelectedConsulta(null);
   };
   // Fetch de las consultas
   const fetchConsultas = async () => {
     try {
+      console.log("Iniciando fetch de consultas...");
       const response = await fetch("/api/consulta/getAll", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`, // Token de autenticación

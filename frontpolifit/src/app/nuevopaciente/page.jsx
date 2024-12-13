@@ -2,12 +2,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePacienteRegistro } from "../nuevopaciente/context/PacienteRegistroContext";
-import { Spinner } from "@nextui-org/react";
 
 function DatosPersonales() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); // Estado para el loading
-  const [isLoading, setIsLoading] = useState(true);
   const { pacienteData, updatePacienteData } = usePacienteRegistro(); // Contexto para guardar datos
   // Verificar el contexto
   //console.log("Contexto pacienteData en DatosPersonales:", pacienteData);
@@ -66,7 +63,7 @@ function DatosPersonales() {
   };
 
   Object.keys(opcionesCarreras).forEach((escuela) => {
-    opcionesCarreras[escuela].push("PAAE", "Docente");
+    opcionesCarreras[escuela].push("PAE", "Docente");
   });
 
   const [opcionesDinamicasCarrera, setOpcionesDinamicasCarrera] = useState([]);
@@ -166,11 +163,6 @@ function DatosPersonales() {
         fechaRegistro: obtenerFechaActual(),
       }));
     }
-    // Inicia un "loader" al cargar la página
-    const timer = setTimeout(() => {
-      setIsLoading(false); // Oculta el loader después de cargar
-    }, 1000); // Tiempo de carga simulado
-    return () => clearTimeout(timer);
   }, [pacienteData.datosPersonales]);
 
   // Manejador de cambios en los inputs
@@ -206,8 +198,6 @@ function DatosPersonales() {
 
   const handleNext = () => {
     if (validarFormulario()) {
-      setLoading(true); // Activa el loading
-      setIsLoading(true);
       console.log("Datos enviados aqui prueba:", datosPersonales); // Verifica que "sexo" tenga un valor válido
       updatePacienteData("datosPersonales", datosPersonales); // Guardar datos en el contexto
       router.push("../nuevopaciente/antecedentes");
@@ -218,14 +208,6 @@ function DatosPersonales() {
     }
   };
 
-  // Verifica si está cargando y muestra el spinner
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Spinner size="lg" color="primary" /> {/* Spinner de NextUI */}
-      </div>
-    );
-  }
   return (
     <div className="p-4 md:p-8">
       <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6">
@@ -362,18 +344,11 @@ function DatosPersonales() {
 
       {/* Botón de Navegación */}
       <div className="flex justify-end">
-        {/* <button
+        <button
           onClick={handleNext}
           className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
         >
           Siguiente
-        </button> */}
-        <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center hover:bg-[#1a5c70]" onClick={handleNext}>
-          {loading ? (
-            <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
-          ) : (
-            "Siguiente"
-          )}
         </button>
       </div>
     </div>
