@@ -40,6 +40,7 @@ export function PacienteProvider({ children }) {
         console.log("Datos de la consulta actualizados:", updatedData); // Revisa los datos aquí
         return updatedData;
     });
+    console.log("Datos actualizados en el contexto:", consultaData);
 };
 
 const resetConsultaData = () => {

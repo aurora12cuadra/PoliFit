@@ -15,6 +15,7 @@ const Kilocalorias = require("../models/Kilocalorias");
 const Recordatorio = require("../models/Recordatorio");
 const Paciente = require("../models/Paciente");
 
+
 // Registrar una consulta y sus modelos asociados
 exports.registrarConsultaCompleta = async (req, res) => {
   const {

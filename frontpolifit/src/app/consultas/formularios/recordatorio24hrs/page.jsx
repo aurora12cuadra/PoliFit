@@ -74,7 +74,7 @@ function Recordatorio24Hrs() {
             Anterior
           </button>
           <button
-            className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+            className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
             onClick={handleSiguiente}
           >
             Siguiente

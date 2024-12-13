@@ -12,13 +12,57 @@ function PlanAlimentacion() {
   const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
+  //const { email } = usePaciente(); 
 
   const componentRef = useRef();
   const [fechaConsulta, setFechaConsulta] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // Controla el estado del modal
+  const [emailToSend, setEmailToSend] = useState("");
+ // Correo electrónico para enviar
+  const [file, setFile] = useState(null); // Archivo adjunto
   // Estado para la tabla editable con 5 filas
   const [tableData, setTableData] = useState(
     Array(5).fill({ fecha: "", pesoActual: "", pesoPerdidoGanado: "" })
   );
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleSendEmail = async () => {
+    if (!file || !emailToSend) {
+      console.log("Archivo o correo electrónico faltante front");
+      alert("Por favor, adjunta un archivo y escribe un correo electrónico.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("email", emailToSend);
+    console.log("Enviando datos al servidor: front", { emailToSend, file });
+
+    try {
+      const response = await fetch("/api/enviar-correo", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log("Respuesta del servidor: éxito");
+        alert("Correo enviado exitosamente.");
+        setIsModalOpen(false); // Cierra el modal
+        setFile(null); // Resetea el archivo
+        setEmailToSend(""); // Resetea el email
+      } else {
+        console.log("aqui es el error");
+        alert("Error al enviar el correo.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al enviar el correo.");
+    }
+  };
+
 
   const [quantities, setQuantities] = useState({
     cereales: "",
@@ -114,6 +158,8 @@ function PlanAlimentacion() {
       </div>
     );
   }
+
+ 
 
   return (
     <div
@@ -1228,13 +1274,13 @@ function PlanAlimentacion() {
         <div className="space-x-4">
           <button
             onClick={handleDownloadPDF}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
           >
             Descargar en PDF
           </button>
           <button
-            //onClick={handlePrint}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
           >
             Enviar al correo electrónico
           </button>
@@ -1243,11 +1289,46 @@ function PlanAlimentacion() {
           onClick={() => {
             handleFinalSave();
           }}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md no-print hover:bg-[#1a5c70]"
         >
           Terminar Consulta
         </button>
       </div>
+      {/* Modal para adjuntar archivo y enviar correo */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-md shadow-lg w-1/3">
+            <h2 className="text-lg font-bold mb-4">Enviar plan por correo</h2>
+            <label className="block mb-2">Correo electrónico:</label>
+            <input
+              type="email"
+              value={emailToSend}
+              onChange={(e) => setEmailToSend(e.target.value)}
+              className="w-full p-2 border rounded-md mb-4"
+            />
+            <label className="block mb-2">Adjuntar archivo:</label>
+            <input
+              type="file"
+              onChange={handleFileChange}
+              className="w-full p-2 border rounded-md mb-4"
+            />
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-300 px-4 py-2 rounded-md"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleSendEmail}
+                className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70]"
+              >
+                Enviar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

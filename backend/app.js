@@ -1,8 +1,9 @@
 // app.js
 const express = require('express');
 const app = express();
+
 const nutriologosRoutes = require('./routes/nutriologos');
-const pacientesRoutes = require('./routes/pacientes');
+//const pacientesRoutes = require('./routes/pacientes');
 const bodyParser = require('body-parser');
 const { sequelize } = require('./models'); 
 const antecedentesRoutes = require('./routes/antecedentes');
@@ -10,6 +11,7 @@ const consultaRoutes = require('./routes/consultas');
 const citasRoutes = require('./routes/citas');
 const cors = require('cors');
 const pacienteAntecedentesRoutes = require('./routes/pacienteAntecedentesRoutes');
+const correoRoutes = require("./routes/correoRoutes");
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,6 +22,9 @@ app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
 app.use('/citas', citasRoutes);
 app.use('/paciente', pacienteAntecedentesRoutes);
+app.use('/api/correo/enviar-correo', correoRoutes);
+// Registrar rutas
+app.use("/correo", correoRoutes);
 app.use(cors());
 
 // app.listen(3000, () => {

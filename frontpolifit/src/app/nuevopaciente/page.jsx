@@ -99,6 +99,8 @@ function DatosPersonales() {
     if (!datosPersonales.carrera) errores.carrera = "La carrera es obligatoria";
     if (!datosPersonales.noBoleta)
       errores.noBoleta = "El numero de Boleta / Empleado es obligatorio";
+    if (!datosPersonales.semestre)
+      errores.semestre = "El semestre es obligatorio"; // Validación del semestre
 
     // Validar nombre (no debe contener números)
     // const nombreRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
@@ -196,6 +198,9 @@ function DatosPersonales() {
         ...prevData,
         [name]: value,
       }));
+      if (name === "sexo") {
+        console.log("Valor capturado para sexo:", value); // Verifica el valor aquí
+      }
     }
   };
 
@@ -203,6 +208,7 @@ function DatosPersonales() {
     if (validarFormulario()) {
       setLoading(true); // Activa el loading
       setIsLoading(true);
+      console.log("Datos enviados aqui prueba:", datosPersonales); // Verifica que "sexo" tenga un valor válido
       updatePacienteData("datosPersonales", datosPersonales); // Guardar datos en el contexto
       router.push("../nuevopaciente/antecedentes");
     } else {
@@ -242,7 +248,7 @@ function DatosPersonales() {
             ["Teléfono", "text", "telefono"],
             ["*Email", "email", "email"],
             ["Domicilio", "text", "domicilio"],
-            ["Semestre", "text", "semestre"], // Nuevo campo agregado
+            ["*Semestre", "text", "semestre"], // Nuevo campo agregado
             ["*No. de Boleta / Empleado", "text", "noBoleta"],
             ["Turno", "text", "turno"],
             ["Tipo de Sangre", "text", "tipoSangre"],
@@ -256,6 +262,9 @@ function DatosPersonales() {
                   onChange={handleChange}
                   className="w-full p-2 border rounded-md"
                 >
+                  <option value="" disabled>
+                  Selecciona una opción
+                  </option>
                   {options.map((option) => (
                     <option key={option} value={option}>
                       {option}
@@ -355,7 +364,7 @@ function DatosPersonales() {
       <div className="flex justify-end">
         {/* <button
           onClick={handleNext}
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
         >
           Siguiente
         </button> */}

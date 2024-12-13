@@ -6,11 +6,11 @@ Content-Type: application/json
   "nombre": "Molly",
   "apellidos": "López",
   "fechaNacimiento": "1990-05-10",
-  "numeroEmpleado": "2021630789",
+  "numeroEmpleado": "20216387",
   "especialidad": "Nutrición Clínica",
   "escuela": "ESIME IPN",
-  "email": "tamaracervantes568@gmail.com",
-  "password": "supersecreta4"
+  "email": "tamaracer568@gmail.com",
+  "password": "supersecreta8"
 }
 
 ### Iniciar sesión
@@ -18,8 +18,8 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "tam.45@example.com",
-  "password": "supersecreta2"
+  "email": "tamaracer568@gmail.com",
+  "password": "supersecreta8"
 }
 
 ###Solicitar Restablecer contraseña 
@@ -37,6 +37,17 @@ Content-Type: application/json
 
 {
   "newPassword": "NuevaContraseña123!"
+}
+
+###Enviar pdf al correo
+POST http://localhost:3000/consulta/enviar-correo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2Mzg3IiwiZW1haWwiOiJ0YW1hcmFjZXI1NjhAZ21haWwuY29tIiwiaWF0IjoxNzMzODkwMDI5LCJleHAiOjE3MzM5MjYwMjl9.ru7W95CUWup6RwiOLPxj4LGV2h_WcLZI_KjJMsL6t2Y
+Content-Type: application/json
+
+{
+  "email": "tamaracervantes568@gmail.com",
+  "nombrePaciente": "Juan Pérez",
+  "pdfContent": "BASE64_STRING_DEL_PDF"
 }
 
 

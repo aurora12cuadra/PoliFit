@@ -200,19 +200,19 @@ function Antecedentes() {
           Anterior
         </button>
         <button
-          className="bg-gray-500 text-white px-4 py-2 rounded-md"
+          className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-[#1a5c70]"
           onClick={handleGuardarAntecedentes}
         >
           Guardar
         </button>
-        {/* <button
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md"
+        <button
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
           onClick={() => {
             handleRegistrarPaciente();
           }}
         >
           Registrar Paciente
-        </button> */}
+        </button> 
         <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center" onClick={() => {handleRegistrarPaciente();}}>
           Regitrar paciente
         </button>
