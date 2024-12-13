@@ -37,7 +37,7 @@ exports.enviarCorreo = async (req, res) => {
       
           Espero este mensaje te encuentre bien. Adjunto encontrarás tu plan alimenticio personalizado, diseñado para ayudarte a alcanzar tus objetivos de salud y bienestar.
       
-          Si tienes alguna duda o necesitas realizar ajustes, no dudes en ponerte en contacto conmigo.
+          Si tienes alguna duda o necesitas realizar ajustes, no dudes en ponerte en contacto con tu especialista.
         `,
         attachments: [
           {
