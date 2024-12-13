@@ -8,7 +8,7 @@ import { usePaciente } from "../../context/PacienteContext";
 import { Spinner } from "@nextui-org/react";
 
 function PlanAlimentacion() {
-  const { nombre, edad } = usePaciente();
+  const { nombre, edad, email } = usePaciente(); // Se obtiene el email del contexto
   const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
@@ -17,7 +17,7 @@ function PlanAlimentacion() {
   const componentRef = useRef();
   const [fechaConsulta, setFechaConsulta] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Controla el estado del modal
-  const [emailToSend, setEmailToSend] = useState("");
+  const [emailToSend, setEmailToSend] = useState(email || ""); // Inicializar con el email del contexto
  // Correo electrónico para enviar
   const [file, setFile] = useState(null); // Archivo adjunto
   // Estado para la tabla editable con 5 filas
@@ -61,6 +61,10 @@ function PlanAlimentacion() {
       console.error("Error:", error);
       alert("Error al enviar el correo.");
     }
+  };
+  const handleOpenModal = () => {
+    setEmailToSend(email || ""); // Asegura que el email esté prellenado desde el contexto
+    setIsModalOpen(true);
   };
 
 
@@ -1279,7 +1283,7 @@ function PlanAlimentacion() {
             Descargar en PDF
           </button>
           <button
-            onClick={() => setIsModalOpen(true)}
+            onClick={handleOpenModal}
             className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
           >
             Enviar al correo electrónico
