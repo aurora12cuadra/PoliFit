@@ -206,16 +206,13 @@ function Antecedentes() {
           Guardar
         </button>
         <button
-          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70]"
+          className="bg-[#11404E] text-white py-2 px-4 rounded-md hover:bg-[#1a5c70] flex justify-center items-center"
           onClick={() => {
             handleRegistrarPaciente();
           }}
         >
           Registrar Paciente
         </button> 
-        <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center" onClick={() => {handleRegistrarPaciente();}}>
-          Regitrar paciente
-        </button>
       </div>
     </div>
   );

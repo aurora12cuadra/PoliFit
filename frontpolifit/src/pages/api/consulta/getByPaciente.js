@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   
     try {
       // Llamada al backend
-      const response = await fetch(`https://polifit-backend.onrender.com/consulta/paciente/${noBoleta}`, {
+      const response = await fetch(`http://localhost:3000/consulta/paciente/${noBoleta}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

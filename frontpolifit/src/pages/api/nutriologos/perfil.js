@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         // Manejo de solicitud GET para visualizar el perfil
         console.log("Token recibido para GET:", token);
   
-        const response = await fetch('https://polifit-backend.onrender.com/nutriologos/perfil', {
+        const response = await fetch('http://localhost:3000/nutriologos/perfil', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`, // Incluye el token

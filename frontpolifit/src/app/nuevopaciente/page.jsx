@@ -368,7 +368,7 @@ function DatosPersonales() {
         >
           Siguiente
         </button> */}
-        <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center" onClick={handleNext}>
+        <button className="bg-[#11404E] text-white py-2 px-4 rounded-md flex justify-center items-center hover:bg-[#1a5c70]" onClick={handleNext}>
           {loading ? (
             <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
           ) : (

@@ -8,7 +8,7 @@ export default async function handler(req, res) {
       try {
         console.log("Iniciando solicitud al backend...");
   
-        const response = await fetch("https://polifit-backend.onrender.com/citas", {
+        const response = await fetch("http://localhost:3000/citas", {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",

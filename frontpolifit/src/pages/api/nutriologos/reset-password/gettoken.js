@@ -6,7 +6,7 @@ export default async function handler(req, res) {
             console.log("Si entre a la api");
             console.log("contra", newPassword);
             console.log("token", token);
-            const response = await fetch(`https://polifit-backend.onrender.com/nutriologos/reset-password/${token}`, {
+            const response = await fetch(`http://localhost:3000/nutriologos/reset-password/${token}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(req.body),
