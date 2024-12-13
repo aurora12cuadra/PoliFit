@@ -54,10 +54,10 @@ function Reporte() {
       //   setImcPacientes(data);
       //   setIsLoading(false);
       } else {
-        console.error("Error al obtener imc pacientes");
+        conslog("Error al obtener imc pacientes");
       }
     } catch (error) {
-      console.error("Error al conectar con el backend:", error);
+      console.log("Error al conectar con el backend:", error);
     }
   };
   // Obtener la lista de pacientes del backend
@@ -89,10 +89,10 @@ function Reporte() {
       //   setPatologias(data);
       //   setIsLoading(false);
       } else {
-        console.error("Error al obtener patologias");
+        console.log("Error al obtener patologias");
       }
     } catch (error) {
-      console.error("Error al conectar con el backend:", error);
+      console.log("Error al conectar con el backend:", error);
     }
   };
   // Obtener la lista de pacientes del backend
@@ -125,10 +125,10 @@ function Reporte() {
       //   setPacientes(data);
       //   setIsLoading(false);
       } else {
-        console.error("Error al obtener pacientes");
+        console.log("Error al obtener pacientes");
       }
     } catch (error) {
-      console.error("Error al conectar con el backend:", error);
+      console.log("Error al conectar con el backend:", error);
     }
   };
 

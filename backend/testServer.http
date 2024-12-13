@@ -758,13 +758,13 @@ POST http://localhost:3000/nutriologos/login
 Content-Type: application/json
 
 {
-  "email": "carlos@perez.com",
-  "password": "JoseRivera1803."
+  "email": "acardonan@ipn.mx",
+  "password": "Alicia1201."
 }
 
 ### Obtener todas las consultas de un Paciente
-GET http://localhost:3000/consulta/paciente/20211235
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMjE2MzA4MTYiLCJlbWFpbCI6ImF1cm9yYTEyY3VhZHJhQGdtYWlsLmNvbSIsImlhdCI6MTczMzg1OTgwOCwiZXhwIjoxNzMzODk1ODA4fQ.7rZZ0Mo1rfKT9O36ZpaECFqwaesot4ZyYuqb6JBbrjg
+GET http://localhost:3000/consulta/paciente/2021630414
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxMDM4OCIsImVtYWlsIjoiYWNhcmRvbmFuQGlwbi5teCIsImlhdCI6MTczNDExNDk3NSwiZXhwIjoxNzM0MTUwOTc1fQ.2Ze89Nk_lxK_2hIhPdNcM5Pv3Y-0d52PyqaSARf0gO8
 
 ###Obtener todas las consultas que ha tenido un paciente
 GET http://localhost:3000/consulta/paciente/20211234

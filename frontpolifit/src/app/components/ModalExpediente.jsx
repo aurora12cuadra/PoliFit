@@ -134,9 +134,9 @@ function ModalExpediente({ isOpen, onClose, paciente, onSelectConsulta }) {
                   <TableBody>
                     {consultas.map((consulta, index) => (
                       <TableRow key={index}>
-                        <TableCell>{consulta.fecha_consulta}</TableCell>
-                        <TableCell>{consulta.Kilocaloria.peso}</TableCell>
-                        <TableCell>{consulta.Kilocaloria.imc}</TableCell>
+                        <TableCell>{consulta?.fecha_consulta}</TableCell>
+                        <TableCell>{consulta?.Kilocaloria?.peso}</TableCell>
+                        <TableCell>{consulta?.Kilocaloria?.imc}</TableCell>
                         <TableCell>
                           <Button
                             size="sm"

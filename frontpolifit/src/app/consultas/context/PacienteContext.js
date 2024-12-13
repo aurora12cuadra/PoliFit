@@ -62,7 +62,7 @@ const resetConsultaData = () => {
       toxicomaniasData: consultaData.estiloDeVida.toxicomanias,
       habitosDietData: consultaData.estiloDeVida.habitosDieteticos,
       transGastroData: consultaData.trastornos.formattedTrastornos,
-      ginecoObstreData: consultaData.trastornos.ginecoObstetricos,
+      // ginecoObstreData: consultaData.trastornos.ginecoObstetricos,
       plieguesData: consultaData.mediciones.pliegues,
       perimetrosData: consultaData.mediciones.perimetros,
       diametrosData: consultaData.mediciones.diametros,
