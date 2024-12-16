@@ -10,6 +10,7 @@ const consultaRoutes = require('./routes/consultas');
 const citasRoutes = require('./routes/citas');
 const cors = require('cors');
 const pacienteAntecedentesRoutes = require('./routes/pacienteAntecedentesRoutes');
+const correoRoutes = require("./routes/correoRoutes");
 
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,6 +21,7 @@ app.use('/antecedentes', antecedentesRoutes);
 app.use('/consulta', consultaRoutes);
 app.use('/citas', citasRoutes);
 app.use('/paciente', pacienteAntecedentesRoutes);
+app.use("/correo", correoRoutes);
 app.use(cors());
 
  app.listen(3000, () => {
