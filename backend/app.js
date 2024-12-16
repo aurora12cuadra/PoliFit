@@ -22,14 +22,14 @@ app.use('/citas', citasRoutes);
 app.use('/paciente', pacienteAntecedentesRoutes);
 app.use(cors());
 
-// app.listen(3000, () => {
-//     console.log('Servidor corriendo en http://localhost:3000');
-// });
+ app.listen(3000, () => {
+     console.log('Servidor corriendo en http://localhost:3000');
+ });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//     console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// });
 
 //alter: true //sobreeescribe la bd
 //force: false //crea cada vez la bd 
