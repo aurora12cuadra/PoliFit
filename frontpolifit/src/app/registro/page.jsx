@@ -181,12 +181,12 @@ function RegistroForm() {
             ))}
             <div className="flex items-center mb-4">
               <input type="checkbox" id="privacy" checked={isPrivacyChecked} onChange={() => setIsPrivacyChecked(!isPrivacyChecked)} className="mr-2" />
-              <label htmlFor="privacy">Acepto Aviso de Privacidad <a href="#" className="text-green-600 underline">Ver aquí</a></label>
+              <label htmlFor="privacy">Acepto Aviso de Privacidad <a href="/avisospriva" className="text-green-600 underline">Ver aquí</a></label>
             </div>
             {errors.privacy && <span className="text-red-500 text-sm">{errors.privacy}</span>}
             <div className="flex items-center mb-4">
               <input type="checkbox" id="terms" checked={isTermsChecked} onChange={() => setIsTermsChecked(!isTermsChecked)} className="mr-2" />
-              <label htmlFor="terms">Acepto Términos y Condiciones <a href="#" className="text-green-600 underline">Ver aquí</a></label>
+              <label htmlFor="terms">Acepto Términos y Condiciones <a href="/terminos" className="text-green-600 underline">Ver aquí</a></label>
             </div>
             {errors.terms && <span className="text-red-500 text-sm">{errors.terms}</span>}
             {/* <button onClick={handleSubmit} className="w-full bg-[#00796b] text-white p-2 rounded-md hover:bg-[#004d40]">Registrar</button> */}
