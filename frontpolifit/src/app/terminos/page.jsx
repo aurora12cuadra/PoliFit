@@ -10,12 +10,12 @@ const Terminos = () => {
 
       <p className="text-gray-700 mb-4">
         Bienvenidos al Prototipo de Aplicación Web para la Administración y Gestión de Servicios de Nutriología
-        ("Polifit", "nosotros", "nos" o "nuestro"), diseñado para ser utilizado por nutriólogos/as con el fin de
+        (&quot;Polifit&quot;, &quot;nosotros&quot;, &quot;nos&quot; o &quot;nuestro&quot;), diseñado para ser utilizado por nutriólogos/as con el fin de
         optimizar el registro, consulta y seguimiento de datos nutricionales. Por favor, lea detenidamente estos
-        Términos y Condiciones ("Términos") antes de usar la plataforma.
+        Términos y Condiciones (&quot;Términos&quot;) antes de usar la plataforma.
       </p>
       <p className="text-gray-700 mb-4">
-        Al utilizar Polifit, usted ("Usuario/a") acepta estos Términos en su totalidad. Si no está de acuerdo,
+        Al utilizar Polifit, usted (&quot;Usuario/a&quot;) acepta estos Términos en su totalidad. Si no está de acuerdo,
         absténgase de utilizar la aplicación.
       </p>
 
@@ -92,7 +92,7 @@ const Terminos = () => {
 
       <h2 className="text-2xl font-semibold mb-2">5. Limitación de Responsabilidad</h2>
       <ul className="list-disc pl-6 text-gray-700 mb-4">
-        <li>Polifit se proporciona "tal cual" y no garantiza su disponibilidad ininterrumpida.</li>
+        <li>Polifit se proporciona &quot;tal cual&quot; y no garantiza su disponibilidad ininterrumpida.</li>
         <li>
           Los desarrolladores no serán responsables por pérdidas de datos, daños directos o indirectos derivados del
           uso de la aplicación.
