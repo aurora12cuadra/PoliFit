@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     console.log("Buscando paciente con nombre:", nombre); // Verifica el valor de nombre
 
     try {
-      const response = await fetch(`http://localhost:3000/paciente/nombre/${nombre}`, {
+      const response = await fetch(`https://polifit-backend.onrender.com/paciente/nombre/${nombre}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`, // Incluir solo el token en el encabezado

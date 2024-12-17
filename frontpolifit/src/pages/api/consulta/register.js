@@ -7,7 +7,7 @@ export default async function handler(req, res) {
       }
   
       try {
-        const response = await fetch("http://localhost:3000/consulta/register", {
+        const response = await fetch("https://polifit-backend.onrender.com/consulta/register", {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
