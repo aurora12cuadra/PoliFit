@@ -36,7 +36,7 @@ app.use(cors());
 
 //alter: true //sobreeescribe la bd
 //force: false //crea cada vez la bd 
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync({ force: true }).then(() => {
     console.log('Base de datos sincronizada');
 }).catch((error) => {
     console.error('Error al sincronizar la base de datos:', error);

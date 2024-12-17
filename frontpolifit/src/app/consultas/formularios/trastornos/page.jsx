@@ -26,17 +26,7 @@ function Trastornos() {
   ];
 
   const [trastornos, setTrastornos] = useState({});
-  const [ginecoObstetricos, setGinecoObstetricos] = useState({
-    g: "",
-    p: "",
-    c: "",
-    fum: "",
-    fup: "",
-    sdgi: "",
-    ppg: "",
-    anticon: "",
-    notas: "",
-  });
+  const [ginecoObstetricos, setGinecoObstetricos] = useState({});
 
   useEffect(() => {
     if (consultaData.trastornos) {
@@ -46,17 +36,10 @@ function Trastornos() {
       }));
     }
     if (consultaData.ginecoObstetricos) {
-      setGinecoObstetricos(consultaData.ginecoObstetricos || {
-        g: "",
-        p: "",
-        c: "",
-        fum: "",
-        fup: "",
-        sdgi: "",
-        ppg: "",
-        anticon: "",
-        notas: "",
-      });
+      setTrastornos((prev) => ({
+        ...prev,
+        ...consultaData.trastornos.trastornos,
+      }));
     }
     // Inicia un "loader" al cargar la página
     const timer = setTimeout(() => {
