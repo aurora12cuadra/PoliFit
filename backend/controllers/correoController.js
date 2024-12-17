@@ -1,3 +1,4 @@
+//correoController.js
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 
@@ -59,5 +60,3 @@ exports.enviarCorreo = async (req, res) => {
     res.status(500).json({ error: "Error al enviar el correo." });
   }
 };
-
-

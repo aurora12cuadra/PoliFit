@@ -1,3 +1,4 @@
+//api de enviar-correo.js
 import { IncomingForm } from "formidable";
 import path from "path";
 import fs from "fs";
@@ -90,4 +91,3 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Error interno del servidor." });
   }
 }
-

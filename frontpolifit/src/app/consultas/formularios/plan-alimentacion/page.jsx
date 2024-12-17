@@ -8,17 +8,17 @@ import { usePaciente } from "../../context/PacienteContext";
 import { Spinner } from "@nextui-org/react";
 
 function PlanAlimentacion() {
-  const { nombre, edad, email } = usePaciente(); // Se obtiene el email del contexto
+  const { nombre, edad, email} = usePaciente();
   const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
-  //const { email } = usePaciente(); 
+  const [loading, setLoading] = useState(false); // Estado para el loading
 
   const componentRef = useRef();
   const [fechaConsulta, setFechaConsulta] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false); // Controla el estado del modal
   const [emailToSend, setEmailToSend] = useState(email || ""); // Inicializar con el email del contexto
- // Correo electrónico para enviar
+  // Correo electrónico para enviar
   const [file, setFile] = useState(null); // Archivo adjunto
   // Estado para la tabla editable con 5 filas
   const [tableData, setTableData] = useState(
@@ -35,6 +35,7 @@ function PlanAlimentacion() {
       alert("Por favor, adjunta un archivo y escribe un correo electrónico.");
       return;
     }
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -53,13 +54,16 @@ function PlanAlimentacion() {
         setIsModalOpen(false); // Cierra el modal
         setFile(null); // Resetea el archivo
         setEmailToSend(""); // Resetea el email
+        setLoading(false);
       } else {
         console.log("aqui es el error");
         alert("Error al enviar el correo.");
+        setLoading(false);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
       alert("Error al enviar el correo.");
+      setLoading(false);
     }
   };
   const handleOpenModal = () => {
@@ -80,8 +84,11 @@ function PlanAlimentacion() {
 
   useEffect(() => {
     // Obtener la fecha actual en formato YYYY-MM-DD
-    const today = new Date().toISOString().split("T")[0];
-    setFechaConsulta(today); // Establece la fecha actual como predeterminada
+    const today = new Date();
+    const todayFormatted = today.getFullYear() + '-' 
+                     + String(today.getMonth() + 1).padStart(2, '0') + '-' 
+                     + String(today.getDate()).padStart(2, '0');
+    setFechaConsulta(todayFormatted); // Establece la fecha actual como predeterminada
     // Inicia un "loader" al cargar la página
     const timer = setTimeout(() => {
       setIsLoading(false); // Oculta el loader después de cargar
@@ -1284,7 +1291,7 @@ function PlanAlimentacion() {
           </button>
           <button
             onClick={handleOpenModal}
-            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] no-print"
+            className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#7fb6c6] no-print"
           >
             Enviar al correo electrónico
           </button>
@@ -1298,8 +1305,8 @@ function PlanAlimentacion() {
           Terminar Consulta
         </button>
       </div>
-      {/* Modal para adjuntar archivo y enviar correo */}
-      {isModalOpen && (
+     {/* Modal para adjuntar archivo y enviar correo */}
+     {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-md shadow-lg w-1/3">
             <h2 className="text-lg font-bold mb-4">Enviar plan por correo</h2>
@@ -1323,11 +1330,18 @@ function PlanAlimentacion() {
               >
                 Cancelar
               </button>
-              <button
+              {/* <button
                 onClick={handleSendEmail}
                 className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70]"
               >
                 Enviar
+              </button> */}
+              <button className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] flex justify-center items-center" onClick={handleSendEmail}>
+                {loading ? (
+                  <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
+                ) : (
+                  "Enviar"
+                )}
               </button>
             </div>
           </div>

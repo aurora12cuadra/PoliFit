@@ -45,11 +45,18 @@ function Trastornos() {
         ...consultaData.trastornos.trastornos,
       }));
     }
-    if (consultaData.trastornos?.ginecoObstetricos) {
-      setGinecoObstetricos((prev) => ({
-        ...prev,
-        ...consultaData.trastornos.ginecoObstetricos,
-      }));
+    if (consultaData.ginecoObstetricos) {
+      setGinecoObstetricos(consultaData.ginecoObstetricos || {
+        g: "",
+        p: "",
+        c: "",
+        fum: "",
+        fup: "",
+        sdgi: "",
+        ppg: "",
+        anticon: "",
+        notas: "",
+      });
     }
     // Inicia un "loader" al cargar la página
     const timer = setTimeout(() => {
@@ -237,7 +244,7 @@ function Trastornos() {
               </label>
               <input
                 type="checkbox"
-                name="PPG"
+                name="ppg"
                 checked={ginecoObstetricos.ppg === "true"}
                 onChange={(e) =>
                   setGinecoObstetricos({

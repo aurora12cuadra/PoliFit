@@ -107,18 +107,18 @@ const LandingPage = () => {
           {[
             {
               title: "Cervantes Meza Tamara ",
-              desc: "Ing. en Sistemas Computacionales",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/tamaro.webp", // Replace with your converted image path
               
             },
             {
               title: "Cuadra Camacho Aurora Concepción",
-              desc: "Ing. en Sistemas Computacionales",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/auroro.webp", // Replace with your converted image path
             },
             {
               title: "Hernández Ramos Leam ",
-              desc: "Ing. en Sistemas Computacionales",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/leamo.webp", // Replace with your converted image path
             },
           ].map((feature, index) => (

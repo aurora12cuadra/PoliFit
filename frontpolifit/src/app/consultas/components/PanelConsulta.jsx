@@ -17,6 +17,18 @@ const PanelConsulta = ({ consulta, onClose }) => {
   const [bioquimicoData, setBioquimicoData] = useState({});
   const [kilocaloriaData, setKilocaloriaData] = useState({});
 
+  // Función para convertir la fecha de formato YYYY-MM-DD a DD-MM-YYYY
+  function formatearFecha(fechaBackend) {
+    console.log("fecha backend consultas: ", fechaBackend);
+    if(fechaBackend){
+      let partes = fechaBackend.split("-"); // Asumiendo formato YYYY-MM-DD
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+    else {
+      return fechaBackend;
+    }
+  }
+
   const toggleSection = (section) => {
     setActiveSection((prev) => (prev === section ? null : section));
   };
@@ -149,7 +161,7 @@ const PanelConsulta = ({ consulta, onClose }) => {
                 <p><strong>Teléfono:</strong> {consulta.telefono || "N/A"}</p>
                 <p>
                   <strong>Fecha de Consulta:</strong>{" "}
-                  {new Date(consulta.fechaConsulta).toLocaleDateString()}
+                  {formatearFecha(consulta.fechaConsulta)}
                 </p>
                 <p><strong>Hora:</strong> {consulta.hora}</p>
                 <p><strong>Sexo:</strong> {consulta.sexo}</p>
