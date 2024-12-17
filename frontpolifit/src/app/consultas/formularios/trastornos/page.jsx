@@ -27,14 +27,14 @@ function Trastornos() {
 
   const [trastornos, setTrastornos] = useState({});
   const [ginecoObstetricos, setGinecoObstetricos] = useState({
-    G: "",
-    P: "",
-    C: "",
-    FUM: "",
-    "FUP/C": "",
-    SDGI: "",
-    PPG: "",
-    Anticonceptivos: "",
+    g: "",
+    p: "",
+    c: "",
+    fum: "",
+    fup: "",
+    sdgi: "",
+    ppg: "",
+    anticon: "",
     notas: "",
   });
 
@@ -44,14 +44,14 @@ function Trastornos() {
     }
     if (consultaData.ginecoObstetricos) {
       setGinecoObstetricos(consultaData.ginecoObstetricos || {
-        G: "",
-        P: "",
-        C: "",
-        FUM: "",
-        "FUP/C": "",
-        SDGI: "",
-        PPG: "",
-        Anticonceptivos: "",
+        g: "",
+        p: "",
+        c: "",
+        fum: "",
+        fup: "",
+        sdgi: "",
+        ppg: "",
+        anticon: "",
         notas: "",
       });
     }
@@ -128,14 +128,14 @@ function Trastornos() {
     flatulen: "Flatulencias",
     disten: "Distensión",
     pirosis: "Pirosis",
-    G: "Gestaciones",
-    P: "Partos",
-    C: "Cesáreas",
-    FUM: "Fecha Última Menstruación",
-    "FUP/C": "Fecha Último Parto/Cesárea",
-    SDGI: "Síndrome de Dolor Genitourinario",
-    PPG: "Planificación Familiar",
-    Anticonceptivos: "Uso de Anticonceptivos",
+    g: "Gestaciones",
+    p: "Partos",
+    c: "Cesáreas",
+    fum: "Fecha Última Menstruación",
+    fup: "Fecha Último Parto/Cesárea",
+    sdgi: "Síndrome de Dolor Genitourinario",
+    ppg: "Planificación Familiar",
+    anticon: "Uso de Anticonceptivos",
     notas: "Notas",
   };
   // Verifica si está cargando y muestra el spinner
@@ -191,7 +191,7 @@ function Trastornos() {
           </h3>
           <div className="grid grid-cols-2 gap-4">
             {/* Campos de texto existentes */}
-            {["G", "P", "C", "SDGI"].map((field) => (
+            {["g", "p", "c", "sdgi"].map((field) => (
               <div key={field}>
                 <label className="block font-medium mb-1 text-white">{labels[field] || field}</label>
                 <input
@@ -207,12 +207,12 @@ function Trastornos() {
             {/* Campo "Fecha Última Menstruación" (FUM) */}
             <div>
               <label className="block font-medium mb-1 text-white">
-                {labels.FUM || "Fecha Última Menstruación"}
+                {labels.fum || "Fecha Última Menstruación"}
               </label>
               <input
                 type="date"
-                name="FUM"
-                value={ginecoObstetricos.FUM}
+                name="fum"
+                value={ginecoObstetricos.fum}
                 onChange={handleGinecoObstetricosChange}
                 className="w-full p-2 border rounded-md"
               />
@@ -221,12 +221,12 @@ function Trastornos() {
             {/* Campo "Fecha Último Parto/Cesárea" (FUP/C) */}
             <div>
               <label className="block font-medium mb-1 text-white">
-                {labels["FUP/C"] || "Fecha Último Parto/Cesárea"}
+                {labels["fup"] || "Fecha Último Parto/Cesárea"}
               </label>
               <input
                 type="date"
-                name="FUP/C"
-                value={ginecoObstetricos["FUP/C"]}
+                name="fup"
+                value={ginecoObstetricos["fup"]}
                 onChange={handleGinecoObstetricosChange}
                 className="w-full p-2 border rounded-md"
               />
@@ -235,16 +235,16 @@ function Trastornos() {
             {/* Campo "Planificación Familiar" (PPG) */}
             <div>
               <label className="block font-medium mb-1 text-white">
-                {labels.PPG || "Planificación Familiar"}
+                {labels.ppg || "Planificación Familiar"}
               </label>
               <input
                 type="checkbox"
-                name="PPG"
-                checked={ginecoObstetricos.PPG === "true"}
+                name="ppg"
+                checked={ginecoObstetricos.ppg === "true"}
                 onChange={(e) =>
                   setGinecoObstetricos({
                     ...ginecoObstetricos,
-                    PPG: e.target.checked ? "true" : "false",
+                    ppg: e.target.checked ? "true" : "false",
                   })
                 }
                 className="w-5 h-5 border rounded-md"
@@ -254,11 +254,11 @@ function Trastornos() {
             {/* Campo "Uso de Anticonceptivos" (Anticonceptivos) */}
             <div>
               <label className="block font-medium mb-1 text-white">
-                {labels.Anticonceptivos || "Uso de Anticonceptivos"}
+                {labels.anticon || "Uso de Anticonceptivos"}
               </label>
               <select
-                name="Anticonceptivos"
-                value={ginecoObstetricos.Anticonceptivos}
+                name="anticon"
+                value={ginecoObstetricos.anticon}
                 onChange={handleGinecoObstetricosChange}
                 className="w-full p-2 border rounded-md"
               >
