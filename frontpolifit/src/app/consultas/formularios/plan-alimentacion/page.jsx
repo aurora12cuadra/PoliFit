@@ -32,8 +32,11 @@ function PlanAlimentacion() {
 
   useEffect(() => {
     // Obtener la fecha actual en formato YYYY-MM-DD
-    const today = new Date().toISOString().split("T")[0];
-    setFechaConsulta(today); // Establece la fecha actual como predeterminada
+    const today = new Date();
+    const todayFormatted = today.getFullYear() + '-' 
+                     + String(today.getMonth() + 1).padStart(2, '0') + '-' 
+                     + String(today.getDate()).padStart(2, '0');
+    setFechaConsulta(todayFormatted); // Establece la fecha actual como predeterminada
     // Inicia un "loader" al cargar la página
     const timer = setTimeout(() => {
       setIsLoading(false); // Oculta el loader después de cargar

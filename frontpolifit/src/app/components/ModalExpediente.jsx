@@ -42,13 +42,13 @@ function ModalExpediente({ isOpen, onClose, paciente, onSelectConsulta }) {
           } else {
             setConsultas([]); // Asegúrate de que consultas sea un array vacío en caso de error
             const errorData = await response.json();
-            console.error(
+            console.log(
               "Error al obtener consultas:",
               errorData.error || "Error desconocido"
             );
           }
         } catch (error) {
-          console.error("Error al conectar con el backend:", error);
+          console.log("Error al conectar con el backend:", error);
         } finally {
           setIsLoading(false);
         }
@@ -134,9 +134,9 @@ function ModalExpediente({ isOpen, onClose, paciente, onSelectConsulta }) {
                   <TableBody>
                     {consultas.map((consulta, index) => (
                       <TableRow key={index}>
-                        <TableCell>{consulta.fecha_consulta}</TableCell>
-                        <TableCell>{consulta.Kilocaloria.peso}</TableCell>
-                        <TableCell>{consulta.Kilocaloria.imc}</TableCell>
+                        <TableCell>{consulta?.fecha_consulta}</TableCell>
+                        <TableCell>{consulta?.Kilocaloria?.peso}</TableCell>
+                        <TableCell>{consulta?.Kilocaloria?.imc}</TableCell>
                         <TableCell>
                           <Button
                             size="sm"

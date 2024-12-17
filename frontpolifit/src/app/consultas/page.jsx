@@ -128,11 +128,11 @@ function Consultas() {
         }
       } else {
         const errorData = await response.json();
-        console.error("Error al obtener consultas:", errorData.error);
+        console.log("Error al obtener consultas:", errorData.error);
         setConsultas([]); // En caso de error, establece consultas como un array vacío
       }
     } catch (error) {
-      console.error("Error al obtener consultas:", error);
+      console.log("Error al obtener consultas:", error);
       setConsultas([]); // En caso de excepción, establece consultas como un array vacío
     }
   };
@@ -199,11 +199,11 @@ function Consultas() {
           setSearchResults(data);
         } else {
           const errorData = await response.json();
-          console.error("Error al buscar paciente:", errorData.error);
+          console.log("Error al buscar paciente:", errorData.error);
           setSearchResults([]); // Vacía los resultados si hay error
         }
       } catch (error) {
-        console.error("Error al buscar paciente:", error);
+        console.log("Error al buscar paciente:", error);
         setSearchResults([]);
       }
     }
@@ -247,7 +247,7 @@ function Consultas() {
                 .split("T")[0];
               cumpleFecha = consultaFecha === filtroFecha;
             } catch (error) {
-              console.error("Error al procesar las fechas:", error);
+              console.log("Error al procesar las fechas:", error);
               cumpleFecha = false;
             }
           } else {

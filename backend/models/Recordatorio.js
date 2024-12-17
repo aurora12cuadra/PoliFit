@@ -8,27 +8,27 @@ const Recordatorio = sequelize.define('Recordatorio', {
     // Desayuno
     desayuno_hora: { type: DataTypes.STRING(50) },
     desayuno_lugar: { type: DataTypes.STRING(50) },
-    desayuno_descripcion: { type: DataTypes.STRING(50) },
+    desayuno_descripcion: { type: DataTypes.STRING(300) },
 
     // Comida
     comida_hora: { type: DataTypes.STRING(50) },
     comida_lugar: { type: DataTypes.STRING(50) },
-    comida_descripcion: { type: DataTypes.STRING(50) },
+    comida_descripcion: { type: DataTypes.STRING(300) },
 
     // Cena
     cena_hora: { type: DataTypes.STRING(50) },
     cena_lugar: { type: DataTypes.STRING(50) },
-    cena_descripcion: { type: DataTypes.STRING(50) },
+    cena_descripcion: { type: DataTypes.STRING(300) },
 
     // Colación 1
     colacion_1_hora: { type: DataTypes.STRING(50) },
     colacion_1_lugar: { type: DataTypes.STRING(50) },
-    colacion_1_descripcion: { type: DataTypes.STRING(50) },
+    colacion_1_descripcion: { type: DataTypes.STRING(300) },
 
     // Colación 2
     colacion_2_hora: { type: DataTypes.STRING(50) },
     colacion_2_lugar: { type: DataTypes.STRING(50) },
-    colacion_2_descripcion: { type: DataTypes.STRING(50) },
+    colacion_2_descripcion: { type: DataTypes.STRING(300) },
 
     // Relación con consulta
     id_consulta: {

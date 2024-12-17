@@ -47,10 +47,10 @@ function Pacientes() {
         }, 2000); // Tiempo de carga simulado
         return () => clearTimeout(timer);
       } else {
-        console.error("Error al obtener pacientes");
+        console.log("Error al obtener pacientes");
       }
     } catch (error) {
-      console.error("Error al conectar con el backend:", error);
+      console.log("Error al conectar con el backend:", error);
     }
   };
 

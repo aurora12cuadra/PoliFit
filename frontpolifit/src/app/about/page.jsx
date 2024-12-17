@@ -107,18 +107,18 @@ const LandingPage = () => {
           {[
             {
               title: "Cervantes Meza Tamara ",
-              desc: "Quick example text to build on the card..",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/tamaro.webp", // Replace with your converted image path
               
             },
             {
               title: "Cuadra Camacho Aurora Concepción",
-              desc: "CON DESCRIPCION O SIN DESCRIPCION? DESCRIPCION DE QUE?.",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/auroro.webp", // Replace with your converted image path
             },
             {
               title: "Hernández Ramos Leam ",
-              desc: "Quick example text to build on the card.",
+              desc: "Ing en Sistemas Computacionales",
               img: "/images/leamo.webp", // Replace with your converted image path
             },
           ].map((feature, index) => (
