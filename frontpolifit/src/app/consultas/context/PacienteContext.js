@@ -104,10 +104,10 @@ const resetConsultaData = () => {
         console.log("Consulta registrada exitosamente");
       } else {
         const errorData = await response.json();
-        console.error("Error al registrar consulta:", errorData.error);
+        console.log("Error al registrar consulta:", errorData.error);
       }
     } catch (error) {
-      console.error("Error al registrar consulta:", error);
+      console.log("Error al registrar consulta:", error);
     }
   };  
 
