@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-            const response = await fetch('http://localhost:3000/nutriologos/reset-password-request', {
+            const response = await fetch('https://polifit-backend.onrender.com/nutriologos/reset-password-request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(req.body),

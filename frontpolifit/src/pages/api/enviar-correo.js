@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 
       try {
         // Reenviar la solicitud al backend principal
-        const response = await fetch("http://localhost:3000/correo/enviar", {
+        const response = await fetch("https://polifit-backend.onrender.com/correo/enviar", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

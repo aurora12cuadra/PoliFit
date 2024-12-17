@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/consulta/consulta/${id_consulta}`, {
+      const response = await fetch(`https://polifit-backend.onrender.com/consulta/consulta/${id_consulta}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -9,7 +9,7 @@ export default async function handler(req, res) {
         console.log("Iniciando solicitud al backend para obtener pacientes...");
   
         // URL del backend para obtener pacientes
-        const response = await fetch("http://localhost:3000/consulta/getAllIMC", {
+        const response = await fetch("https://polifit-backend.onrender.com/consulta/getAllIMC", {
           method: 'GET',
           headers: {
             "Content-Type": "application/json",

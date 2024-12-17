@@ -2,7 +2,7 @@
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-            const response = await fetch('http://localhost:3000/nutriologos/register', {
+            const response = await fetch('https://polifit-backend.onrender.com/nutriologos/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

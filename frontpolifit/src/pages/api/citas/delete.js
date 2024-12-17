@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
     try {
         console.log("IdCita a eliminar del lado de la API: ", idCita);
-        const response = await fetch(`http://localhost:3000/citas/${idCita}`, {
+        const response = await fetch(`https://polifit-backend.onrender.com/citas/${idCita}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -11,7 +11,7 @@ const AvisoPrivacidad = () => {
       <h2 className="text-2xl font-semibold mb-2">Responsable del Tratamiento de Datos Personales</h2>
       <p className="text-gray-700 mb-4">
         Somos estudiantes de la carrera de Ingeniería en Sistemas Computacionales, quienes hemos desarrollado el 
-        "Prototipo de aplicación web para la administración y gestión de servicios de nutriología", como parte de 
+        (&quot;Prototipo de aplicación web para la administración y gestión de servicios de nutriología&quot;), como parte de 
         nuestro proyecto de titulación. El proyecto está dirigido a la comunidad politécnica y está diseñado 
         exclusivamente para ser utilizado por nutriólogos.
       </p>
