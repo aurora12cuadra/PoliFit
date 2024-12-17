@@ -279,7 +279,7 @@ const PanelConsulta = ({ consulta, onClose }) => {
                       <p><strong>FUM (Fecha Última Menstruación):</strong> {ginecoObstreData.fum || "No disponible"}</p>
                       <p><strong>FUP (Fecha Última Prueba):</strong> {ginecoObstreData.fup || "No disponible"}</p>
                       <p><strong>SDGI (Síndrome Ginecológico):</strong> {ginecoObstreData.sdgi || "No disponible"}</p>
-                      <p><strong>PPG (Periodo de Proceso Ginecológico):</strong> {ginecoObstreData.ppg || "No disponible"}</p>
+                      <p><strong>PPG (Periodo de Proceso Ginecológico):</strong> {ginecoObstreData.ppg === true ? "Sí" : "No"}</p>
                       <p><strong>Anticonceptivos:</strong> {ginecoObstreData.anticon || "No disponible"}</p>
                       <p><strong>Notas:</strong> {ginecoObstreData.notas || "No disponible"}</p>
                     </div>
