@@ -12,6 +12,7 @@ function PlanAlimentacion() {
   const [isLoading, setIsLoading] = useState(true); // Estado para mostrar el loading
   const { consultaData, guardarConsulta } = usePaciente();
   const router = useRouter();
+  const [loading, setLoading] = useState(false); // Estado para el loading
 
   const componentRef = useRef();
   const [fechaConsulta, setFechaConsulta] = useState("");
@@ -34,6 +35,7 @@ function PlanAlimentacion() {
       alert("Por favor, adjunta un archivo y escribe un correo electrónico.");
       return;
     }
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("file", file);
@@ -52,13 +54,16 @@ function PlanAlimentacion() {
         setIsModalOpen(false); // Cierra el modal
         setFile(null); // Resetea el archivo
         setEmailToSend(""); // Resetea el email
+        setLoading(false);
       } else {
         console.log("aqui es el error");
         alert("Error al enviar el correo.");
+        setLoading(false);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.log("Error:", error);
       alert("Error al enviar el correo.");
+      setLoading(false);
     }
   };
   const handleOpenModal = () => {
@@ -1323,11 +1328,18 @@ function PlanAlimentacion() {
               >
                 Cancelar
               </button>
-              <button
+              {/* <button
                 onClick={handleSendEmail}
                 className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70]"
               >
                 Enviar
+              </button> */}
+              <button className="bg-[#11404E] text-white px-4 py-2 rounded-md hover:bg-[#1a5c70] flex justify-center items-center" onClick={handleSendEmail}>
+                {loading ? (
+                  <div className="animate-spin w-5 h-5 border-4 border-t-transparent border-white rounded-full center"></div>
+                ) : (
+                  "Enviar"
+                )}
               </button>
             </div>
           </div>
