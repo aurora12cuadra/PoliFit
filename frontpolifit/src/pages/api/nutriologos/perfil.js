@@ -35,7 +35,7 @@ export default async function handler(req, res) {
           return res.status(400).json({ error: 'El ID del nutriólogo es requerido.' });
         }
   
-        const response = await fetch(`http://localhost:3000/nutriologos/${id}`, {
+        const response = await fetch(`https://polifit-backend.onrender.com/nutriologos/${id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
