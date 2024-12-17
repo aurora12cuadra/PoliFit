@@ -5,7 +5,7 @@ import Sidebar from "./Sidebar";
 
 export default function SidebarWrapper() {
   const pathname = usePathname();
-  const hideSidebarPaths = ["/registro", "/inicio", "/restablecer"]; // Rutas específicas
+  const hideSidebarPaths = ["/registro", "/inicio", "/restablecer","/terminos","/avisospriva"]; // Rutas específicas
 
   const isDynamicRoute = pathname.startsWith("/restablecer/");
 
